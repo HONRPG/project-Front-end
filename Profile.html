@@ -52,13 +52,11 @@
     </nav>
 
     <main class="w-full max-w-[1000px] mx-auto px-6 lg:px-10 mt-6">
-        
         <div class="mb-6">
             <h1 class="text-3xl font-bold text-black mb-2">โปรไฟล์ของฉัน</h1>
         </div>
 
         <div class="space-y-6">
-
             <div class="bg-white rounded-2xl shadow-sm overflow-hidden relative">
                 <div class="h-24 bg-u-purple w-full"></div>
                 <div class="px-8 pb-8 pt-12 md:pt-4 flex flex-col md:flex-row items-center md:items-end gap-6 relative">
@@ -66,9 +64,9 @@
                         <svg class="w-20 h-20 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
                     </div>
                     <div class="text-center md:text-left mt-8 md:mt-0">
-                        <h2 id="display-name" class="text-2xl font-bold text-black">wanira sandee</h2>
+                        <h2 id="display-name" class="text-2xl font-bold text-black">Guest User</h2>
                         <div class="flex flex-col md:flex-row gap-1 md:gap-8 text-gray-600 font-medium mt-1">
-                            <p>รหัสนิสิต 68024xxx</p>
+                            <p>รหัสนิสิต <span id="display-student-id">-</span></p>
                             <p>คณะเทคโนโลยีสารสนเทศและการสื่อสาร (ICT)</p>
                         </div>
                     </div>
@@ -81,29 +79,19 @@
                     <div>
                         <label class="block text-sm font-bold text-black mb-1">ชื่อ - นามสกุล <span class="text-u-purple text-xs font-normal">(แก้ไขได้)</span></label>
                         <div class="relative">
-                            <input type="text" id="name-input" value="wanira sandee" 
-                                class="w-full bg-white text-gray-900 px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition font-medium"
-                                placeholder="กรอกชื่อ-นามสกุล">
-                            
+                            <input type="text" id="name-input" class="w-full bg-white text-gray-900 px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition font-medium">
                             <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-400">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                  <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" />
-                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" /></svg>
                             </div>
                         </div>
                     </div>
-
                     <div>
                         <label class="block text-sm font-bold text-black mb-1">รหัสนิสิต</label>
-                        <div class="w-full bg-gray-100 text-gray-500 px-4 py-2.5 rounded-lg border border-transparent cursor-not-allowed">
-                            68024xxx
-                        </div>
+                        <div id="input-student-id" class="w-full bg-gray-100 text-gray-500 px-4 py-2.5 rounded-lg border border-transparent cursor-not-allowed">-</div>
                     </div>
                     <div>
                         <label class="block text-sm font-bold text-black mb-1">คณะ</label>
-                        <div class="w-full bg-gray-100 text-gray-500 px-4 py-2.5 rounded-lg border border-transparent cursor-not-allowed">
-                            คณะเทคโนโลยีสารสนเทศและการสื่อสาร (ICT)
-                        </div>
+                        <div class="w-full bg-gray-100 text-gray-500 px-4 py-2.5 rounded-lg border border-transparent cursor-not-allowed">คณะเทคโนโลยีสารสนเทศและการสื่อสาร (ICT)</div>
                     </div>
                 </div>
             </div>
@@ -112,35 +100,23 @@
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="font-bold text-lg text-black">ช่องทางติดต่อ</h3>
                 </div>
-                
                 <div class="space-y-4">
                     <div>
                         <label class="block text-sm font-bold text-black mb-1">Email</label>
-                        <div class="w-full bg-gray-100 text-gray-500 px-4 py-2.5 rounded-lg border border-transparent cursor-not-allowed">
-                            68024xxx@up.ac.th
-                        </div>
+                        <div id="input-email" class="w-full bg-gray-100 text-gray-500 px-4 py-2.5 rounded-lg border border-transparent cursor-not-allowed">-</div>
                     </div>
-                    
                     <div>
                         <label class="block text-sm font-bold text-black mb-1">เบอร์โทร <span class="text-u-purple text-xs font-normal">(แก้ไขได้)</span></label>
                         <div class="relative">
-                            <input type="tel" id="phone-input" value="091-234-xxxx" 
-                                class="w-full bg-white text-gray-900 px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition font-medium"
-                                placeholder="กรอกเบอร์โทรศัพท์">
-                            
+                            <input type="tel" id="phone-input" class="w-full bg-white text-gray-900 px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition font-medium" placeholder="กรอกเบอร์โทรศัพท์">
                             <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-400">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                  <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" />
-                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" /></svg>
                             </div>
                         </div>
                     </div>
-
                     <div class="flex justify-end pt-2">
                         <button onclick="saveProfile()" class="bg-purple-100 hover:bg-purple-200 text-u-purple font-bold py-2 px-6 rounded-lg transition text-sm flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                              <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
                             บันทึกการแก้ไข
                         </button>
                     </div>
@@ -148,64 +124,61 @@
             </div>
 
             <div class="flex justify-end">
-                <button onclick="logout()" class="bg-u-purple hover:bg-purple-800 text-white font-bold py-2.5 px-8 rounded-lg shadow-md transition">
-                    ออกจากระบบ
-                </button>
+                <button onclick="logout()" class="bg-u-purple hover:bg-purple-800 text-white font-bold py-2.5 px-8 rounded-lg shadow-md transition">ออกจากระบบ</button>
             </div>
-
         </div>
-
     </main>
 
     <script>
+        window.onload = function() {
+            const savedData = localStorage.getItem('up_badminton_user');
+            if(savedData) {
+                const user = JSON.parse(savedData);
+                
+                document.getElementById('display-name').textContent = user.name;
+                document.getElementById('name-input').value = user.name;
+                document.getElementById('input-email').textContent = user.email;
+                
+                const studentId = user.email.split('@')[0];
+                document.getElementById('display-student-id').textContent = studentId;
+                document.getElementById('input-student-id').textContent = studentId;
+
+                if(user.phone) {
+                    document.getElementById('phone-input').value = user.phone;
+                }
+            }
+        };
+
         function saveProfile() {
             const name = document.getElementById('name-input').value;
             const phone = document.getElementById('phone-input').value;
             
-            // Validate Name
             if(name.trim() === "") {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'ข้อมูลไม่ครบถ้วน',
-                    text: 'กรุณากรอกชื่อ-นามสกุล',
-                    confirmButtonColor: '#6C2B97'
-                });
+                Swal.fire({ icon: 'error', title: 'ข้อมูลไม่ครบถ้วน', text: 'กรุณากรอกชื่อ-นามสกุล', confirmButtonColor: '#6C2B97' });
                 return;
             }
 
-            // Validate Phone
             if(phone.length < 9) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'เบอร์โทรไม่ถูกต้อง',
-                    text: 'กรุณากรอกเบอร์โทรศัพท์ให้ครบถ้วน',
-                    confirmButtonColor: '#6C2B97'
-                });
+                Swal.fire({ icon: 'error', title: 'เบอร์โทรไม่ถูกต้อง', text: 'กรุณากรอกเบอร์โทรศัพท์ให้ครบถ้วน', confirmButtonColor: '#6C2B97' });
                 return;
             }
 
-            // Update UI Header
+            const savedData = localStorage.getItem('up_badminton_user');
+            let user = savedData ? JSON.parse(savedData) : {};
+            user.name = name;
+            user.phone = phone;
+            localStorage.setItem('up_badminton_user', JSON.stringify(user));
+
             document.getElementById('display-name').textContent = name;
 
-            Swal.fire({
-                icon: 'success',
-                title: 'บันทึกสำเร็จ!',
-                text: 'อัปเดตข้อมูลโปรไฟล์เรียบร้อยแล้ว',
-                confirmButtonColor: '#6C2B97',
-                timer: 2000
-            });
+            Swal.fire({ icon: 'success', title: 'บันทึกสำเร็จ!', text: 'อัปเดตข้อมูลโปรไฟล์เรียบร้อยแล้ว', confirmButtonColor: '#6C2B97', timer: 2000 });
         }
 
         function logout() {
             Swal.fire({
-                title: 'ยืนยันการออกจากระบบ?',
-                text: "คุณต้องการออกจากระบบใช่หรือไม่",
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#6C2B97',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'ใช่, ออกจากระบบ',
-                cancelButtonText: 'ยกเลิก'
+                title: 'ยืนยันการออกจากระบบ?', text: "คุณต้องการออกจากระบบใช่หรือไม่", icon: 'question',
+                showCancelButton: true, confirmButtonColor: '#6C2B97', cancelButtonColor: '#d33',
+                confirmButtonText: 'ใช่, ออกจากระบบ', cancelButtonText: 'ยกเลิก'
             }).then((result) => {
                 if (result.isConfirmed) {
                     window.location.href = 'login.html'; 

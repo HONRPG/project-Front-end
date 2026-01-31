@@ -6,6 +6,7 @@
     <title>เข้าสู่ระบบ - UP Badminton</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         body { font-family: 'Prompt', sans-serif; }
         .bg-page { background-color: #F5E6F6; }
@@ -55,12 +56,12 @@
                         <h2 class="text-2xl font-bold text-gray-900">เข้าสู่ระบบ</h2>
                     </div>
 
-                    <form action="booking.html" class="space-y-5">
+                    <form onsubmit="handleLogin(event)" class="space-y-5">
                         <div>
                             <label class="block text-gray-500 text-xs mb-1 ml-1">อีเมล</label>
-                            <input type="text" 
+                            <input type="text" id="emailInput"
                                 class="w-full px-5 py-3 input-bg border-none rounded-xl text-gray-700 focus:ring-2 focus:ring-purple-300 focus:outline-none placeholder-gray-400" 
-                                placeholder="680xxxxx@up.ac.th.com">
+                                placeholder="680xxxxx@up.ac.th">
                         </div>
                         
                         <div>
@@ -71,12 +72,10 @@
                                     placeholder="กรอกรหัสผ่าน">
                                 
                                 <button type="button" onclick="togglePassword()" class="absolute right-4 top-3.5 text-gray-400 hover:text-gray-600 focus:outline-none">
-                                    
                                     <svg id="eyeOpen" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                       <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
                                       <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                     </svg>
-
                                     <svg id="eyeClosed" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 hidden">
                                       <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" />
                                     </svg>
@@ -87,9 +86,8 @@
                             </div>
                         </div>
 
-                        <a href="Main menu.html" class="block text-center w-full bg-u-purple hover:bg-purple-800 text-white font-bold py-3 rounded-xl transition shadow-lg shadow-purple-200 mt-2 text-lg">
-                        เข้าสู่ระบบ
-                        </a>
+                        <button type="submit" class="block text-center w-full bg-u-purple hover:bg-purple-800 text-white font-bold py-3 rounded-xl transition shadow-lg shadow-purple-200 mt-2 text-lg">
+                            เข้าสู่ระบบ
                         </button>
 
                         <div class="text-center pt-4 flex flex-col items-center gap-1">
@@ -116,6 +114,58 @@
                 passwordInput.type = 'password';
                 eyeOpen.classList.remove('hidden');
                 eyeClosed.classList.add('hidden');
+            }
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+
+            const emailInput = document.getElementById('emailInput').value.trim();
+            const passwordInput = document.getElementById('passwordInput').value.trim();
+
+            
+            if (emailInput === "" || passwordInput === "") {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'กรุณากรอกข้อมูล',
+                    text: 'ต้องใส่อีเมลและรหัสผ่านให้ครบถ้วน',
+                    confirmButtonColor: '#6C2B97'
+                });
+                return;
+            }
+
+            
+            const savedData = localStorage.getItem('up_badminton_user');
+            
+            if (savedData) {
+                const user = JSON.parse(savedData);
+                
+                
+                if (emailInput === user.email && passwordInput === user.password) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'เข้าสู่ระบบสำเร็จ!',
+                        text: 'กำลังพาท่านไปยังหน้าหลัก...',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => {
+                        window.location.href = 'Main menu.html';
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'เข้าสู่ระบบไม่สำเร็จ',
+                        text: 'อีเมลหรือรหัสผ่านไม่ถูกต้อง',
+                        confirmButtonColor: '#6C2B97'
+                    });
+                }
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ไม่พบผู้ใช้งาน',
+                    text: 'ไม่พบข้อมูลในระบบ กรุณาลงทะเบียนก่อนเข้าใช้งาน',
+                    confirmButtonColor: '#6C2B97'
+                });
             }
         }
     </script>
