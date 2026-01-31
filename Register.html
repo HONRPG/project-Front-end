@@ -6,6 +6,7 @@
     <title>ลงทะเบียน - UP Badminton</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         body { font-family: 'Prompt', sans-serif; }
         .bg-page { background-color: #F5E6F6; }
@@ -33,22 +34,15 @@
         </div>
     </nav>
 
-    <div class="flex-grow flex items-center justify-center px-6 lg:px-20">
+    <div class="flex-grow flex items-center justify-center px-6 lg:px-20 pb-12">
         <div class="w-full max-w-7xl grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
             
             <div class="lg:pr-10 lg:-ml-56">
                 <div class="w-20 h-1.5 bg-u-purple rounded-full mb-8 opacity-70"></div>
-                
-                <h1 class="text-5xl lg:text-6xl font-bold text-black mb-2 leading-tight">
-                    ระบบจองสนาม
-                </h1>
-                <h1 class="text-5xl lg:text-6xl font-bold text-u-purple mb-6 leading-tight">
-                    แบดมินตันออนไลน์
-                </h1>
-                
+                <h1 class="text-5xl lg:text-6xl font-bold text-black mb-2 leading-tight">ระบบจองสนาม</h1>
+                <h1 class="text-5xl lg:text-6xl font-bold text-u-purple mb-6 leading-tight">แบดมินตันออนไลน์</h1>
                 <p class="text-gray-500 text-lg max-w-lg leading-relaxed">
-                    สะดวก รวดเร็ว จองสนามได้ทุกที่ สำหรับนิสิต บุคลากร 
-                    ในมหาวิทยาลัย และบุคคลภายนอก
+                    สะดวก รวดเร็ว จองสนามได้ทุกที่ สำหรับนิสิต บุคลากร ในมหาวิทยาลัย และบุคคลภายนอก
                 </p>
             </div>
 
@@ -63,7 +57,7 @@
                         <p class="text-xs text-gray-400 mt-1 text-center">บริการจองสนามแบดมินตัน<br>อาคารสงวนเสริมศรี เท่านั้น</p>
                     </div>
 
-                    <form action="login.html" class="space-y-4">
+                    <form onsubmit="handleRegister(event)" class="space-y-4">
                         
                         <div class="flex gap-4 mb-4">
                             <label class="flex-1 cursor-pointer">
@@ -81,11 +75,11 @@
                         </div>
 
                         <div>
-                            <label class="block text-gray-500 text-xs mb-1 ml-1">ชื่อ-นามสกุล</label>
+                            <label class="block text-gray-500 text-xs mb-1 ml-1">อีเมล</label>
                             <div class="relative">
-                                <input type="text" 
-                                    class="w-full px-5 py-3 pl-12 input-bg border-none rounded-xl text-gray-700 focus:ring-2 focus:ring-purple-300 focus:outline-none placeholder-gray-400" 
-                                    placeholder="ชื่อ-นามสกุล">
+                                <input type="text" required
+                                    class="w-full px-5 py-3 pl-12 input-bg border border-transparent rounded-xl text-gray-700 focus:bg-white focus:border-purple-300 focus:ring-2 focus:ring-purple-100 focus:outline-none placeholder-gray-400 transition" 
+                                    placeholder="680xxxxx@up.ac.th.com">
                                 <div class="absolute left-4 top-3.5 text-gray-400">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -97,8 +91,8 @@
                         <div>
                             <label class="block text-gray-500 text-xs mb-1 ml-1">รหัสผ่าน</label>
                             <div class="relative">
-                                <input type="password" 
-                                    class="w-full px-5 py-3 pl-12 input-bg border-none rounded-xl text-gray-700 focus:ring-2 focus:ring-purple-300 focus:outline-none placeholder-gray-400" 
+                                <input type="password" id="password" required oninput="validatePassword()"
+                                    class="w-full px-5 py-3 pl-12 input-bg border border-transparent rounded-xl text-gray-700 focus:bg-white focus:border-purple-300 focus:ring-2 focus:ring-purple-100 focus:outline-none placeholder-gray-400 transition" 
                                     placeholder="กำหนดรหัสผ่าน">
                                 <div class="absolute left-4 top-3.5 text-gray-400">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -106,16 +100,19 @@
                                     </svg>
                                 </div>
                             </div>
+                            <p id="password-hint" class="text-[10px] text-gray-400 mt-1 ml-1 transition-colors duration-200">
+                                *ต้องมีอย่างน้อย 8 ตัวอักษร
+                            </p>
                         </div>
                         
                         <div>
                             <label class="block text-gray-500 text-xs mb-1 ml-1">ยืนยันรหัสผ่าน</label>
                             <div class="relative">
-                                <input type="password" 
-                                    class="w-full px-5 py-3 pl-12 input-bg border-none rounded-xl text-gray-700 focus:ring-2 focus:ring-purple-300 focus:outline-none placeholder-gray-400" 
+                                <input type="password" id="confirm-password" required
+                                    class="w-full px-5 py-3 pl-12 input-bg border border-transparent rounded-xl text-gray-700 focus:bg-white focus:border-purple-300 focus:ring-2 focus:ring-purple-100 focus:outline-none placeholder-gray-400 transition" 
                                     placeholder="ยืนยันรหัสผ่านอีกครั้ง">
                                 <div class="absolute left-4 top-3.5 text-gray-400">
-                                    <svg xmlns="http://www.w3.org/200" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                                     </svg>
                                 </div>
@@ -131,6 +128,72 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function validatePassword() {
+            const password = document.getElementById('password').value;
+            const hint = document.getElementById('password-hint');
+            const input = document.getElementById('password');
+
+            if (password.length > 0 && password.length < 8) {
+                hint.classList.remove('text-gray-400', 'text-green-600');
+                hint.classList.add('text-red-500');
+                hint.innerHTML = '❌ สั้นเกินไป (ต้อง 8 ตัวอักษรขึ้นไป)';
+                input.classList.add('border-red-300', 'bg-red-50');
+            } else if (password.length >= 8) {
+                hint.classList.remove('text-gray-400', 'text-red-500');
+                hint.classList.add('text-green-600');
+                hint.innerHTML = '✅ รหัสผ่านใช้ได้';
+                input.classList.remove('border-red-300', 'bg-red-50');
+                input.classList.add('border-green-300', 'bg-green-50');
+            } else {
+                hint.classList.remove('text-red-500', 'text-green-600');
+                hint.classList.add('text-gray-400');
+                hint.innerHTML = '*ต้องมีอย่างน้อย 8 ตัวอักษร';
+                input.classList.remove('border-red-300', 'bg-red-50', 'border-green-300', 'bg-green-50');
+            }
+        }
+
+        function handleRegister(event) {
+            event.preventDefault(); 
+
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+
+            if (password.length < 8) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'รหัสผ่านสั้นเกินไป',
+                    text: 'กรุณาตั้งรหัสผ่านอย่างน้อย 8 ตัวอักษร',
+                    confirmButtonColor: '#6C2B97'
+                });
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'รหัสผ่านไม่ตรงกัน',
+                    text: 'กรุณากรอกรหัสผ่านยืนยันให้ถูกต้อง',
+                    confirmButtonColor: '#6C2B97'
+                });
+                return;
+            }
+
+            Swal.fire({
+                icon: 'success',
+                title: 'ลงทะเบียนสำเร็จ!',
+                text: 'ยินดีต้อนรับสู่ระบบจองสนามแบดมินตัน',
+                confirmButtonColor: '#6C2B97',
+                confirmButtonText: 'เข้าสู่ระบบ'
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    window.location.href = 'Main menu.html';
+                }
+            });
+        }
+    </script>
 
 </body>
 </html>
