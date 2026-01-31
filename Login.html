@@ -118,12 +118,12 @@
         }
 
         function handleLogin(event) {
-            event.preventDefault(); // ป้องกันการรีเฟรชหน้า
+            event.preventDefault();
 
             const emailInput = document.getElementById('emailInput').value.trim();
             const passwordInput = document.getElementById('passwordInput').value.trim();
 
-            // 1. ตรวจสอบว่ากรอกข้อมูลครบหรือไม่
+            
             if (emailInput === "" || passwordInput === "") {
                 Swal.fire({
                     icon: 'warning',
@@ -134,13 +134,13 @@
                 return;
             }
 
-            // 2. ดึงข้อมูลจาก LocalStorage
+            
             const savedData = localStorage.getItem('up_badminton_user');
             
             if (savedData) {
                 const user = JSON.parse(savedData);
                 
-                // 3. ตรวจสอบความถูกต้องของอีเมลและรหัสผ่าน
+                
                 if (emailInput === user.email && passwordInput === user.password) {
                     Swal.fire({
                         icon: 'success',
