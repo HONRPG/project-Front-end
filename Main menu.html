@@ -26,6 +26,15 @@
             box-shadow: 0 0 0 4px #6C2B97;
             border-color: #6C2B97;
         }
+
+        /* ปุ่มเวลาที่ไม่ว่าง */
+        .time-btn:disabled {
+            background-color: #fee2e2;
+            color: #ef4444;
+            cursor: not-allowed;
+            opacity: 0.8;
+            border: 1px solid #fecaca;
+        }
     </style>
 </head>
 <body class="bg-page min-h-screen flex flex-col pt-24 pb-12">
@@ -48,7 +57,6 @@
             </div>
 
             <div class="flex items-center gap-4 border-l border-gray-200 pl-4 lg:pl-8">
-                
                 <a href="notifications.html" class="relative p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-full transition flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
@@ -59,7 +67,6 @@
                 <a href="profile.html" class="w-10 h-10 bg-gray-200 rounded-full overflow-hidden border border-gray-300 hover:ring-2 hover:ring-purple-200 transition flex items-center justify-center">
                      <svg class="w-full h-full text-gray-500 p-1" fill="currentColor" viewBox="0 0 24 24"><path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
                 </a>
-
             </div>
         </div>
     </nav>
@@ -97,99 +104,51 @@
 
                     <div class="grid grid-cols-7 gap-y-4 text-center text-sm" id="calendar-grid">
                         <span></span><span></span><span></span>
-                        
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-700 font-medium" data-date="1 ม.ค. 69">1</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-700 font-medium" data-date="2 ม.ค. 69">2</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-700 font-medium" data-date="3 ม.ค. 69">3</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-red-500 font-bold" data-date="4 ม.ค. 69">4</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-red-500 font-bold" data-date="5 ม.ค. 69">5</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-700 font-medium" data-date="6 ม.ค. 69">6</button> 
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-700 font-medium" data-date="7 ม.ค. 69">7</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-700 font-medium" data-date="8 ม.ค. 69">8</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-700 font-medium" data-date="9 ม.ค. 69">9</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-700 font-medium" data-date="10 ม.ค. 69">10</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-red-500 font-bold" data-date="11 ม.ค. 69">11</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-red-500 font-bold" data-date="12 ม.ค. 69">12</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-700 font-medium" data-date="13 ม.ค. 69">13</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-700 font-medium" data-date="14 ม.ค. 69">14</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-700 font-medium" data-date="15 ม.ค. 69">15</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-700 font-medium" data-date="16 ม.ค. 69">16</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-700 font-medium" data-date="17 ม.ค. 69">17</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-red-500 font-bold" data-date="18 ม.ค. 69">18</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-red-500 font-bold" data-date="19 ม.ค. 69">19</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-700 font-medium" data-date="20 ม.ค. 69">20</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-700 font-medium" data-date="21 ม.ค. 69">21</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-700 font-medium" data-date="22 ม.ค. 69">22</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-700 font-medium" data-date="23 ม.ค. 69">23</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-700 font-medium" data-date="24 ม.ค. 69">24</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-red-500 font-bold" data-date="25 ม.ค. 69">25</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-red-500 font-bold" data-date="26 ม.ค. 69">26</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-700 font-medium" data-date="27 ม.ค. 69">27</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-700 font-medium" data-date="28 ม.ค. 69">28</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-700 font-medium" data-date="29 ม.ค. 69">29</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-700 font-medium" data-date="30 ม.ค. 69">30</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-700 font-medium" data-date="31 ม.ค. 69">31</button>
+                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-900 font-medium" data-date="1 ม.ค. 69">1</button>
+                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-900 font-medium" data-date="2 ม.ค. 69">2</button>
+                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-900 font-medium" data-date="3 ม.ค. 69">3</button>
+                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-red-600 font-bold" data-date="4 ม.ค. 69">4</button>
+                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-red-600 font-bold" data-date="5 ม.ค. 69">5</button>
+                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-900 font-medium" data-date="6 ม.ค. 69">6</button> 
+                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-900 font-medium" data-date="7 ม.ค. 69">7</button>
+                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-900 font-medium" data-date="8 ม.ค. 69">8</button>
+                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-900 font-medium" data-date="9 ม.ค. 69">9</button>
+                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-900 font-medium" data-date="10 ม.ค. 69">10</button>
+                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-red-600 font-bold" data-date="11 ม.ค. 69">11</button>
+                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-red-600 font-bold" data-date="12 ม.ค. 69">12</button>
+                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-900 font-medium" data-date="13 ม.ค. 69">13</button>
+                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-900 font-medium" data-date="14 ม.ค. 69">14</button>
+                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-900 font-medium" data-date="15 ม.ค. 69">15</button>
+                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-900 font-medium" data-date="16 ม.ค. 69">16</button>
+                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-900 font-medium" data-date="17 ม.ค. 69">17</button>
+                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-red-600 font-bold" data-date="18 ม.ค. 69">18</button>
+                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-red-600 font-bold" data-date="19 ม.ค. 69">19</button>
+                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-900 font-medium" data-date="20 ม.ค. 69">20</button>
+                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-900 font-medium" data-date="21 ม.ค. 69">21</button>
+                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-900 font-medium" data-date="22 ม.ค. 69">22</button>
+                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-900 font-medium" data-date="23 ม.ค. 69">23</button>
+                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-900 font-medium" data-date="24 ม.ค. 69">24</button>
+                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-red-600 font-bold" data-date="25 ม.ค. 69">25</button>
+                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-red-600 font-bold" data-date="26 ม.ค. 69">26</button>
+                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-900 font-medium" data-date="27 ม.ค. 69">27</button>
+                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-900 font-medium" data-date="28 ม.ค. 69">28</button>
+                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-900 font-medium" data-date="29 ม.ค. 69">29</button>
+                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-900 font-medium" data-date="30 ม.ค. 69">30</button>
+                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-900 font-medium" data-date="31 ม.ค. 69">31</button>
                     </div>
                 </div>
 
                 <div>
                     <h3 class="text-gray-500 mb-4 font-medium">เลือกสนามจาก 5 คอร์ท</h3>
-                    <div class="space-y-4 court-list">
-                        
-                        <div class="court-card bg-white rounded-[20px] p-4 flex gap-6 items-center shadow-sm border border-transparent hover:border-purple-300 cursor-pointer transition relative" onclick="selectCourt(this, 'สนาม 1')">
-                             <div class="check-icon absolute top-4 right-4 text-u-purple hidden">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-                                  <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                            <div class="w-32 h-20 bg-gray-200 rounded-xl overflow-hidden flex-shrink-0 relative">
-                                <img src="pic/รูปสนาม.png" class="w-full h-full object-cover">
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-lg text-black">สนาม 1</h4>
-                                <ul class="text-sm text-black space-y-1 mt-1 list-disc list-inside">
-                                    <li>พื้นยางมาตรฐาน</li>
-                                    <li>ชั้น 1</li>
-                                </ul>
-                            </div>
+                    
+                    <div id="court-grid" class="space-y-4 court-list">
                         </div>
 
-                        <div class="court-card bg-white rounded-[20px] p-4 flex gap-6 items-center shadow-sm border border-transparent hover:border-purple-300 cursor-pointer transition relative" onclick="selectCourt(this, 'สนาม 2')">
-                            <div class="check-icon absolute top-4 right-4 text-u-purple hidden">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-                                  <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                            <div class="w-32 h-20 bg-gray-200 rounded-xl overflow-hidden flex-shrink-0 relative">
-                                <img src="pic/รูปสนาม.png" class="w-full h-full object-cover">
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-lg text-black">สนาม 2</h4>
-                                <ul class="text-sm text-black space-y-1 mt-1 list-disc list-inside">
-                                    <li>พื้นยางมาตรฐาน</li>
-                                    <li>ชั้น 1</li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="court-card bg-white rounded-[20px] p-4 flex gap-6 items-center shadow-sm border border-transparent hover:border-purple-300 cursor-pointer transition relative" onclick="selectCourt(this, 'สนาม 3')">
-                            <div class="check-icon absolute top-4 right-4 text-u-purple hidden">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-                                  <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                            <div class="w-32 h-20 bg-gray-200 rounded-xl overflow-hidden flex-shrink-0 relative">
-                                <img src="pic/รูปสนาม.png" class="w-full h-full object-cover">
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-lg text-black">สนาม 3</h4>
-                                <ul class="text-sm text-black space-y-1 mt-1 list-disc list-inside">
-                                    <li>พื้นยางมาตรฐาน</li>
-                                    <li>ชั้น 1</li>
-                                </ul>
-                            </div>
-                        </div>
-
+                    <div class="flex justify-center items-center gap-2 mt-6">
+                        <button onclick="changePage(1)" class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 text-gray-500">&lt;</button>
+                        <button onclick="changePage(1)" id="btn-page-1" class="page-btn w-8 h-8 flex items-center justify-center rounded-lg bg-u-purple text-white font-bold transition">1</button>
+                        <button onclick="changePage(2)" id="btn-page-2" class="page-btn w-8 h-8 flex items-center justify-center rounded-lg bg-white text-gray-500 hover:bg-gray-100 transition">2</button>
+                        <button onclick="changePage(2)" class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 text-gray-500">&gt;</button>
                     </div>
                 </div>
 
@@ -208,7 +167,7 @@
                     <div class="flex flex-wrap gap-3" id="time-container">
                         <button class="time-btn px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-purple-100 hover:text-u-purple transition" onclick="selectTime(this, '16:00 - 17:00')">16:00 - 17:00</button>
                         <button class="time-btn px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-purple-100 hover:text-u-purple transition" onclick="selectTime(this, '17:00 - 18:00')">17:00 - 18:00</button>
-                        <button class="time-btn px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-purple-100 hover:text-u-purple transition" onclick="selectTime(this, '18:00 - 19:00')">18:00 - 19:00</button>
+                        <button class="time-btn px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium" disabled>18:00 - 19:00 (ไม่ว่าง)</button>
                         <button class="time-btn px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-purple-100 hover:text-u-purple transition" onclick="selectTime(this, '20:00 - 21:00')">20:00 - 21:00</button>
                         <button class="time-btn px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-purple-100 hover:text-u-purple transition" onclick="selectTime(this, '21:00 - 22:00')">21:00 - 22:00</button>
                     </div>
@@ -275,6 +234,7 @@
             time: null
         };
 
+       
         const dateButtons = document.querySelectorAll('.date-btn');
         dateButtons.forEach(btn => {
             btn.addEventListener('click', function() {
@@ -283,7 +243,7 @@
                 });
 
                 this.classList.add('bg-u-purple', 'text-white', 'shadow-md');
-                this.classList.remove('text-red-500'); 
+                this.classList.remove('text-red-600'); 
 
                 selectedData.date = this.getAttribute('data-date');
                 
@@ -293,6 +253,99 @@
                 summaryDate.classList.add('text-black', 'font-bold');
             });
         });
+
+        
+        const courtsData = [
+            {
+                id: 1,
+                name: 'สนาม 1',
+                image: 'pic/รูปสนาม.png',
+                details: ['พื้นยางมาตรฐาน', 'ชั้น 1']
+            },
+            {
+                id: 2,
+                name: 'สนาม 2',
+                image: 'pic/รูปสนาม.png',
+                details: ['พื้นยางมาตรฐาน', 'ชั้น 1']
+            },
+            {
+                id: 3,
+                name: 'สนาม 3',
+                image: 'pic/รูปสนาม.png',
+                details: ['พื้นยางมาตรฐาน', 'ชั้น 1']
+            },
+            {
+                id: 4,
+                name: 'สนาม 4',
+                image: 'pic/รูปสนาม.png',
+                details: ['พื้นยางมาตรฐาน', 'ชั้น 1']
+            },
+            {
+                id: 5,
+                name: 'สนาม 5',
+                image: 'pic/รูปสนาม.png',
+                details: ['พื้นยางมาตรฐาน', 'ชั้น 1']
+            }
+        ];
+
+        let currentPage = 1;
+        const itemsPerPage = 3;
+
+        function renderCourts(page) {
+            currentPage = page;
+            const start = (page - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            const paginatedCourts = courtsData.slice(start, end);
+            const container = document.getElementById('court-grid');
+            
+            container.innerHTML = '';
+
+            paginatedCourts.forEach(court => {
+                // Check if this court is currently selected
+                const isSelected = selectedData.court === court.name;
+                const activeRing = isSelected ? 'ring-2 ring-purple-600' : 'border-transparent';
+                const checkHidden = isSelected ? '' : 'hidden';
+
+                const courtHTML = `
+                    <div class="court-card bg-white rounded-[20px] p-4 flex gap-6 items-center shadow-sm border ${activeRing} hover:border-purple-300 cursor-pointer transition relative" onclick="selectCourt(this, '${court.name}')">
+                         <div class="check-icon absolute top-4 right-4 text-u-purple ${checkHidden}">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                              <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                        <div class="w-32 h-20 bg-gray-200 rounded-xl overflow-hidden flex-shrink-0 relative">
+                            <img src="${court.image}" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-lg text-black">${court.name}</h4>
+                            <ul class="text-sm text-black space-y-1 mt-1 list-disc list-inside">
+                                ${court.details.map(detail => `<li>${detail}</li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += courtHTML;
+            });
+
+            updatePaginationButtons(page);
+        }
+
+        function updatePaginationButtons(page) {
+            document.querySelectorAll('.page-btn').forEach(btn => {
+                btn.classList.remove('bg-u-purple', 'text-white', 'font-bold');
+                btn.classList.add('bg-white', 'text-gray-500', 'hover:bg-gray-100');
+            });
+
+            const activeBtn = document.getElementById(`btn-page-${page}`);
+            if(activeBtn) {
+                activeBtn.classList.remove('bg-white', 'text-gray-500', 'hover:bg-gray-100');
+                activeBtn.classList.add('bg-u-purple', 'text-white', 'font-bold');
+            }
+        }
+
+        function changePage(page) {
+            renderCourts(page);
+        }
 
         function selectCourt(element, courtName) {
             const courts = document.querySelectorAll('.court-card');
@@ -317,8 +370,10 @@
         function selectTime(element, timeRange) {
             const timeBtns = document.querySelectorAll('.time-btn');
             timeBtns.forEach(btn => {
-                btn.classList.remove('bg-u-purple', 'text-white', 'shadow-md');
-                btn.classList.add('bg-gray-100', 'text-gray-700');
+                if(!btn.disabled) {
+                    btn.classList.remove('bg-u-purple', 'text-white', 'shadow-md');
+                    btn.classList.add('bg-gray-100', 'text-gray-700');
+                }
             });
 
             element.classList.remove('bg-gray-100', 'text-gray-700');
@@ -357,11 +412,14 @@
                 confirmButtonText: 'ตกลง'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // ย้ายไปหน้า history.html เมื่อกดตกลง
                     window.location.href = 'history.html';
                 }
             });
         }
+
+        // Initialize view
+        renderCourts(1);
+
     </script>
 </body>
 </html>
