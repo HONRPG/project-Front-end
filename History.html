@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ประวัติการจอง - UP Badminton</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        body { font-family: 'Prompt', sans-serif; }
+        .bg-page { background-color: #F5E6F6; }
+        .text-u-purple { color: #6C2B97; }
+        .bg-u-purple { background-color: #6C2B97; }
+        .bg-u-purple-light { background-color: #9d5cc5; }
+        
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 10px; }
+
+        .status-upcoming { background-color: #dcfce7; color: #166534; }
+        .status-pending { background-color: #fef9c3; color: #854d0e; }
+        .status-completed { background-color: #f1f5f9; color: #475569; }
+        .status-cancelled { background-color: #fee2e2; color: #991b1b; }
+    </style>
+</head>
+<body class="bg-page min-h-screen flex flex-col pt-24 pb-12">
+
+    <nav class="w-full px-6 lg:px-10 py-4 flex justify-between items-center fixed top-0 left-0 right-0 z-50 bg-white shadow-sm border-b border-gray-100">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center p-1 overflow-hidden border border-gray-100">
+                 <div class="font-bold text-purple-800">UP</div>
+            </div>
+            <div class="flex flex-col">
+                <span class="font-bold text-gray-900 text-base lg:text-lg leading-none">UP Badminton</span>
+                <span class="text-[10px] text-gray-500 font-medium tracking-wide">UNIVERSITY OF PHAYAO</span>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-4 lg:gap-8">
+            <div class="hidden md:flex items-center gap-2">
+                <a href="Main menu.html" class="text-gray-900 px-5 py-2 rounded-lg font-bold hover:bg-gray-50 transition">หน้าหลัก</a>
+                <a href="#" class="bg-u-purple text-white px-5 py-2 rounded-lg font-medium shadow-sm">ประวัติการจอง</a>
+            </div>
+
+            <div class="flex items-center gap-4 border-l border-gray-200 pl-4 lg:pl-8">
+                <a href="notifications.html" class="relative p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-full transition flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+                    </svg>
+                    <span class="absolute top-2 right-2.5 w-2 h-2 bg-red-500 rounded-full border border-white"></span>
+                </a>
+                
+                <a href="Profile.html" class="w-10 h-10 bg-gray-200 rounded-full overflow-hidden border border-gray-300 hover:ring-2 hover:ring-purple-200 transition flex items-center justify-center">
+                     <svg class="w-full h-full text-gray-500 p-1" fill="currentColor" viewBox="0 0 24 24"><path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="w-full max-w-[1440px] mx-auto px-6 lg:px-10 mt-6">
+        
+        <div class="mb-6">
+            <h1 class="text-3xl font-bold text-black mb-2">การจองของฉัน</h1>
+            <p class="text-gray-500 text-sm">จัดการรายการการจองสนามแบดมินตันของคุณ ตรวจสอบสถานะ หรือยกเลิกการจอง</p>
+        </div>
+
+        <div class="flex flex-wrap gap-2 mb-8" id="filter-container">
+            <button onclick="filterBookings('all')" class="filter-btn active px-6 py-2 rounded-full text-sm font-medium transition bg-u-purple text-white shadow-md" data-filter="all">ทั้งหมด</button>
+            <button onclick="filterBookings('upcoming')" class="filter-btn px-6 py-2 rounded-full text-sm font-medium transition bg-white text-gray-600 hover:bg-gray-100" data-filter="upcoming">กำลังจะมาถึง</button>
+            <button onclick="filterBookings('completed')" class="filter-btn px-6 py-2 rounded-full text-sm font-medium transition bg-white text-gray-600 hover:bg-gray-100" data-filter="completed">เสร็จสิ้น</button>
+            <button onclick="filterBookings('cancelled')" class="filter-btn px-6 py-2 rounded-full text-sm font-medium transition bg-white text-gray-600 hover:bg-gray-100" data-filter="cancelled">ยกเลิก</button>
+        </div>
+
+        <div id="booking-list" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        </div>
+
+        <div class="flex justify-center mt-12 gap-2">
+            <button class="w-8 h-8 flex items-center justify-center rounded-lg bg-white text-gray-500 hover:bg-gray-100">&lt;</button>
+            <button class="w-8 h-8 flex items-center justify-center rounded-lg bg-u-purple text-white font-bold">1</button>
+            <button class="w-8 h-8 flex items-center justify-center rounded-lg bg-white text-gray-500 hover:bg-gray-100">2</button>
+            <button class="w-8 h-8 flex items-center justify-center rounded-lg bg-white text-gray-500 hover:bg-gray-100">&gt;</button>
+        </div>
+
+    </main>
+
+    <script>
+        const bookingsData = [
+            {
+                id: 1,
+                courtName: 'สนาม 1',
+                location: 'อาคารสงวนเสริมศรี',
+                date: '16 มกราคม 2569',
+                time: '16:00 - 17:00',
+                status: 'upcoming', 
+                statusLabel: 'ยืนยันแล้ว',
+                image: 'pic/รูปสนาม.png'
+            },
+            {
+                id: 2,
+                courtName: 'สนาม 3',
+                location: 'อาคารสงวนเสริมศรี',
+                date: '20 มกราคม 2569',
+                time: '20:00 - 21:00',
+                status: 'pending', 
+                statusLabel: 'รอคิว', 
+                image: 'pic/รูปสนาม.png'
+            },
+            {
+                id: 3,
+                courtName: 'สนาม 1',
+                location: 'อาคารสงวนเสริมศรี',
+                date: '12 มกราคม 2569',
+                time: '17:00 - 18:00',
+                status: 'completed',
+                statusLabel: 'เสร็จสิ้น',
+                image: 'pic/รูปสนาม.png'
+            },
+            {
+                id: 4,
+                courtName: 'สนาม 4',
+                location: 'อาคารสงวนเสริมศรี',
+                date: '30 ธันวาคม 2568',
+                time: '20:00 - 21:00',
+                status: 'completed',
+                statusLabel: 'เสร็จสิ้น',
+                image: 'pic/รูปสนาม.png'
+            },
+            {
+                id: 5,
+                courtName: 'สนาม 5',
+                location: 'อาคารสงวนเสริมศรี',
+                date: '24 ธันวาคม 2568',
+                time: '19:00 - 20:00',
+                status: 'cancelled',
+                statusLabel: 'ยกเลิก',
+                image: 'pic/รูปสนาม.png'
+            }
+        ];
+
+        function renderBookings(filterType) {
+            const container = document.getElementById('booking-list');
+            container.innerHTML = '';
+
+            const filteredData = bookingsData.filter(item => {
+                if (filterType === 'all') return true;
+                if (filterType === 'upcoming') return item.status === 'upcoming' || item.status === 'pending';
+                return item.status === filterType;
+            });
+
+            if (filteredData.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-1 md:col-span-2 xl:col-span-3 text-center py-12 text-gray-400">
+                        <p>ไม่มีรายการจองในหมวดหมู่นี้</p>
+                    </div>
+                `;
+                return;
+            }
+
+            filteredData.forEach(booking => {
+                let badgeClass = '';
+                let buttonsHtml = '';
+
+                switch(booking.status) {
+                    case 'upcoming':
+                        badgeClass = 'status-upcoming';
+                        buttonsHtml = `
+                            <a href="Main menu.html" class="flex-1 bg-u-purple text-white text-xs py-2 rounded-lg hover:bg-purple-800 transition flex items-center justify-center">แก้ไข</a>
+                            <button onclick="cancelBooking(${booking.id})" class="flex-1 bg-red-100 text-red-600 text-xs py-2 rounded-lg hover:bg-red-200 transition">ยกเลิก</button>
+                        `;
+                        break;
+                    case 'pending': 
+                        badgeClass = 'status-pending';
+                        buttonsHtml = `
+                            <a href="Main menu.html" class="flex-1 bg-u-purple text-white text-xs py-2 rounded-lg hover:bg-purple-800 transition flex items-center justify-center">แก้ไข</a>
+                            <button onclick="cancelBooking(${booking.id})" class="flex-1 bg-red-100 text-red-600 text-xs py-2 rounded-lg hover:bg-red-200 transition">ยกเลิก</button>
+                        `;
+                        break;
+                    case 'completed':
+                        badgeClass = 'status-completed';
+                        buttonsHtml = `
+                            <button class="w-full bg-gray-100 text-gray-400 text-xs py-2 rounded-lg cursor-default">เสร็จสิ้นแล้ว</button>
+                        `;
+                        break;
+                    case 'cancelled':
+                        badgeClass = 'status-cancelled';
+                        buttonsHtml = `
+                             <button class="w-full bg-red-50 text-red-300 text-xs py-2 rounded-lg cursor-default">ยกเลิกแล้ว</button>
+                        `;
+                        break;
+                }
+
+                const card = `
+                    <div class="bg-white rounded-[20px] p-4 shadow-sm hover:shadow-md transition relative flex flex-col gap-4">
+                        
+                        <div class="absolute top-4 right-4 px-3 py-1 rounded-full text-[10px] font-bold ${badgeClass}">
+                            ${booking.statusLabel}
+                        </div>
+
+                        <div class="flex gap-4">
+                            <div class="w-24 h-24 bg-gray-200 rounded-xl overflow-hidden flex-shrink-0">
+                                <img src="${booking.image}" class="w-full h-full object-cover">
+                            </div>
+
+                            <div class="flex flex-col justify-center gap-1">
+                                <h3 class="font-bold text-lg text-black leading-tight">${booking.courtName}</h3>
+                                <p class="text-xs text-gray-400">${booking.location}</p>
+                                
+                                <div class="mt-2 space-y-1">
+                                    <div class="flex items-center gap-1.5 text-xs text-gray-600">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-gray-400">
+                                          <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+                                        </svg>
+                                        ${booking.date}
+                                    </div>
+                                    <div class="flex items-center gap-1.5 text-xs text-gray-600">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-gray-400">
+                                          <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                        ${booking.time}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-3 mt-auto pt-2 border-t border-gray-50">
+                            ${buttonsHtml}
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += card;
+            });
+        }
+
+        function filterBookings(type) {
+            const buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-u-purple', 'text-white', 'shadow-md');
+                btn.classList.add('bg-white', 'text-gray-600', 'hover:bg-gray-100');
+            });
+
+            const activeBtn = document.querySelector(`.filter-btn[data-filter="${type}"]`);
+            if (activeBtn) {
+                activeBtn.classList.remove('bg-white', 'text-gray-600', 'hover:bg-gray-100');
+                activeBtn.classList.add('bg-u-purple', 'text-white', 'shadow-md');
+            }
+
+            renderBookings(type);
+        }
+
+        function cancelBooking(id) {
+            Swal.fire({
+                title: 'ยืนยันการยกเลิก?',
+                text: "คุณต้องการยกเลิกการจองนี้ใช่หรือไม่",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#6C2B97',
+                confirmButtonText: 'ใช่, ยกเลิกเลย',
+                cancelButtonText: 'ไม่'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const booking = bookingsData.find(b => b.id === id);
+                    if(booking) {
+                        booking.status = 'cancelled';
+                        booking.statusLabel = 'ยกเลิก';
+                        
+                        const activeFilter = document.querySelector('.filter-btn.bg-u-purple').getAttribute('data-filter');
+                        renderBookings(activeFilter);
+
+                        Swal.fire(
+                            'ยกเลิกสำเร็จ!',
+                            'การจองของคุณถูกยกเลิกเรียบร้อยแล้ว',
+                            'success'
+                        )
+                    }
+                }
+            })
+        }
+
+        renderBookings('all');
+
+    </script>
+</body>
+</html>

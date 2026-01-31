@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>การแจ้งเตือน - UP Badminton</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Prompt', sans-serif; }
+        .bg-page { background-color: #F5E6F6; }
+        .text-u-purple { color: #6C2B97; }
+        .bg-u-purple { background-color: #6C2B97; }
+        
+       
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-page min-h-screen flex flex-col pt-24 pb-12">
+
+    <nav class="w-full px-6 lg:px-10 py-4 flex justify-between items-center fixed top-0 left-0 right-0 z-50 bg-white shadow-sm border-b border-gray-100">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center p-1 overflow-hidden border border-gray-100">
+                 <div class="font-bold text-purple-800">UP</div>
+            </div>
+            <div class="flex flex-col">
+                <span class="font-bold text-gray-900 text-base lg:text-lg leading-none">UP Badminton</span>
+                <span class="text-[10px] text-gray-500 font-medium tracking-wide">UNIVERSITY OF PHAYAO</span>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-4 lg:gap-8">
+            <div class="hidden md:flex items-center gap-2">
+                <a href="Main menu.html" class="text-gray-900 px-5 py-2 rounded-lg font-bold hover:bg-gray-50 transition">หน้าหลัก</a>
+                <a href="history.html" class="text-gray-900 px-5 py-2 rounded-lg font-bold hover:bg-gray-50 transition">ประวัติการจอง</a>
+            </div>
+
+            <div class="flex items-center gap-4 border-l border-gray-200 pl-4 lg:pl-8">
+                <a href="#" class="relative p-2 text-u-purple bg-purple-100 rounded-full transition flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+                    </svg>
+                    <span class="absolute top-2 right-2.5 w-2 h-2 bg-red-500 rounded-full border border-white"></span>
+                </a>
+                
+                <a href="profile.html" class="w-10 h-10 bg-gray-200 rounded-full overflow-hidden border border-gray-300 hover:ring-2 hover:ring-purple-200 transition flex items-center justify-center">
+                     <svg class="w-full h-full text-gray-500 p-1" fill="currentColor" viewBox="0 0 24 24"><path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="w-full max-w-[1000px] mx-auto px-6 lg:px-10 mt-6">
+        
+        <div class="mb-6">
+            <h1 class="text-3xl font-bold text-black mb-2">การแจ้งเตือน</h1>
+            <p class="text-gray-500 text-sm">ติดตามสถานะการจองสนามอาคารสงวนเสริมศรีและข่าวสารล่าสุดของมหาวิทยาลัย</p>
+        </div>
+
+        <div class="mb-8">
+            <button class="bg-u-purple text-white px-6 py-1.5 rounded-full text-sm font-medium shadow-md hover:bg-purple-800 transition">ทั้งหมด</button>
+        </div>
+
+        <div class="space-y-4">
+
+            <div class="bg-white rounded-2xl p-5 shadow-sm hover:shadow-md transition flex items-start gap-5">
+                <div class="w-12 h-12 rounded-full bg-green-500 flex items-center justify-center flex-shrink-0 text-white shadow-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    </svg>
+                </div>
+                <div class="flex-1">
+                    <div class="flex flex-wrap items-center gap-2 mb-1">
+                        <h3 class="font-bold text-lg text-black">ใกล้ถึงเวลาจองแล้ว</h3>
+                        <span class="bg-green-100 text-green-700 text-[10px] font-bold px-2 py-0.5 rounded-md">สนาม 1</span>
+                    </div>
+                    <p class="text-sm text-gray-600 leading-relaxed">การจองสนาม 1 อาคารสงวนเสริมศรี จะเริ่มในอีก 1 ชั่วโมง อย่าลืมไปใช้สนาม</p>
+                    <p class="text-xs text-u-purple mt-2 font-medium">2 นาทีที่แล้ว</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl p-5 shadow-sm hover:shadow-md transition flex items-start gap-5">
+                <div class="w-12 h-12 rounded-full bg-teal-500 flex items-center justify-center flex-shrink-0 text-white shadow-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <div class="flex-1">
+                    <h3 class="font-bold text-lg text-black mb-1">ยืนยันการจองสำเร็จ</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">การจองสนาม 1 อาคารสงวนเสริมศรี วันที่ 17 ม.ค. เวลา 17:00-18:00 ได้รับการยืนยันแล้ว</p>
+                    <p class="text-xs text-u-purple mt-2 font-medium">1 วันที่แล้ว</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl p-5 shadow-sm hover:shadow-md transition flex items-start gap-5">
+                <div class="w-12 h-12 rounded-full bg-red-500 flex items-center justify-center flex-shrink-0 text-white shadow-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </div>
+                <div class="flex-1">
+                    <h3 class="font-bold text-lg text-black mb-1">ยกเลิกการจอง</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">การจองสนาม 3 อาคารสงวนเสริมศรี วันที่ 20 ม.ค. เวลา 20:00-21:00 ถูกยกเลิกโดยผู้ใช้งาน</p>
+                    <p class="text-xs text-u-purple mt-2 font-medium">1 วันที่แล้ว</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl p-5 shadow-sm hover:shadow-md transition flex items-start gap-5">
+                <div class="w-12 h-12 rounded-full bg-yellow-400 flex items-center justify-center flex-shrink-0 text-white shadow-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M10.34 15.84c-.688-.06-1.386-.09-2.09-.09H7.5a4.5 4.5 0 110-9h.75c.704 0 1.402-.03 2.09-.09m0 9.18c.253.962.584 1.892.985 2.783.247.55.06 1.21-.463 1.511l-.657.38c-.551.318-1.26.117-1.527-.461a20.845 20.845 0 01-1.44-4.282m3.102.069a18.03 18.03 0 01-.59-4.59c0-1.586.205-3.124.59-4.59m0 9.18a23.848 23.848 0 018.835 2.535M10.34 6.66a23.847 23.847 0 008.835-2.535m0 0A23.74 23.74 0 0018.795 3m.38 1.125a23.91 23.91 0 011.014 5.395m-1.014 8.855c-.118.38-.245.754-.38 1.125m.38-1.125a23.91 23.91 0 001.014-5.395m0-3.46c.495.43.811 1.035.811 1.73 0 .695-.316 1.3-.811 1.73m0-3.46a24.347 24.347 0 010 3.46" />
+                    </svg>
+                </div>
+                <div class="flex-1">
+                    <h3 class="font-bold text-lg text-black mb-1">ประกาศปิดปรับปรุงสนาม</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">สนามแบดมินตัน อาคารสงวนเสริมศรี จะปิดปรับปรุงชั่วคราวในวันที่ 22 ม.ค. ขออภัยในความไม่สะดวก</p>
+                    <p class="text-xs text-u-purple mt-2 font-medium">1 วันที่แล้ว</p>
+                </div>
+            </div>
+
+             <div class="bg-white rounded-2xl p-5 shadow-sm hover:shadow-md transition flex items-start gap-5">
+                <div class="w-12 h-12 rounded-full bg-red-500 flex items-center justify-center flex-shrink-0 text-white shadow-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </div>
+                <div class="flex-1">
+                    <h3 class="font-bold text-lg text-black mb-1">แอดมินไม่อนุมัติ</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">การจองสนาม 3 อาคารสงวนเสริมศรี วันที่ 7 ม.ค. เวลา 20:00-21:00 ถูกยกเลิกโดยผู้ดูแล</p>
+                    <p class="text-xs text-u-purple mt-2 font-medium">2 วันที่แล้ว</p>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+</body>
+</html>

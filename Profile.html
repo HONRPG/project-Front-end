@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>โปรไฟล์ของฉัน - UP Badminton</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        body { font-family: 'Prompt', sans-serif; }
+        .bg-page { background-color: #F5E6F6; }
+        .text-u-purple { color: #6C2B97; }
+        .bg-u-purple { background-color: #6C2B97; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-page min-h-screen flex flex-col pt-24 pb-12">
+
+    <nav class="w-full px-6 lg:px-10 py-4 flex justify-between items-center fixed top-0 left-0 right-0 z-50 bg-white shadow-sm border-b border-gray-100">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center p-1 overflow-hidden border border-gray-100">
+                 <div class="font-bold text-purple-800">UP</div>
+            </div>
+            <div class="flex flex-col">
+                <span class="font-bold text-gray-900 text-base lg:text-lg leading-none">UP Badminton</span>
+                <span class="text-[10px] text-gray-500 font-medium tracking-wide">UNIVERSITY OF PHAYAO</span>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-4 lg:gap-8">
+            <div class="hidden md:flex items-center gap-2">
+                <a href="index.html" class="text-gray-900 px-5 py-2 rounded-lg font-bold hover:bg-gray-50 transition">หน้าหลัก</a>
+                <a href="history.html" class="text-gray-900 px-5 py-2 rounded-lg font-bold hover:bg-gray-50 transition">ประวัติการจอง</a>
+            </div>
+
+            <div class="flex items-center gap-4 border-l border-gray-200 pl-4 lg:pl-8">
+                <a href="notifications.html" class="relative p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-full transition flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+                    </svg>
+                    <span class="absolute top-2 right-2.5 w-2 h-2 bg-red-500 rounded-full border border-white"></span>
+                </a>
+                
+                <a href="#" class="w-10 h-10 bg-u-purple text-white rounded-full overflow-hidden border border-purple-800 ring-2 ring-purple-200 transition flex items-center justify-center">
+                     <svg class="w-full h-full p-1" fill="currentColor" viewBox="0 0 24 24"><path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="w-full max-w-[1000px] mx-auto px-6 lg:px-10 mt-6">
+        
+        <div class="mb-6">
+            <h1 class="text-3xl font-bold text-black mb-2">โปรไฟล์ของฉัน</h1>
+        </div>
+
+        <div class="space-y-6">
+
+            <div class="bg-white rounded-2xl shadow-sm overflow-hidden relative">
+                <div class="h-24 bg-u-purple w-full"></div>
+                
+                <div class="px-8 pb-8 pt-12 md:pt-4 flex flex-col md:flex-row items-center md:items-end gap-6 relative">
+                    <div class="absolute -top-16 left-1/2 transform -translate-x-1/2 md:static md:translate-x-0 md:-mt-16 border-4 border-white rounded-full bg-gray-300 w-32 h-32 flex items-center justify-center overflow-hidden">
+                        <svg class="w-20 h-20 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                    </div>
+
+                    <div class="text-center md:text-left mt-8 md:mt-0">
+                        <h2 class="text-2xl font-bold text-black">wanira sandee</h2>
+                        <div class="flex flex-col md:flex-row gap-1 md:gap-8 text-gray-600 font-medium mt-1">
+                            <p>รหัสนิสิต 68024546</p>
+                            <p>คณะเทคโนโลยีสารสนเทศและการสื่อสาร (ICT)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl p-6 shadow-sm">
+                <h3 class="font-bold text-lg text-black mb-4">ข้อมูลส่วนตัว</h3>
+                
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-bold text-black mb-1">ชื่อ - นามสกุล</label>
+                        <div class="w-full bg-gray-100 text-gray-500 px-4 py-2.5 rounded-lg border border-transparent cursor-not-allowed">
+                            wanira sandee
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-black mb-1">รหัสนิสิต</label>
+                        <div class="w-full bg-gray-100 text-gray-500 px-4 py-2.5 rounded-lg border border-transparent cursor-not-allowed">
+                            68024546
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-black mb-1">คณะ</label>
+                        <div class="w-full bg-gray-100 text-gray-500 px-4 py-2.5 rounded-lg border border-transparent cursor-not-allowed">
+                            คณะเทคโนโลยีสารสนเทศและการสื่อสาร (ICT)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl p-6 shadow-sm">
+                <h3 class="font-bold text-lg text-black mb-4">ช่องทางติดต่อ</h3>
+                
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-bold text-black mb-1">Email</label>
+                        <div class="w-full bg-gray-100 text-gray-500 px-4 py-2.5 rounded-lg border border-transparent cursor-not-allowed">
+                            wanira.sa@up.ac.th
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-black mb-1">เบอร์โทร</label>
+                        <div class="w-full bg-gray-100 text-gray-500 px-4 py-2.5 rounded-lg border border-transparent cursor-not-allowed">
+                            091-234-xxxx
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-end">
+                <button onclick="logout()" class="bg-u-purple hover:bg-purple-800 text-white font-bold py-2.5 px-8 rounded-lg shadow-md transition">
+                    ออกจากระบบ
+                </button>
+            </div>
+
+        </div>
+
+    </main>
+
+    <script>
+        function logout() {
+            Swal.fire({
+                title: 'ยืนยันการออกจากระบบ?',
+                text: "คุณต้องการออกจากระบบใช่หรือไม่",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#6C2B97',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'ใช่, ออกจากระบบ',
+                cancelButtonText: 'ยกเลิก'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = 'login.html';
+                }
+            })
+        }
+    </script>
+
+</body>
+</html>
