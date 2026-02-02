@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UP Badminton Statistics</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Kanit', sans-serif; background-color: #F3E8FF; }
+        .active-tab { background-color: #6D28D9; color: white; }
+    </style>
+</head>
+<body>
+
+    <nav class="w-full px-8 py-4 flex justify-between items-center fixed top-0 left-0 right-0 z-50 bg-white shadow-sm">
+        <div class="flex items-center gap-3">
+            <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center p-1.5 overflow-hidden border border-gray-100">
+                 <img src="pic/Logo_of_University_of_Phayao.svg" alt="UP Logo" class="w-full h-full object-contain">
+            </div>
+            <div class="flex flex-col">
+                <h1 class="font-bold leading-tight text-purple-900 text-lg">UP Badminton</h1>
+                <p class="text-xs text-blue-800 uppercase tracking-wide">University of Phayao</p>
+            </div>
+        </div>
+        <div class="hidden lg:flex items-center space-x-8 text-gray-700 font-medium">
+            <a href="#" class="hover:text-purple-600 transition">หน้าหลัก</a>
+            <a href="Reservation system.html" class="hover:text-purple-600 transition">จัดการคำขอ</a>
+            <a href="#" class="bg-purple-600 text-white px-4 py-1.5 rounded-md shadow-md hover:bg-purple-700 transition">สถิติการใช้บริการ</a>
+            <a href="AdminHistory.html" class="hover:text-purple-600 transition">ประวัติปิด-ปรับปรุงสนาม</a>
+            <div class="flex items-center space-x-4 border-l pl-4 border-gray-200">
+                <button class="hover:scale-110 transition">🔔</button>
+                <div class="w-9 h-9 bg-gray-200 rounded-full flex items-center justify-center border border-gray-300 shadow-sm">👤</div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto mt-28 p-6 animate-[fadeIn_0.5s_ease-out]">
+        
+        <div class="flex justify-between items-end mb-6">
+            <div>
+                <h2 class="text-3xl font-bold text-gray-800">สถิติการเข้าใช้บริการ</h2>
+                <p class="text-gray-500 mt-1">ตรวจสอบสถิติการจองสนามแบดมินตัน</p>
+            </div>
+        </div>
+
+        <div class="flex bg-white rounded-full w-fit p-1 mb-8 shadow-sm border border-gray-100">
+            <button id="latestBtn" class="px-8 py-2 rounded-full active-tab text-sm font-medium transition-all duration-300">ล่าสุด</button>
+            <button id="monthlyBtn" class="px-8 py-2 rounded-full text-gray-500 text-sm font-medium hover:bg-gray-50 transition-all duration-300">รายเดือน</button>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            
+            <div class="lg:col-span-4 space-y-6">
+                
+                <div id="calendarCard" class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hidden">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="font-bold text-gray-800">มกราคม 2569</span>
+                        <div class="space-x-2 text-gray-400">
+                            <button class="hover:text-purple-600">&lt;</button>
+                            <button class="hover:text-purple-600">&gt;</button>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-7 gap-2 text-center text-sm mb-2">
+                        <div class="text-red-500 font-semibold">อา</div>
+                        <div class="text-gray-400">จ</div>
+                        <div class="text-gray-400">อ</div>
+                        <div class="text-gray-400">พ</div>
+                        <div class="text-gray-400">พฤ</div>
+                        <div class="text-gray-400">ศ</div>
+                        <div class="text-red-500 font-semibold">ส</div>
+                    </div>
+                    <div class="grid grid-cols-7 gap-2 text-center text-sm">
+                        <div class="text-gray-300">29</div><div class="text-gray-300">30</div><div class="text-gray-300">31</div>
+                        <div class="text-gray-600">1</div><div class="text-gray-600">2</div><div class="text-gray-600">3</div><div class="text-red-400">4</div>
+                        <div class="text-red-400">5</div><div class="text-gray-600">6</div><div class="text-gray-600">7</div><div class="text-gray-600">8</div><div class="text-gray-600">9</div><div class="text-red-400">10</div>
+                        <div class="text-red-400">11</div><div class="text-gray-600">12</div><div class="text-gray-600">13</div><div class="text-gray-600">14</div><div class="text-gray-600">15</div>
+                        <div class="bg-purple-600 text-white rounded-full shadow-md">16</div>
+                        <div class="text-red-400">17</div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 h-64 flex flex-col justify-center items-center text-center relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-purple-50 rounded-bl-full -mr-4 -mt-4 z-0"></div>
+                    <h3 id="summaryTitle" class="text-lg font-medium text-gray-500 z-10">จำนวนคนเข้าใช้บริการวันนี้</h3>
+                    <div class="mt-4 flex items-baseline z-10">
+                        <span id="summaryCount" class="text-7xl font-bold text-purple-900 mr-2 tracking-tighter">45</span>
+                        <span class="text-xl text-gray-400">ท่าน</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-8 bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
+                <div class="flex justify-between items-start mb-12">
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-800">สถิติช่วงเวลา</h3>
+                        <p class="text-sm text-gray-400">จำนวนผู้เข้าใช้งานรายชั่วโมง</p>
+                    </div>
+                    <span class="text-purple-600 font-bold bg-purple-50 px-3 py-1 rounded-lg text-sm">5 PM - 9 PM</span>
+                </div>
+                
+                <div class="flex items-end justify-between h-64 border-b border-gray-100 pb-2 px-4 relative">
+                    <div class="absolute top-0 left-0 right-0 h-full flex flex-col justify-between pointer-events-none">
+                        <div class="border-t border-dashed border-gray-100 w-full h-0"></div>
+                        <div class="border-t border-dashed border-gray-100 w-full h-0"></div>
+                        <div class="border-t border-dashed border-gray-100 w-full h-0"></div>
+                    </div>
+
+                    <div class="flex flex-col items-center gap-2 z-10 group w-1/5">
+                        <div class="relative w-full bg-gray-200 rounded-t-lg transition-all duration-500 hover:bg-purple-400 group-hover:shadow-lg" style="height: 180px;">
+                            <div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-black text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">12 คน</div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col items-center gap-2 z-10 group w-1/5">
+                         <div class="relative w-full bg-gray-300 rounded-t-lg transition-all duration-500 hover:bg-purple-500 group-hover:shadow-lg" style="height: 220px;">
+                             <div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-black text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">15 คน</div>
+                         </div>
+                    </div>
+
+                    <div class="flex flex-col items-center gap-2 z-10 group w-1/5">
+                        <div class="relative w-full bg-gray-200 rounded-t-lg transition-all duration-500 hover:bg-purple-400 group-hover:shadow-lg" style="height: 140px;">
+                            <div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-black text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">10 คน</div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col items-center gap-2 z-10 group w-1/5">
+                        <div class="relative w-full bg-gray-200 rounded-t-lg transition-all duration-500 hover:bg-purple-400 group-hover:shadow-lg" style="height: 80px;">
+                            <div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-black text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">8 คน</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-between mt-4 px-2 font-medium text-sm text-gray-500">
+                    <span class="w-1/5 text-center">17:00 - 18:00</span>
+                    <span class="w-1/5 text-center">18:00 - 19:00</span>
+                    <span class="w-1/5 text-center">19:00 - 20:00</span>
+                    <span class="w-1/5 text-center">20:00 - 21:00</span>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        const latestBtn = document.getElementById('latestBtn');
+        const monthlyBtn = document.getElementById('monthlyBtn');
+        const calendarCard = document.getElementById('calendarCard');
+        const summaryTitle = document.getElementById('summaryTitle');
+        const summaryCount = document.getElementById('summaryCount');
+
+        // Animation helper
+        function animateValue(obj, start, end, duration) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                obj.innerHTML = Math.floor(progress * (end - start) + start);
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+
+        latestBtn.onclick = () => {
+            if (!latestBtn.classList.contains('active-tab')) {
+                latestBtn.classList.add('active-tab', 'text-white');
+                latestBtn.classList.remove('text-gray-500');
+                
+                monthlyBtn.classList.remove('active-tab', 'text-white');
+                monthlyBtn.classList.add('text-gray-500');
+                
+                calendarCard.classList.add('hidden');
+                summaryTitle.innerText = "จำนวนคนเข้าใช้บริการวันนี้";
+                animateValue(summaryCount, 0, 45, 500);
+            }
+        };
+
+        monthlyBtn.onclick = () => {
+            if (!monthlyBtn.classList.contains('active-tab')) {
+                monthlyBtn.classList.add('active-tab', 'text-white');
+                monthlyBtn.classList.remove('text-gray-500');
+                
+                latestBtn.classList.remove('active-tab', 'text-white');
+                latestBtn.classList.add('text-gray-500');
+                
+                calendarCard.classList.remove('hidden');
+                summaryTitle.innerText = "จำนวนคนเข้าใช้บริการเดือนนี้";
+                animateValue(summaryCount, 0, 900, 500);
+            }
+        };
+    </script>
+</body>
+</html>
