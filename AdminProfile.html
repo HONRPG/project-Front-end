@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UP Badminton System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <style>
+        body { font-family: 'Prompt', sans-serif; background-color: #F5E6F6; }
+        
+        /* Custom Colors */
+        .text-u-purple { color: #6C2B97; }
+        .bg-u-purple { background-color: #6C2B97; }
+        .bg-u-purple-hover { background-color: #561d7a; }
+        
+        /* Nav Active State */
+        .nav-link.active {
+            color: #6C2B97;
+            font-weight: bold;
+        }
+
+        /* Profile Header Gradient */
+        .profile-header {
+            background-color: #6C2B97; /* Main Purple */
+            background-image: linear-gradient(90deg, #6C2B97 0%, #7e3ab0 100%);
+        }
+
+        /* Notification Icons */
+        .icon-circle {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col pt-24 pb-12">
+
+    <nav class="w-full px-8 py-4 flex justify-between items-center fixed top-0 left-0 right-0 z-50 bg-white shadow-sm">
+        <div class="flex items-center gap-3">
+            <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center p-1.5 overflow-hidden border border-gray-100">
+                 <img src="pic/Logo_of_University_of_Phayao.svg" alt="UP Logo" class="w-full h-full object-contain">
+            </div>
+            <div class="flex flex-col justify-center">
+                <span class="font-bold text-gray-900 text-lg leading-none">UP Badminton</span>
+                <span class="text-[10px] text-gray-500 font-medium tracking-wide uppercase">University of Phayao</span>
+            </div>
+        </div>
+
+        <div class="hidden lg:flex items-center gap-8">
+            <button onclick="switchView('view-stats')" class="nav-link text-gray-600 hover:text-purple-700 transition" id="nav-stats">หน้าหลัก</button>
+            <button onclick="switchView('view-requests')" class="nav-link text-gray-600 hover:text-purple-700 transition" id="nav-requests">จัดการคำขอ</button>
+            <button onclick="switchView('view-stats')" class="nav-link text-gray-600 hover:text-purple-700 transition" id="nav-stats-btn">สถิติการใช้บริการ</button>
+            <button onclick="switchView('view-maintenance')" class="nav-link text-gray-600 hover:text-purple-700 transition" id="nav-maintenance">ประวัติปิด-ปรับปรุงสนาม</button>
+        </div>
+
+        <div class="flex items-center gap-4">
+            <button onclick="switchView('view-notifications')" class="relative p-2 text-purple-900 bg-purple-100 rounded-full hover:bg-purple-200 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                <span class="absolute top-0 right-0 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white"></span>
+            </button>
+            <button onclick="switchView('view-profile')" class="w-10 h-10 bg-gray-200 rounded-full overflow-hidden hover:ring-2 hover:ring-purple-500 transition">
+                 <svg class="w-full h-full text-gray-400 p-1" fill="currentColor" viewBox="0 0 24 24"><path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+            </button>
+        </div>
+    </nav>
+
+    <main class="w-full max-w-7xl mx-auto px-6 mt-6 flex-grow relative">
+
+        <section id="view-notifications" class="view-section hidden animate-[fadeIn_0.5s]">
+            <div class="max-w-5xl mx-auto">
+                <div class="mb-6">
+                    <h1 class="text-3xl font-bold text-black">การแจ้งเตือน</h1>
+                    <p class="text-gray-500 text-sm mt-1">ติดตามสถานะการจองสนามอาคารสงวนเสริมศรีและข่าวสารล่าสุดของมหาวิทยาลัย</p>
+                </div>
+                
+                <div class="mb-6">
+                    <button class="bg-u-purple text-white px-6 py-1.5 rounded-full text-sm font-medium">ทั้งหมด</button>
+                </div>
+
+                <div class="space-y-4">
+                    
+                    <div class="bg-white p-5 rounded-2xl shadow-sm flex items-start gap-5">
+                        <div class="icon-circle bg-green-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                        </div>
+                        <div class="flex-1 pt-1">
+                            <div class="flex items-center gap-3 mb-1">
+                                <h3 class="font-bold text-black text-lg">ใกล้ถึงเวลาจองแล้ว</h3>
+                                <span class="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded font-bold">สนาม 1</span>
+                            </div>
+                            <p class="text-gray-600 text-sm">การจองสนาม 1 อาคารสงวนเสริมศรี จะเริ่มในอีก 1 ชั่วโมง อย่าลืมไปใช้สนาม</p>
+                            <div class="text-purple-700 text-xs font-medium mt-3">2 นาทีที่แล้ว</div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-2xl shadow-sm flex items-start gap-5">
+                        <div class="icon-circle bg-teal-500">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        </div>
+                        <div class="flex-1 pt-1">
+                            <h3 class="font-bold text-black text-lg mb-1">ยืนยันการจองสำเร็จ</h3>
+                            <p class="text-gray-600 text-sm">การจองสนาม 1 อาคารสงวนเสริมศรี วันที่ 17 ม.ค. เวลา 17:00-18:00 ได้รับการยืนยันแล้ว</p>
+                            <div class="text-purple-700 text-xs font-medium mt-3">1 วันที่แล้ว</div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-2xl shadow-sm flex items-start gap-5">
+                        <div class="icon-circle bg-red-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                        </div>
+                        <div class="flex-1 pt-1">
+                            <h3 class="font-bold text-black text-lg mb-1">ยกเลิกการจอง</h3>
+                            <p class="text-gray-600 text-sm">การจองสนาม 3 อาคารสงวนเสริมศรี วันที่ 20 ม.ค. เวลา 20:00-21:00 ถูกยกเลิกโดยผู้ใช้งาน</p>
+                            <div class="text-purple-700 text-xs font-medium mt-3">1 วันที่แล้ว</div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-2xl shadow-sm flex items-start gap-5">
+                        <div class="icon-circle bg-yellow-400">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"/></svg>
+                        </div>
+                        <div class="flex-1 pt-1">
+                            <h3 class="font-bold text-black text-lg mb-1">ประกาศปิดปรับปรุงสนาม</h3>
+                            <p class="text-gray-600 text-sm">สนามแบดมินตัน อาคารสงวนเสริมศรี จะปิดปรับปรุงชั่วคราวในวันที่ 22 ม.ค. ขออภัยในความไม่สะดวก</p>
+                            <div class="text-purple-700 text-xs font-medium mt-3">2 วันที่แล้ว</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="view-profile" class="view-section hidden animate-[fadeIn_0.5s]">
+            <div class="mb-6">
+                <h1 class="text-3xl font-bold text-black">โปรไฟล์ของฉัน</h1>
+            </div>
+
+            <div class="bg-white rounded-xl overflow-hidden shadow-sm max-w-5xl mx-auto pb-6">
+                <div class="h-28 profile-header"></div>
+                
+                <div class="px-8 relative">
+                    <div class="flex flex-col md:flex-row items-center md:items-end -mt-14 mb-8 gap-6">
+                        <div class="w-32 h-32 rounded-full border-[5px] border-white bg-gray-300 overflow-hidden shadow-md flex items-center justify-center relative z-10">
+                            <svg class="w-20 h-20 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                        </div>
+                        
+                        <div class="flex-1 text-center md:text-left mb-2 w-full pt-14 md:pt-0">
+                            <div class="flex flex-col md:flex-row md:items-center gap-3">
+                                <h2 class="text-3xl font-bold text-black">Maree Kondee</h2>
+                                <span class="bg-yellow-200 text-yellow-700 text-sm font-bold px-3 py-0.5 rounded-full flex items-center gap-1 w-fit mx-auto md:mx-0">
+                                    <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                    Admin
+                                </span>
+                            </div>
+                            <div class="flex flex-col md:flex-row text-black font-medium text-sm mt-2 gap-2 md:gap-16">
+                                <span>รหัสนิสิต 67367942</span>
+                                <span>คณะ พลังงานและสิ่งแวดล้อม</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg p-4 mb-4">
+                        <h3 class="font-bold text-black text-sm mb-4">ข้อมูลส่วนตัว</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="text-xs font-bold text-black mb-1 block">ชื่อ - นามสกุล</label>
+                                <div class="bg-gray-100 rounded p-2 text-xs text-gray-500 font-medium pl-4">ชื่อ - นามสกุล</div>
+                            </div>
+                            <div>
+                                <label class="text-xs font-bold text-black mb-1 block">รหัสนิสิต</label>
+                                <div class="bg-gray-100 rounded p-2 text-xs text-gray-500 font-medium pl-4">รหัสนิสิต</div>
+                            </div>
+                            <div>
+                                <label class="text-xs font-bold text-black mb-1 block">คณะ</label>
+                                <div class="bg-gray-100 rounded p-2 text-xs text-gray-500 font-medium pl-4">คณะ</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg p-4 mb-6">
+                        <h3 class="font-bold text-black text-sm mb-4">ช่องทางติดต่อ</h3>
+                         <div class="space-y-4">
+                            <div>
+                                <label class="text-xs font-bold text-black mb-1 block">Email</label>
+                                <div class="bg-gray-100 rounded p-2 text-xs text-gray-500 font-medium pl-4">Email</div>
+                            </div>
+                            <div>
+                                <label class="text-xs font-bold text-black mb-1 block">เบอร์โทร</label>
+                                <div class="bg-gray-100 rounded p-2 text-xs text-gray-500 font-medium pl-4">เบอร์โทร</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end">
+                        <button class="bg-u-purple text-white px-10 py-2 rounded-lg font-medium hover:bg-purple-800 transition text-sm">ออกจากระบบ</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="view-requests" class="view-section hidden animate-[fadeIn_0.5s]">
+            <div class="mb-6">
+                <h1 class="text-3xl font-bold text-black">จัดการคำขอจองสนาม</h1>
+                <p class="text-gray-500 text-sm mt-1">จัดการรายการการจองสนามแบดมินตัน</p>
+            </div>
+            <div class="flex flex-wrap gap-2 mb-8">
+                <button class="bg-u-purple text-white px-6 py-2 rounded-full text-sm font-medium shadow-md">ทั้งหมด</button>
+                <button class="bg-white text-gray-600 px-6 py-2 rounded-full text-sm font-medium hover:bg-gray-100">กำลังรอยืนยัน</button>
+                <button class="bg-white text-gray-600 px-6 py-2 rounded-full text-sm font-medium hover:bg-gray-100">เสร็จสิ้น</button>
+                <button class="bg-white text-gray-600 px-6 py-2 rounded-full text-sm font-medium hover:bg-gray-100">ยกเลิก</button>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white rounded-[20px] p-5 shadow-sm relative flex flex-col">
+                    <div class="absolute top-4 right-4 px-3 py-1 rounded-full text-[10px] font-bold status-confirmed">ยืนยันแล้ว</div>
+                    <div class="flex gap-4 mb-4">
+                        <div class="w-28 h-20 bg-gray-200 rounded-xl overflow-hidden flex-shrink-0"><img src="pic/รูปสนาม.png" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/150'"></div>
+                        <div class="flex-1 min-w-0"><h3 class="font-bold text-lg text-black">สนาม 1</h3><p class="text-xs text-gray-400 mb-2">อาคารสงวนเสริมศรี</p><div class="text-xs text-gray-600"><div>68025675@up.ac.th</div><div>📅 16 ม.ค. 2569</div><div>⏰ 17:00-18:00</div></div></div>
+                    </div>
+                    <button class="w-full bg-red-100 text-red-500 font-bold text-sm py-2 rounded-lg hover:bg-red-200 mt-auto">ยกเลิก</button>
+                </div>
+                 <div class="bg-white rounded-[20px] p-5 shadow-sm relative flex flex-col">
+                    <div class="absolute top-4 right-4 px-3 py-1 rounded-full text-[10px] font-bold status-pending">รอยืนยัน</div>
+                    <div class="flex gap-4 mb-4">
+                        <div class="w-28 h-20 bg-gray-200 rounded-xl overflow-hidden flex-shrink-0"><img src="pic/รูปสนาม.png" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/150'"></div>
+                        <div class="flex-1 min-w-0"><h3 class="font-bold text-lg text-black">สนาม 2</h3><p class="text-xs text-gray-400 mb-2">อาคารสงวนเสริมศรี</p><div class="text-xs text-gray-600"><div>68067594@up.ac.th</div><div>📅 20 ม.ค. 2569</div><div>⏰ 20:00-21:00</div></div></div>
+                    </div>
+                     <div class="flex gap-2 mt-auto">
+                        <button class="flex-1 bg-u-purple text-white font-bold text-sm py-2 rounded-lg hover:bg-purple-800">ตกลง</button>
+                        <button class="flex-1 bg-red-100 text-red-500 font-bold text-sm py-2 rounded-lg hover:bg-red-200">ยกเลิก</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="view-stats" class="view-section block animate-[fadeIn_0.5s]">
+            <div class="mb-6"><h1 class="text-3xl font-bold text-black">สถิติการเข้าใช้บริการ</h1><p class="text-gray-500 text-sm mt-1">ตรวจสอบสถิติการจองสนามแบดมินตัน</p></div>
+            <div class="flex bg-white rounded-full w-fit p-1 mb-8 shadow-sm">
+                <button class="bg-u-purple text-white px-8 py-2 rounded-full text-sm font-medium shadow-md transition-all">ล่าสุด</button>
+                <button class="text-gray-500 px-8 py-2 rounded-full text-sm font-medium hover:bg-gray-50 transition-all">รายเดือน</button>
+            </div>
+            <div class="flex flex-col lg:flex-row gap-6">
+                <div class="bg-white rounded-[20px] p-8 shadow-sm flex flex-col justify-center h-80 w-full lg:w-1/3">
+                    <h3 class="text-lg font-bold text-gray-700 mb-4">จำนวนคนเข้าใช้บริการวันนี้</h3>
+                    <div class="flex items-baseline gap-2"><span class="text-8xl font-bold text-black tracking-tighter">45</span><span class="text-xl text-gray-500">ท่าน</span></div>
+                </div>
+                <div class="bg-white rounded-[20px] p-8 shadow-sm h-80 w-full lg:w-2/3 flex flex-col">
+                    <div class="flex justify-between items-start mb-2"><h3 class="font-bold text-xl">สถิติการเข้าใช้บริการวันนี้</h3><span class="text-sm font-bold text-gray-500">5 PM – 9 PM</span></div>
+                    <div class="flex-grow flex items-end justify-between px-4 sm:px-12 pb-2 border-b border-gray-200 gap-8">
+                        <div class="w-full bg-gray-300 rounded-t-lg hover:bg-purple-300 transition-all relative group" style="height: 60%;"></div>
+                        <div class="w-full bg-gray-300 rounded-t-lg hover:bg-purple-300 transition-all relative group" style="height: 85%;"></div>
+                        <div class="w-full bg-gray-300 rounded-t-lg hover:bg-purple-300 transition-all relative group" style="height: 45%;"></div>
+                        <div class="w-full bg-gray-300 rounded-t-lg hover:bg-purple-300 transition-all relative group" style="height: 25%;"></div>
+                    </div>
+                    <div class="flex justify-between px-4 sm:px-12 mt-3 text-xs font-bold text-black">
+                        <span class="w-full text-center">17:00 - 18:00</span><span class="w-full text-center">18:00 - 19:00</span><span class="w-full text-center">19:00 - 20:00</span><span class="w-full text-center">20:00 - 21:00</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="view-maintenance" class="view-section hidden animate-[fadeIn_0.5s]">
+            <div class="mb-6"><h1 class="text-3xl font-bold text-black">ประวัติปิด - ปรับปรุงสนาม</h1><p class="text-gray-500 text-sm mt-1">จัดการรายการการปิด-ปรับปรุงสนาม</p></div>
+            <div class="flex flex-wrap gap-2 mb-8"><button class="bg-u-purple text-white px-6 py-2 rounded-full text-sm font-medium shadow-md">ทั้งหมด</button><button class="bg-white text-gray-600 px-6 py-2 rounded-full text-sm font-medium hover:bg-gray-100">เสร็จสิ้น</button><button class="bg-white text-gray-600 px-6 py-2 rounded-full text-sm font-medium hover:bg-gray-100">ยกเลิก</button></div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-white rounded-[20px] p-5 shadow-sm flex flex-col relative">
+                    <div class="absolute top-4 right-4 px-3 py-1 rounded-full text-[10px] font-bold text-gray-600 bg-gray-100 border border-gray-200">ปรับปรุง</div>
+                    <div class="flex gap-4 mb-4">
+                         <div class="w-28 h-20 bg-gray-200 rounded-xl overflow-hidden flex-shrink-0"><img src="pic/รูปสนาม.png" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/150'"></div>
+                        <div class="flex-1 min-w-0"><h3 class="font-bold text-lg text-black">สนาม 4</h3><p class="text-xs text-gray-400 mb-2">อาคารสงวนเสริมศรี</p><div class="text-xs text-gray-600"><div>📅 17 ธันวาคม 2568</div><div>⏰ 16:00 - 17:00</div></div></div>
+                    </div>
+                    <div class="flex gap-2 mt-auto"><button class="flex-1 bg-u-purple text-white font-bold text-sm py-2 rounded-lg">แก้ไข</button><button class="flex-1 bg-red-100 text-red-500 font-bold text-sm py-2 rounded-lg">ยกเลิก</button></div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        function switchView(viewId) {
+            // Hide all
+            document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('block'));
+            
+            // Show target
+            const target = document.getElementById(viewId);
+            if(target) {
+                target.classList.remove('hidden');
+                target.classList.add('block');
+            }
+
+            // Reset Nav Active
+            document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+
+            const navMap = {
+                'view-requests': 'nav-requests',
+                'view-stats': 'nav-stats-btn', // Mapped to the specific button
+                'view-maintenance': 'nav-maintenance'
+            };
+
+            if(navMap[viewId]) {
+                const btn = document.getElementById(navMap[viewId]);
+                if(btn) btn.classList.add('active');
+            }
+
+            window.scrollTo(0,0);
+        }
+
+        // Initialize with Notifications View as per user request flow, or default to Stats
+        // Let's default to Notifications to show off the requested page first
+        switchView('view-notifications'); 
+    </script>
+</body>
+</html>
