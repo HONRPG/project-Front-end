@@ -55,8 +55,8 @@
 
         <div class="flex items-center gap-4 lg:gap-8">
             <div class="hidden md:flex items-center gap-2">
-                <a href="#" class="bg-u-purple text-white px-5 py-2 rounded-lg font-medium shadow-sm">หน้าหลัก</a>
-                <a href="history.html" class="text-gray-900 px-5 py-2 rounded-lg font-bold hover:bg-gray-50 transition">ประวัติการจอง</a>
+                <a href="Main menu.html" class="bg-u-purple text-white px-5 py-2 rounded-lg font-medium shadow-sm">หน้าหลัก</a>
+                <a href="history.html" class="text-gray-900 px-5 py-2 rounded-lg font-bold hover:bg-gray-50 transition">จองคิวสนาม</a>
             </div>
 
             <div class="flex items-center gap-4 border-l border-gray-200 pl-4 lg:pl-8">
@@ -74,353 +74,120 @@
         </div>
     </nav>
 
-    <main class="w-full max-w-[1440px] mx-auto px-6 lg:px-10 mt-6">
+    <main class="w-full max-w-[1440px] mx-auto px-4 lg:px-10 mt-6">
         
         <div class="mb-8">
-            <h1 class="text-3xl font-bold text-black mb-2">จองสนามแบดมินตัน</h1>
-            <p class="text-gray-500 text-sm">เลือกวันที่ สนาม และเวลาที่ต้องการจอง(อาคารสงวนเสริมศรี)</p>
-            <p class="text-gray-400 text-xs mt-1">สนามหยุดทุก ส-อา และวันหยุดราชการ</p>
+            <h1 class="text-3xl font-bold text-black mb-1">สถานะคิวปัจจุบัน</h1>
+            <p class="text-gray-500 text-base">ติดตามสถานะคิวการเล่นแบดมินตันล่าสุด</p>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-32 items-start">
+        <div class="mb-10">
+            <div class="flex justify-between items-end mb-4">
+                <h2 class="text-xl font-bold text-black">คิวที่กำลังเล่น</h2>
+                <span class="bg-green-100 text-green-600 px-4 py-1.5 rounded-full text-sm font-bold">สนามถูกใช้บริการ 4/4</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6" id="active-courts-container">
+                </div>
+        </div>
+
+        <div>
+            <h2 class="text-xl font-bold text-black mb-4">คิวรอสนาม</h2>
             
-            <div class="lg:col-span-8 space-y-8">
-                
-                <div class="bg-white rounded-[20px] p-6 shadow-sm">
-                    <div class="flex justify-between items-center mb-6">
-                        <h2 class="text-lg font-bold text-black" id="currentMonth">มกราคม 2569</h2>
-                        <div class="flex gap-2">
-                            <button class="w-8 h-8 flex items-center justify-center hover:bg-gray-100 rounded-full transition">&lt;</button>
-                            <button class="w-8 h-8 flex items-center justify-center hover:bg-gray-100 rounded-full transition">&gt;</button>
-                        </div>
-                    </div>
-                    
-                    <div class="grid grid-cols-7 text-center mb-4">
-                        <div class="date-btn w-8 h-8 mx-auto rounded-full text-red-600 font-bold">อา</div>
-                        <div class="text-black font-bold text-sm">จ</div>
-                        <div class="text-black font-bold text-sm">อ</div>
-                        <div class="text-black font-bold text-sm">พ</div>
-                        <div class="text-black font-bold text-sm">พฤ</div>
-                        <div class="text-black font-bold text-sm">ศ</div>
-                        <div class="date-btn w-8 h-8 mx-auto rounded-full text-red-600 font-bold">ส</div>
-                    </div>
-
-                    <div class="grid grid-cols-7 gap-y-4 text-center text-sm" id="calendar-grid">
-                        <span></span><span></span><span></span>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-900 font-medium" data-date="1 ม.ค. 69">1</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-900 font-medium" data-date="2 ม.ค. 69">2</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-900 font-medium" data-date="3 ม.ค. 69">3</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full text-red-600 font-bold" data-date="4 ม.ค. 69" disabled>4</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full text-red-600 font-bold" data-date="5 ม.ค. 69" disabled>5</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-900 font-medium" data-date="6 ม.ค. 69">6</button> 
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-900 font-medium" data-date="7 ม.ค. 69">7</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-900 font-medium" data-date="8 ม.ค. 69">8</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-900 font-medium" data-date="9 ม.ค. 69">9</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-900 font-medium" data-date="10 ม.ค. 69">10</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full text-red-600 font-bold" data-date="11 ม.ค. 69" disabled>11</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full text-red-600 font-bold" data-date="12 ม.ค. 69" disabled>12</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-900 font-medium" data-date="13 ม.ค. 69">13</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-900 font-medium" data-date="14 ม.ค. 69">14</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-900 font-medium" data-date="15 ม.ค. 69">15</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-900 font-medium" data-date="16 ม.ค. 69">16</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-900 font-medium" data-date="17 ม.ค. 69">17</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full text-red-600 font-bold" data-date="18 ม.ค. 69" disabled>18</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full text-red-600 font-bold" data-date="19 ม.ค. 69" disabled>19</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-900 font-medium" data-date="20 ม.ค. 69">20</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-900 font-medium" data-date="21 ม.ค. 69">21</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-900 font-medium" data-date="22 ม.ค. 69">22</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-900 font-medium" data-date="23 ม.ค. 69">23</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-900 font-medium" data-date="24 ม.ค. 69">24</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full text-red-600 font-bold" data-date="25 ม.ค. 69" disabled>25</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full text-red-600 font-bold" data-date="26 ม.ค. 69" disabled>26</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-900 font-medium" data-date="27 ม.ค. 69">27</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-900 font-medium" data-date="28 ม.ค. 69">28</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-900 font-medium" data-date="29 ม.ค. 69">29</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-900 font-medium" data-date="30 ม.ค. 69">30</button>
-                        <button class="date-btn w-8 h-8 mx-auto rounded-full hover:bg-purple-50 text-gray-900 font-medium" data-date="31 ม.ค. 69">31</button>
-                    </div>
+            <div class="space-y-3" id="waiting-queue-container">
                 </div>
 
-                <div>
-                    <h3 class="text-gray-500 mb-4 font-medium">เลือกสนามจาก 5 คอร์ท</h3>
-                    
-                    <div id="court-grid" class="space-y-4 court-list">
-                    </div>
-
-                    <div class="flex justify-center items-center gap-2 mt-6">
-                        <button onclick="changePage(1)" class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 text-gray-500">&lt;</button>
-                        <button onclick="changePage(1)" id="btn-page-1" class="page-btn w-8 h-8 flex items-center justify-center rounded-lg bg-u-purple text-white font-bold transition">1</button>
-                        <button onclick="changePage(2)" id="btn-page-2" class="page-btn w-8 h-8 flex items-center justify-center rounded-lg bg-white text-gray-500 hover:bg-gray-100 transition">2</button>
-                        <button onclick="changePage(2)" class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 text-gray-500">&gt;</button>
-                    </div>
-                </div>
-
+            <div class="flex justify-end items-center gap-2 mt-6">
+                <button class="w-8 h-8 flex items-center justify-center rounded-full bg-white shadow-sm text-gray-400 hover:bg-gray-100">&lt;</button>
+                <button class="w-8 h-8 flex items-center justify-center rounded-full bg-u-purple text-white font-bold shadow-md">1</button>
+                <button class="w-8 h-8 flex items-center justify-center rounded-full bg-white text-gray-500 hover:bg-gray-100 font-bold">2</button>
+                <button class="w-8 h-8 flex items-center justify-center rounded-full bg-white shadow-sm text-gray-400 hover:bg-gray-100">&gt;</button>
             </div>
-
-            <div class="lg:col-span-4 space-y-6 lg:sticky lg:top-24">
-                
-                <div class="bg-white rounded-[20px] p-6 shadow-sm">
-                    <div class="flex items-center gap-2 mb-6">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        <h2 class="text-lg font-bold text-black">เลือกเวลา</h2>
-                    </div>
-
-                    <div class="flex flex-wrap gap-3" id="time-container">
-                        <button class="time-btn px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-purple-100 hover:text-u-purple transition" onclick="selectTime(this, '16:00 - 17:00')">16:00 - 17:00</button>
-                        <button class="time-btn px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-purple-100 hover:text-u-purple transition" onclick="selectTime(this, '17:00 - 18:00')">17:00 - 18:00</button>
-                        <button class="time-btn px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium" disabled>18:00 - 19:00 (ไม่ว่าง)</button>
-                        <button class="time-btn px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-purple-100 hover:text-u-purple transition" onclick="selectTime(this, '20:00 - 21:00')">20:00 - 21:00</button>
-                        <button class="time-btn px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-purple-100 hover:text-u-purple transition" onclick="selectTime(this, '21:00 - 22:00')">21:00 - 22:00</button>
-                    </div>
-                </div>
-
-                <div class="bg-white rounded-[20px] p-6 shadow-sm">
-                    <h2 class="text-lg font-bold text-black mb-6">สรุปรายการการจอง</h2>
-                    
-                    <div class="space-y-6 mb-8">
-                        <div class="flex items-start gap-4">
-                            <div class="mt-0.5 text-black">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                  <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
-                                </svg>
-                            </div>
-                            <div>
-                                <p class="text-xs text-gray-500 font-medium">วันที่จอง</p>
-                                <p id="summary-date" class="text-sm font-medium text-gray-400">ยังไม่ได้เลือก</p> 
-                            </div>
-                        </div>
-
-                        <div class="flex items-start gap-4">
-                            <div class="mt-0.5 text-black">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                  <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-                                </svg>
-                            </div>
-                            <div>
-                                <p class="text-xs text-gray-500 font-medium">สนาม</p>
-                                <p id="summary-court" class="text-base font-bold text-gray-400">ยังไม่ได้เลือก</p>
-                            </div>
-                        </div>
-
-                        <div class="flex items-start gap-4">
-                            <div class="mt-0.5 text-black">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                            </div>
-                            <div>
-                                <p class="text-xs text-gray-500 font-medium">เวลาที่เลือก</p>
-                                <p id="summary-time" class="text-sm font-medium text-gray-400">ยังไม่ได้เลือก</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <button onclick="confirmBooking()" class="w-full bg-u-purple hover:bg-purple-800 text-white font-bold py-3 rounded-xl transition shadow-lg shadow-purple-200 flex justify-center items-center gap-2">
-                        ยืนยันการจองสนาม 
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-                        </svg>
-                    </button>
-                </div>
-
-            </div>
-
         </div>
+
     </main>
 
     <script>
-        let selectedData = {
-            date: null,
-            court: null,
-            time: null
-        };
+    // 1. ฟังก์ชันดึงข้อมูลจาก localStorage
+    function getLatestQueues() {
+        const savedQueues = localStorage.getItem('up_badminton_queues');
+        if (savedQueues) {
+            return JSON.parse(savedQueues);
+        }
+        // ถ้าไม่มีข้อมูลในเครื่อง ให้ใช้ค่าเริ่มต้น (Mock Data)
+        return [
+            { id: 1, name: 'สนามที่1', queue: 1, time: '14:50', players: ['พลอย', 'วิน', 'แอนดี้', 'วิว'], status: 'active' },
+            { id: 2, name: 'สนามที่2', queue: 2, time: '14:50', players: ['ภูเขา', 'คอปเปอร์', 'ข้าวฟ่าง', 'น้ำใส'], status: 'active' },
+            { id: 3, name: 'สนามที่3', queue: 3, time: '14:50', players: ['นาย', 'ไนท์', 'ออม', 'อาย'], status: 'active' },
+            { id: 4, name: 'สนามที่4', queue: 4, time: '14:50', players: ['นุช', 'แบงค์', 'โมจิ', 'ไตตั้น'], status: 'active' }
+        ];
+    }
 
-        const dateButtons = document.querySelectorAll('.date-btn');
-        dateButtons.forEach(btn => {
-            btn.addEventListener('click', function() {
-                if (this.disabled) return;
+    function renderStatusPage() {
+        const allData = getLatestQueues();
+        
+        // กรองเอาเฉพาะ 4 คิวแรกมาแสดงเป็น "กำลังเล่น"
+        const activeCourts = allData.slice(0, 4);
+        // ส่วนที่เหลือเป็น "คิวรอสนาม"
+        const waitingQueues = allData.slice(4);
 
-                dateButtons.forEach(b => {
-                    b.classList.remove('bg-u-purple', 'text-white', 'shadow-md');
-                });
-
-                this.classList.add('bg-u-purple', 'text-white', 'shadow-md');
-                this.classList.remove('text-red-600'); 
-
-                selectedData.date = this.getAttribute('data-date');
-                
-                const summaryDate = document.getElementById('summary-date');
-                summaryDate.textContent = selectedData.date;
-                summaryDate.classList.remove('text-gray-400');
-                summaryDate.classList.add('text-black', 'font-bold');
-            });
+        // --- Render คิวที่กำลังเล่น (Cards) ---
+        const activeContainer = document.getElementById('active-courts-container');
+        activeContainer.innerHTML = '';
+        
+        activeCourts.forEach((court, index) => {
+            const cardHTML = `
+                <div class="bg-white rounded-[20px] p-5 shadow-sm border border-transparent hover:border-purple-200 transition">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="font-bold text-gray-900">สนามที่ ${index + 1}</h3>
+                            <p class="text-sm text-gray-500 font-medium">คิวที่ ${court.id}</p>
+                            <p class="text-xs text-gray-400 mt-1">ผู้เล่น</p>
+                        </div>
+                        <div class="bg-green-100 text-green-600 px-3 py-1 rounded-lg text-sm font-bold">
+                            15:00
+                        </div>
+                    </div>
+                    <div class="space-y-1">
+                        ${court.players.map((p, i) => `<p class="text-sm text-gray-800 font-medium">${i+1}. ${p || '-'}</p>`).join('')}
+                    </div>
+                </div>`;
+            activeContainer.innerHTML += cardHTML;
         });
 
-        const courtsData = [
-            {
-                id: 1,
-                name: 'สนาม 1',
-                image: 'pic/รูปสนาม.png',
-                details: ['พื้นยางมาตรฐาน', 'ชั้น 1']
-            },
-            {
-                id: 2,
-                name: 'สนาม 2',
-                image: 'pic/รูปสนาม.png',
-                details: ['พื้นยางมาตรฐาน', 'ชั้น 1']
-            },
-            {
-                id: 3,
-                name: 'สนาม 3',
-                image: 'pic/รูปสนาม.png',
-                details: ['พื้นยางมาตรฐาน', 'ชั้น 1']
-            },
-            {
-                id: 4,
-                name: 'สนาม 4',
-                image: 'pic/รูปสนาม.png',
-                details: ['พื้นยางมาตรฐาน', 'ชั้น 2']
-            },
-            {
-                id: 5,
-                name: 'สนาม 5',
-                image: 'pic/รูปสนาม.png',
-                details: ['พื้นยางมาตรฐาน', 'ชั้น 1']
-            }
-        ];
+        // --- Render คิวรอสนาม (Rows) ---
+        const queueContainer = document.getElementById('waiting-queue-container');
+        queueContainer.innerHTML = '';
 
-        let currentPage = 1;
-        const itemsPerPage = 3;
+        if (waitingQueues.length === 0) {
+            queueContainer.innerHTML = '<p class="text-center text-gray-400 py-4">ยังไม่มีคิวรอในขณะนี้</p>';
+        }
 
-        function renderCourts(page) {
-            currentPage = page;
-            const start = (page - 1) * itemsPerPage;
-            const end = start + itemsPerPage;
-            const paginatedCourts = courtsData.slice(start, end);
-            const container = document.getElementById('court-grid');
+        waitingQueues.forEach(q => {
+            const isFull = q.players.every(p => p !== null);
+            const bgClass = !isFull ? 'bg-red-100 border border-red-200' : 'bg-gray-200 border border-transparent';
+            const textClass = !isFull ? 'text-red-600' : 'text-black';
             
-            container.innerHTML = '';
+            const statusIcon = !isFull 
+                ? `<div class="flex justify-end"><span class="bg-red-300/50 text-red-600 text-xs px-3 py-1.5 rounded-lg flex items-center gap-1 font-bold">ผู้เล่นไม่ครบ</span></div>`
+                : `<div class="flex justify-end"><div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white shadow-sm"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg></div></div>`;
 
-            paginatedCourts.forEach(court => {
-                const isSelected = selectedData.court === court.name;
-                const activeRing = isSelected ? 'ring-2 ring-purple-600' : 'border-transparent';
-                const checkHidden = isSelected ? '' : 'hidden';
-
-                const courtHTML = `
-                    <div class="court-card bg-white rounded-[20px] p-4 flex gap-6 items-center shadow-sm border ${activeRing} hover:border-purple-300 cursor-pointer transition relative" onclick="selectCourt(this, '${court.name}')">
-                         <div class="check-icon absolute top-4 right-4 text-u-purple ${checkHidden}">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-                              <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clip-rule="evenodd" />
-                            </svg>
-                        </div>
-                        <div class="w-32 h-20 bg-gray-200 rounded-xl overflow-hidden flex-shrink-0 relative">
-                            <img src="${court.image}" class="w-full h-full object-cover">
-                        </div>
-                        <div>
-                            <h4 class="font-bold text-lg text-black">${court.name}</h4>
-                            <ul class="text-sm text-black space-y-1 mt-1 list-disc list-inside">
-                                ${court.details.map(detail => `<li>${detail}</li>`).join('')}
-                            </ul>
-                        </div>
+            const rowHTML = `
+                <div class="${bgClass} rounded-xl p-4 lg:px-8 flex flex-col md:flex-row md:items-center justify-between gap-4 transition hover:shadow-sm">
+                    <div class="w-full md:w-1/6">
+                        <span class="${textClass} text-lg font-bold">คิวที่ ${q.id}</span>
                     </div>
-                `;
-                container.innerHTML += courtHTML;
-            });
-
-            updatePaginationButtons(page);
-        }
-
-        function updatePaginationButtons(page) {
-            document.querySelectorAll('.page-btn').forEach(btn => {
-                btn.classList.remove('bg-u-purple', 'text-white', 'font-bold');
-                btn.classList.add('bg-white', 'text-gray-500', 'hover:bg-gray-100');
-            });
-
-            const activeBtn = document.getElementById(`btn-page-${page}`);
-            if(activeBtn) {
-                activeBtn.classList.remove('bg-white', 'text-gray-500', 'hover:bg-gray-100');
-                activeBtn.classList.add('bg-u-purple', 'text-white', 'font-bold');
-            }
-        }
-
-        function changePage(page) {
-            renderCourts(page);
-        }
-
-        function selectCourt(element, courtName) {
-            const courts = document.querySelectorAll('.court-card');
-            courts.forEach(c => {
-                c.classList.remove('ring-2', 'ring-purple-600');
-                c.classList.add('border-transparent');
-                c.querySelector('.check-icon').classList.add('hidden');
-            });
-
-            element.classList.remove('border-transparent');
-            element.classList.add('ring-2', 'ring-purple-600');
-            element.querySelector('.check-icon').classList.remove('hidden');
-
-            selectedData.court = courtName;
-
-            const summaryCourt = document.getElementById('summary-court');
-            summaryCourt.textContent = courtName;
-            summaryCourt.classList.remove('text-gray-400');
-            summaryCourt.classList.add('text-black');
-        }
-
-        function selectTime(element, timeRange) {
-            const timeBtns = document.querySelectorAll('.time-btn');
-            timeBtns.forEach(btn => {
-                if(!btn.disabled) {
-                    btn.classList.remove('bg-u-purple', 'text-white', 'shadow-md');
-                    btn.classList.add('bg-gray-100', 'text-gray-700');
-                }
-            });
-
-            element.classList.remove('bg-gray-100', 'text-gray-700');
-            element.classList.add('bg-u-purple', 'text-white', 'shadow-md');
-
-            selectedData.time = timeRange;
-
-            const summaryTime = document.getElementById('summary-time');
-            summaryTime.textContent = timeRange;
-            summaryTime.classList.remove('text-gray-400');
-            summaryTime.classList.add('text-black', 'font-bold');
-        }
-
-        function confirmBooking() {
-            if (!selectedData.date || !selectedData.court || !selectedData.time) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'ข้อมูลไม่ครบถ้วน',
-                    text: 'กรุณาเลือก วันที่, สนาม และเวลา ให้ครบถ้วนก่อนทำการจอง',
-                    confirmButtonColor: '#6C2B97'
-                });
-                return;
-            }
-
-            Swal.fire({
-                icon: 'success',
-                title: 'จองสำเร็จ!',
-                html: `
-                    <div class="text-left text-sm">
-                        <p><b>วันที่:</b> ${selectedData.date}</p>
-                        <p><b>สนาม:</b> ${selectedData.court}</p>
-                        <p><b>เวลา:</b> ${selectedData.time}</p>
+                    <div class="w-full md:w-4/6 grid grid-cols-2 md:grid-cols-4 gap-2">
+                        ${q.players.map((p, i) => `<span class="text-sm font-medium text-gray-800">${i+1}. ${p || '-'}</span>`).join('')}
                     </div>
-                `,
-                confirmButtonColor: '#6C2B97',
-                confirmButtonText: 'ตกลง'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location.href = 'history.html';
-                }
-            });
-        }
+                    <div class="w-full md:w-1/6">${statusIcon}</div>
+                </div>`;
+            queueContainer.innerHTML += rowHTML;
+        });
+    }
 
-        renderCourts(1);
-
-    </script>
+    // เรียกทำงานเมื่อโหลดหน้า
+    window.onload = renderStatusPage;
+</script>
 </body>
 </html>

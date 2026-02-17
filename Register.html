@@ -57,18 +57,6 @@
                     </div>
 
                     <form onsubmit="handleRegister(event)" class="space-y-4">
-                        
-                        <div class="flex gap-4 mb-4">
-                            <label class="flex-1 cursor-pointer">
-                                <input type="radio" name="role" value="admin" class="peer sr-only">
-                                <div class="w-full py-2 bg-gray-100 rounded-lg text-center text-sm text-gray-500 peer-checked:bg-purple-100 peer-checked:text-u-purple peer-checked:font-bold transition">ผู้ดูแล</div>
-                            </label>
-                            <label class="flex-1 cursor-pointer">
-                                <input type="radio" name="role" value="user" class="peer sr-only" checked>
-                                <div class="w-full py-2 bg-gray-100 rounded-lg text-center text-sm text-gray-500 peer-checked:bg-purple-100 peer-checked:text-u-purple peer-checked:font-bold transition">ผู้ใช้บริการ</div>
-                            </label>
-                        </div>
-
                         <div>
                             <label class="block text-gray-500 text-xs mb-1 ml-1">ชื่อ-นามสกุล</label>
                             <div class="relative">
@@ -146,11 +134,12 @@
         function handleRegister(event) {
             event.preventDefault(); 
 
-            const fullname = document.getElementById('fullname').value;
-            const email = document.getElementById('email').value;
+            const fullname = document.getElementById('fullname').value.trim();
+            const email = document.getElementById('email').value.trim().toLowerCase();
             const password = document.getElementById('password').value;
             const confirmPassword = document.getElementById('confirm-password').value;
 
+            // 1. ตรวจสอบความถูกต้องเบื้องต้น
             if (password.length < 8) {
                 Swal.fire({ icon: 'warning', title: 'รหัสผ่านสั้นเกินไป', text: 'กรุณาตั้งรหัสผ่านอย่างน้อย 8 ตัวอักษร', confirmButtonColor: '#6C2B97' });
                 return;
@@ -161,13 +150,37 @@
                 return;
             }
 
-            const userData = {
+            // --- 2. ระบบดึงข้อมูลบัญชีทั้งหมดที่มีอยู่ ---
+            // ดึงข้อมูล 'up_badminton_accounts' (ถ้าไม่มีให้สร้างเป็น Array ว่าง [])
+            let accounts = JSON.parse(localStorage.getItem('up_badminton_accounts')) || [];
+
+            // 3. ตรวจสอบว่าอีเมลนี้เคยสมัครหรือยัง
+            const isEmailDuplicate = accounts.some(acc => acc.email === email);
+            if (isEmailDuplicate) {
+                Swal.fire({ 
+                    icon: 'error', 
+                    title: 'อีเมลนี้ถูกใช้งานแล้ว', 
+                    text: 'กรุณาใช้อีเมลอื่น หรือเข้าสู่ระบบด้วยบัญชีเดิม', 
+                    confirmButtonColor: '#6C2B97' 
+                });
+                return;
+            }
+
+            // 4. สร้างข้อมูลผู้ใช้ใหม่
+            const newUser = {
                 name: fullname,
                 email: email,
                 password: password,
-                phone: ''
+                phone: '',
+                role: 'user' // กำหนดสิทธิ์เริ่มต้นเป็น user
             };
-            localStorage.setItem('up_badminton_user', JSON.stringify(userData));
+
+            // 5. เพิ่มผู้ใช้ใหม่เข้าไปในรายการ (Array) และบันทึกกลับลง localStorage
+            accounts.push(newUser);
+            localStorage.setItem('up_badminton_accounts', JSON.stringify(accounts));
+
+            // บันทึกสถานะว่าใคร Login อยู่ (สำหรับใช้ในหน้าถัดไป)
+            localStorage.setItem('up_badminton_user', JSON.stringify(newUser));
 
             Swal.fire({
                 icon: 'success',

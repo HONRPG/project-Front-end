@@ -3,46 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ประวัติการจอง - UP Badminton</title>
+    <title>จองคิวสนาม - UP Badminton</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <style>
-        body { font-family: 'Prompt', sans-serif; }
-        .bg-page { background-color: #F5E6F6; }
-        .text-u-purple { color: #6C2B97; }
-        .bg-u-purple { background-color: #6C2B97; }
-        .bg-u-purple-light { background-color: #9d5cc5; }
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Prompt', 'sans-serif'] },
+                    colors: { 'u-purple': '#6C2B97', 'u-purple-dark': '#58217a', 'bg-page': '#F5E6F6' }
+                }
+            }
+        }
+    </script>
+
+    <style type="text/tailwindcss">
+        /* Custom Styles */
+        .custom-input { @apply w-full border-none rounded-xl py-3 pl-12 pr-4 text-gray-700 outline-none transition placeholder-gray-400; }
+        .player-slot { @apply flex flex-col items-center justify-center gap-2 p-3 rounded-xl min-h-[90px] transition-all duration-300; }
+        .player-avatar { @apply w-10 h-10 rounded-full flex items-center justify-center text-white text-lg font-bold shadow-sm; }
         
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 10px; }
-
-        .status-upcoming { background-color: #dcfce7; color: #166534; }
-        .status-pending { background-color: #fef9c3; color: #854d0e; }
-        .status-completed { background-color: #f1f5f9; color: #475569; }
-        .status-cancelled { background-color: #fee2e2; color: #991b1b; }
-
-        .reason-radio:checked + div {
-            border-color: #6C2B97;
-            background-color: #F3E8FF;
-            color: #6C2B97;
-            font-weight: bold;
-        }
-        .reason-radio:checked + div .radio-circle {
-            background-color: #6C2B97;
-            border-color: #6C2B97;
-        }
-        .reason-radio:checked + div .radio-circle::after {
-            content: '';
-            display: block;
-            width: 8px;
-            height: 8px;
-            background-color: white;
-            border-radius: 50%;
-        }
+        /* Animations */
+        @keyframes popIn { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        .animate-pop { animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
     </style>
 </head>
-<body class="bg-page min-h-screen flex flex-col pt-24 pb-12">
+<body class="bg-bg-page min-h-screen flex flex-col pt-24 pb-12">
 
     <nav class="w-full px-8 py-4 flex justify-between items-center fixed top-0 left-0 right-0 z-50 bg-white shadow-sm">
         <div class="flex items-center gap-3">
@@ -54,11 +42,13 @@
                 <span class="text-[10px] text-gray-500 font-medium tracking-wide">UNIVERSITY OF PHAYAO</span>
             </div>
         </div>
+
         <div class="flex items-center gap-4 lg:gap-8">
             <div class="hidden md:flex items-center gap-2">
-                <a href="Main menu.html" class="text-gray-900 px-5 py-2 rounded-lg font-bold hover:bg-gray-50 transition">หน้าหลัก</a>
-                <a href="#" class="bg-u-purple text-white px-5 py-2 rounded-lg font-medium shadow-sm">ประวัติการจอง</a>
+                <a href="Main menu.html" class="bg-u-purple text-white px-5 py-2 rounded-lg font-medium shadow-sm">หน้าหลัก</a>
+                <a href="history.html" class="text-gray-900 px-5 py-2 rounded-lg font-bold hover:bg-gray-50 transition">จองคิวสนาม</a>
             </div>
+
             <div class="flex items-center gap-4 border-l border-gray-200 pl-4 lg:pl-8">
                 <a href="notifications.html" class="relative p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-full transition flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
@@ -66,6 +56,7 @@
                     </svg>
                     <span class="absolute top-2 right-2.5 w-2 h-2 bg-red-500 rounded-full border border-white"></span>
                 </a>
+                
                 <a href="profile.html" class="w-10 h-10 bg-gray-200 rounded-full overflow-hidden border border-gray-300 hover:ring-2 hover:ring-purple-200 transition flex items-center justify-center">
                      <svg class="w-full h-full text-gray-500 p-1" fill="currentColor" viewBox="0 0 24 24"><path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
                 </a>
@@ -73,359 +64,201 @@
         </div>
     </nav>
 
-    <main class="w-full max-w-[1440px] mx-auto px-6 lg:px-10 mt-6 relative">
-        
-        <div id="history-view">
-            <div class="mb-6">
-                <h1 class="text-3xl font-bold text-black mb-2">การจองของฉัน</h1>
-                <p class="text-gray-500 text-sm">จัดการรายการการจองสนามแบดมินตันของคุณ ตรวจสอบสถานะ หรือยกเลิกการจอง</p>
-            </div>
-
-            <div class="flex flex-wrap gap-2 mb-8" id="filter-container">
-                <button onclick="filterBookings('all')" class="filter-btn active px-6 py-2 rounded-full text-sm font-medium transition bg-u-purple text-white shadow-md" data-filter="all">ทั้งหมด</button>
-                <button onclick="filterBookings('upcoming')" class="filter-btn px-6 py-2 rounded-full text-sm font-medium transition bg-white text-gray-600 hover:bg-gray-100" data-filter="upcoming">กำลังจะมาถึง</button>
-                <button onclick="filterBookings('completed')" class="filter-btn px-6 py-2 rounded-full text-sm font-medium transition bg-white text-gray-600 hover:bg-gray-100" data-filter="completed">เสร็จสิ้น</button>
-                <button onclick="filterBookings('cancelled')" class="filter-btn px-6 py-2 rounded-full text-sm font-medium transition bg-white text-gray-600 hover:bg-gray-100" data-filter="cancelled">ยกเลิก</button>
-            </div>
-
-            <div id="booking-list" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-            </div>
-        </div>
-
-        <div id="cancel-view" class="hidden max-w-[800px] mx-auto">
-            <div class="mb-6">
-                <h1 class="text-2xl font-bold text-black mb-2">ยกเลิกการจองสนาม</h1>
-                <p class="text-gray-500 text-sm">กรุณาตรวจสอบรายละเอียดก่อนยืนยันการยกเลิก เพื่อเปิดโอกาสให้ผู้อื่นได้ใช้ใช้งาน</p>
-            </div>
-
-            <div class="bg-white rounded-[20px] p-6 shadow-sm mb-6 flex flex-col md:flex-row gap-6 items-center md:items-start">
-                <div class="w-full md:w-40 h-32 bg-gray-200 rounded-xl overflow-hidden flex-shrink-0">
-                    <img id="cancel-img" src="" class="w-full h-full object-cover">
+    <main class="w-full max-w-[1440px] mx-auto px-4 lg:px-10 mt-6 flex-grow">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
+            <div class="lg:col-span-7 space-y-6">
+                <div>
+                    <h1 class="text-3xl font-bold text-black mb-1">จองคิวสนามแบดมินตัน</h1>
+                    <p class="text-gray-500">ลงชื่อจองคิวเล่นแบดมินตัน (อัปเดตล่าสุด)</p>
                 </div>
-                <div class="flex-1 w-full">
-                    <h3 id="cancel-court-name" class="font-bold text-xl text-black mb-1">สนาม X</h3>
-                    <p id="cancel-location" class="text-sm text-gray-500 mb-4">อาคารสงวนเสริมศรี</p>
-                    <div class="flex flex-col gap-2 text-sm text-gray-600">
-                        <div class="flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                            <span id="cancel-date" class="font-medium">DD/MM/YYYY</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                            <span id="cancel-time" class="font-medium">00:00 - 00:00</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-[20px] p-6 shadow-sm mb-8">
-                <div class="flex items-center gap-2 mb-4">
-                    <div class="w-6 h-6 rounded-full bg-black text-white flex items-center justify-center font-bold text-sm">?</div>
-                    <h3 class="font-bold text-lg text-black">ระบุเหตุผลการยกเลิก</h3>
-                </div>
-
-                <div class="space-y-3">
-                    <label class="cursor-pointer block">
-                        <input type="radio" name="cancel_reason" class="reason-radio hidden" value="ติดธุระด่วน">
-                        <div class="flex items-center gap-3 p-4 rounded-xl border border-gray-100 hover:bg-gray-50 transition bg-white">
-                            <div class="radio-circle w-5 h-5 rounded-full border-2 border-gray-300 flex items-center justify-center flex-shrink-0"></div>
-                            <span class="text-sm">ติดธุระด่วน</span>
-                        </div>
-                    </label>
-
-                    <label class="cursor-pointer block">
-                        <input type="radio" name="cancel_reason" class="reason-radio hidden" value="ต้องการเปลี่ยนเวลาจอง">
-                        <div class="flex items-center gap-3 p-4 rounded-xl border border-gray-100 hover:bg-gray-50 transition bg-white">
-                            <div class="radio-circle w-5 h-5 rounded-full border-2 border-gray-300 flex items-center justify-center flex-shrink-0"></div>
-                            <span class="text-sm">ต้องการเปลี่ยนเวลาจอง</span>
-                        </div>
-                    </label>
-
-                    <label class="cursor-pointer block">
-                        <input type="radio" name="cancel_reason" class="reason-radio hidden" value="จองสนามผิด">
-                        <div class="flex items-center gap-3 p-4 rounded-xl border border-gray-100 hover:bg-gray-50 transition bg-white">
-                            <div class="radio-circle w-5 h-5 rounded-full border-2 border-gray-300 flex items-center justify-center flex-shrink-0"></div>
-                            <span class="text-sm">จองสนามผิด</span>
-                        </div>
-                    </label>
-
-                    <label class="cursor-pointer block">
-                        <input type="radio" name="cancel_reason" class="reason-radio hidden" value="อื่นๆ">
-                        <div class="flex flex-col p-4 rounded-xl border border-gray-100 hover:bg-gray-50 transition bg-white">
-                            <div class="flex items-center gap-3 mb-2">
-                                <div class="radio-circle w-5 h-5 rounded-full border-2 border-gray-300 flex items-center justify-center flex-shrink-0"></div>
-                                <span class="text-sm">อื่นๆ</span>
-                            </div>
-                            <input type="text" placeholder="โปรดระบุเหตุผลเพิ่มเติม" class="w-full ml-8 p-2 text-sm border-b border-gray-200 outline-none focus:border-purple-500 bg-transparent">
-                        </div>
-                    </label>
-                </div>
-            </div>
-
-            <div class="space-y-3">
-                <button onclick="confirmCancellation()" class="w-full bg-red-100 text-red-600 font-bold py-3 rounded-xl hover:bg-red-200 transition flex items-center justify-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-                    ยืนยันการยกเลิก
-                </button>
-                <button onclick="backToHistory()" class="w-full bg-white text-gray-600 font-bold py-3 rounded-xl border border-gray-200 hover:bg-gray-50 transition flex items-center justify-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
-                    ย้อนกลับ
+                <div id="queues-container" class="space-y-6"></div>
+                <button onclick="focusNewQueue()" class="w-48 h-32 bg-white rounded-[20px] flex flex-col items-center justify-center gap-2 shadow-sm hover:shadow-md hover:scale-[1.02] transition border border-transparent hover:border-u-purple cursor-pointer text-black group">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-black group-hover:text-u-purple transition" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                    </svg>
+                    <span class="font-bold group-hover:text-u-purple transition">เพิ่มคิวใหม่</span>
                 </button>
             </div>
-        </div>
 
-    </main>
-
-    <div id="success-modal" class="hidden fixed inset-0 bg-black/50 z-[60] flex items-center justify-center px-4 backdrop-blur-sm">
-        <div class="bg-white rounded-[30px] p-8 w-full max-w-md text-center relative shadow-2xl animate-[fadeIn_0.3s_ease-out]">
-            <div class="w-20 h-20 bg-red-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-md ring-4 ring-red-100">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </div>
-
-            <h2 class="text-xl font-bold text-black mb-1">ยกเลิกการจองสำเร็จ</h2>
-            <p class="text-xs text-gray-400 mb-6">ระบบได้ดำเนินการยกเลิกการจองสนามของคุณเรียบร้อยแล้ว</p>
-
-            <div class="bg-gray-50 rounded-xl p-4 mb-6 text-sm border border-gray-100">
-                <div class="flex items-center gap-2 mb-3 text-red-500 font-bold text-xs bg-red-50 w-fit px-2 py-1 rounded-lg">
-                    <div class="w-4 h-4 rounded-full bg-red-500 flex items-center justify-center text-white text-[8px]">✕</div>
-                    รายละเอียดการจองที่ยกเลิก
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between border-b border-gray-200 pb-2">
-                        <span class="text-gray-500">สถานที่</span>
-                        <span class="text-black font-medium text-right">อาคารสงวนเสริมศรี</span>
-                    </div>
-                    <div class="flex justify-between border-b border-gray-200 pb-2">
-                        <span class="text-gray-500">สนาม</span>
-                        <span id="success-court" class="text-black font-medium text-right">สนาม X</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-500">เวลาที่จอง</span>
-                        <span id="success-time" class="text-black font-medium text-right">00:00 - 00:00</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="space-y-3">
-                <a href="Main menu.html" class="block w-full bg-u-purple text-white font-bold py-3 rounded-xl hover:bg-purple-800 transition shadow-lg shadow-purple-200">กลับหน้าหลัก</a>
-                <button onclick="closeSuccessModal()" class="block w-full bg-gray-100 text-gray-500 font-bold py-3 rounded-xl hover:bg-gray-200 transition">ดูการจองทั้งหมด</button>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        const bookingsData = [
-            {
-                id: 1,
-                courtName: 'สนาม 1',
-                location: 'อาคารสงวนเสริมศรี',
-                date: '16 มกราคม 2569',
-                time: '16:00 - 17:00',
-                status: 'upcoming', 
-                statusLabel: 'ยืนยันแล้ว',
-                image: 'pic/รูปสนาม.png'
-            },
-            {
-                id: 2,
-                courtName: 'สนาม 3',
-                location: 'อาคารสงวนเสริมศรี',
-                date: '20 มกราคม 2569',
-                time: '20:00 - 21:00',
-                status: 'pending', 
-                statusLabel: 'รอคิว', 
-                image: 'pic/รูปสนาม.png'
-            },
-            {
-                id: 3,
-                courtName: 'สนาม 1',
-                location: 'อาคารสงวนเสริมศรี',
-                date: '12 มกราคม 2569',
-                time: '17:00 - 18:00',
-                status: 'completed',
-                statusLabel: 'เสร็จสิ้น',
-                image: 'pic/รูปสนาม.png'
-            },
-            {
-                id: 4,
-                courtName: 'สนาม 4',
-                location: 'อาคารสงวนเสริมศรี',
-                date: '30 ธันวาคม 2568',
-                time: '20:00 - 21:00',
-                status: 'completed',
-                statusLabel: 'เสร็จสิ้น',
-                image: 'pic/รูปสนาม.png'
-            },
-            {
-                id: 5,
-                courtName: 'สนาม 5',
-                location: 'อาคารสงวนเสริมศรี',
-                date: '24 ธันวาคม 2568',
-                time: '19:00 - 20:00',
-                status: 'cancelled',
-                statusLabel: 'ยกเลิก',
-                image: 'pic/รูปสนาม.png'
-            }
-        ];
-
-        let currentCancellingId = null;
-
-        function renderBookings(filterType) {
-            const container = document.getElementById('booking-list');
-            container.innerHTML = '';
-
-            const filteredData = bookingsData.filter(item => {
-                if (filterType === 'all') return true;
-                if (filterType === 'upcoming') return item.status === 'upcoming' || item.status === 'pending';
-                return item.status === filterType;
-            });
-
-            if (filteredData.length === 0) {
-                container.innerHTML = `
-                    <div class="col-span-1 md:col-span-2 xl:col-span-3 text-center py-12 text-gray-400">
-                        <p>ไม่มีรายการจองในหมวดหมู่นี้</p>
-                    </div>
-                `;
-                return;
-            }
-
-            filteredData.forEach(booking => {
-                let badgeClass = '';
-                let buttonsHtml = '';
-
-                switch(booking.status) {
-                    case 'upcoming':
-                        badgeClass = 'status-upcoming';
-                        buttonsHtml = `
-                            <a href="Main menu.html" class="flex-1 bg-u-purple text-white text-xs py-2 rounded-lg hover:bg-purple-800 transition flex items-center justify-center">แก้ไข</a>
-                            <button onclick="goToCancelPage(${booking.id})" class="flex-1 bg-red-100 text-red-600 text-xs py-2 rounded-lg hover:bg-red-200 transition">ยกเลิก</button>
-                        `;
-                        break;
-                    case 'pending': 
-                        badgeClass = 'status-pending';
-                        buttonsHtml = `
-                            <a href="Main menu.html" class="flex-1 bg-u-purple text-white text-xs py-2 rounded-lg hover:bg-purple-800 transition flex items-center justify-center">แก้ไข</a>
-                            <button onclick="goToCancelPage(${booking.id})" class="flex-1 bg-red-100 text-red-600 text-xs py-2 rounded-lg hover:bg-red-200 transition">ยกเลิก</button>
-                        `;
-                        break;
-                    case 'completed':
-                        badgeClass = 'status-completed';
-                        buttonsHtml = `
-                            <button class="w-full bg-gray-100 text-gray-400 text-xs py-2 rounded-lg cursor-default">เสร็จสิ้นแล้ว</button>
-                        `;
-                        break;
-                    case 'cancelled':
-                        badgeClass = 'status-cancelled';
-                        buttonsHtml = `
-                             <button class="w-full bg-red-50 text-red-300 text-xs py-2 rounded-lg cursor-default">ยกเลิกแล้ว</button>
-                        `;
-                        break;
-                }
-
-                const card = `
-                    <div class="bg-white rounded-[20px] p-4 shadow-sm hover:shadow-md transition relative flex flex-col gap-4">
-                        <div class="absolute top-4 right-4 px-3 py-1 rounded-full text-[10px] font-bold ${badgeClass}">
-                            ${booking.statusLabel}
+            <div class="lg:col-span-5 relative">
+                <div class="bg-white rounded-[20px] p-8 shadow-lg lg:sticky lg:top-24 border border-purple-50" id="booking-form">
+                    <div class="text-center mb-8">
+                        <div class="w-16 h-16 mx-auto mb-3">
+                             <img src="pic/Logo_of_University_of_Phayao.svg" alt="Logo" class="w-full h-full object-contain" onerror="this.src='https://via.placeholder.com/64?text=UP'">
                         </div>
-                        <div class="flex gap-4">
-                            <div class="w-24 h-24 bg-gray-200 rounded-xl overflow-hidden flex-shrink-0">
-                                <img src="${booking.image}" class="w-full h-full object-cover">
+                        <h2 class="text-2xl font-bold text-black">ลงชื่อเพื่อจองคิว</h2>
+                        <p class="text-xs text-gray-500 mt-1">ข้อมูลถูกดึงมาจากระบบ ไม่สามารถแก้ไขชื่อได้</p>
+                    </div>
+                    <div class="space-y-5">
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-bold text-gray-500 ml-1">ชื่อ - นามสกุล</label>
+                            <div class="relative w-full">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="absolute left-4 top-3.5 text-gray-400 w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+                                <input type="text" id="name" class="custom-input bg-gray-200 cursor-not-allowed" readonly>
                             </div>
-                            <div class="flex flex-col justify-center gap-1">
-                                <h3 class="font-bold text-lg text-black leading-tight">${booking.courtName}</h3>
-                                <p class="text-xs text-gray-400">${booking.location}</p>
-                                <div class="mt-2 space-y-1">
-                                    <div class="flex items-center gap-1.5 text-xs text-gray-600">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                                        ${booking.date}
-                                    </div>
-                                    <div class="flex items-center gap-1.5 text-xs text-gray-600">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                                        ${booking.time}
-                                    </div>
+                        </div>
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-bold text-gray-500 ml-1">รหัสนิสิต</label>
+                            <div class="relative w-full">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="absolute left-4 top-3.5 text-gray-400 w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+                                <input type="text" id="studentId" class="custom-input bg-gray-200 cursor-not-allowed" readonly>
+                            </div>
+                        </div>
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-bold text-gray-500 ml-1">คิวที่ต้องการ <span class="text-red-500">*</span></label>
+                            <div class="relative w-full">
+                                <select id="queueSelect" class="w-full bg-gray-100 border-none rounded-xl py-3 px-4 text-gray-700 outline-none focus:ring-2 focus:ring-u-purple appearance-none cursor-pointer font-medium"></select>
+                                <div class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
                                 </div>
                             </div>
                         </div>
-                        <div class="flex gap-3 mt-auto pt-2 border-t border-gray-50">
-                            ${buttonsHtml}
-                        </div>
+                        <button onclick="submitQueue()" class="w-full bg-u-purple hover:bg-u-purple-dark text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-purple-200 mt-4 active:scale-[0.98]">
+                            ยืนยันการลงชื่อ
+                        </button>
                     </div>
-                `;
-                container.innerHTML += card;
-            });
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // --- 1. ข้อมูลคิว ---
+        const avatarColors = ['bg-purple-600', 'bg-pink-500', 'bg-indigo-500', 'bg-blue-500'];
+
+        function getLoggedInUser() {
+            const savedData = localStorage.getItem('up_badminton_user');
+            return savedData ? JSON.parse(savedData) : null;
         }
 
-        function filterBookings(type) {
-            const buttons = document.querySelectorAll('.filter-btn');
-            buttons.forEach(btn => {
-                btn.classList.remove('bg-u-purple', 'text-white', 'shadow-md');
-                btn.classList.add('bg-white', 'text-gray-600', 'hover:bg-gray-100');
-            });
-
-            const activeBtn = document.querySelector(`.filter-btn[data-filter="${type}"]`);
-            if (activeBtn) {
-                activeBtn.classList.remove('bg-white', 'text-gray-600', 'hover:bg-gray-100');
-                activeBtn.classList.add('bg-u-purple', 'text-white', 'shadow-md');
-            }
-
-            renderBookings(type);
-        }
-
-        function goToCancelPage(id) {
-            currentCancellingId = id;
-            const booking = bookingsData.find(b => b.id === id);
+        // --- 2. Function Render UI ---
+        function renderUI() {
+            const container = document.getElementById('queues-container');
+            const select = document.getElementById('queueSelect');
             
-            if(booking) {
-                document.getElementById('cancel-img').src = booking.image;
-                document.getElementById('cancel-court-name').textContent = booking.courtName;
-                document.getElementById('cancel-date').textContent = booking.date;
-                document.getElementById('cancel-time').textContent = booking.time;
+            // ดึงข้อมูลล่าสุดจาก localStorage มาแสดงเสมอ
+            const queues = JSON.parse(localStorage.getItem('up_badminton_queues')) || [
+                { id: 1, status: 'active', players: ['พลอย', 'วิน', 'แอนดี้', null] }
+            ];
 
-                document.getElementById('history-view').classList.add('hidden');
-                document.getElementById('cancel-view').classList.remove('hidden');
-                window.scrollTo(0,0);
+            const nameInput = document.getElementById('name');
+            const studentIdInput = document.getElementById('studentId');
+            const user = getLoggedInUser();
+
+            // แก้ไขจุดที่ 2: ดึงข้อมูลชื่อและรหัสมาใส่ และล็อคสถานะไว้ตลอด
+            if (user) {
+                nameInput.value = user.name;
+                if (user.email) {
+                    studentIdInput.value = user.email.split('@')[0];
+                }
             }
-        }
 
-        function backToHistory() {
-            document.getElementById('cancel-view').classList.add('hidden');
-            document.getElementById('history-view').classList.remove('hidden');
-            const radios = document.querySelectorAll('.reason-radio');
-            radios.forEach(r => r.checked = false);
-        }
+            const currentSelected = select.value;
+            container.innerHTML = ''; 
+            select.innerHTML = '<option value="" disabled selected>เลือกคิวที่ต้องการ</option>'; 
 
-        function confirmCancellation() {
-            const selectedReason = document.querySelector('input[name="cancel_reason"]:checked');
-            if(!selectedReason) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'กรุณาระบุเหตุผล',
-                    text: 'โปรดเลือกเหตุผลที่ต้องการยกเลิก',
-                    confirmButtonColor: '#6C2B97'
+            queues.forEach((q) => {
+                const emptySlots = q.players.filter(p => p === null).length;
+                const isFull = emptySlots === 0;
+                
+                let playersHTML = '';
+                q.players.forEach((player, idx) => {
+                    if (player) {
+                        playersHTML += `
+                            <div class="player-slot bg-purple-50 animate-pop">
+                                <div class="player-avatar ${avatarColors[idx % 4]}">${player.charAt(0)}</div>
+                                <span class="text-xs font-bold text-gray-800 truncate w-full text-center">${player}</span>
+                            </div>`;
+                    } else {
+                        playersHTML += `
+                            <button onclick="quickJoin(${q.id})" class="player-slot bg-gray-200 hover:bg-gray-300 transition cursor-pointer group border-2 border-dashed border-gray-300 transition">
+                                <div class="w-8 h-8 rounded-full border-2 border-gray-500 flex items-center justify-center text-gray-600 group-hover:border-gray-700 group-hover:text-gray-800 transition">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" /></svg>
+                                </div>
+                                <span class="text-xs font-bold text-gray-600 group-hover:text-gray-800">เข้าร่วม</span>
+                            </button>`;
+                    }
                 });
+
+                container.innerHTML += `
+                    <div class="bg-white rounded-[20px] p-6 shadow-sm border border-gray-100">
+                        <div class="flex justify-between items-center mb-6">
+                            <div class="flex items-center gap-3">
+                                <span class="bg-u-purple text-white text-sm font-bold px-3 py-1 rounded-lg shadow-sm">คิวที่ ${q.id}</span>
+                                <span class="${q.id <= 4 ? 'text-green-500' : 'text-orange-400'} font-bold text-sm">${q.id <= 4 ? 'กำลังเล่น' : 'รอสนาม'}</span>
+                            </div>
+                            <span class="bg-u-purple text-white text-xs font-medium px-3 py-1 rounded-full">15 นาที / รอบ</span>
+                        </div>
+                        <div class="grid grid-cols-4 gap-4">${playersHTML}</div>
+                    </div>`;
+
+                if (!isFull) select.innerHTML += `<option value="${q.id}">คิวที่ ${q.id} (ว่าง ${emptySlots} ที่)</option>`;
+            });
+
+            select.innerHTML += `<option value="new" class="text-u-purple font-bold">+ สร้างคิวใหม่</option>`;
+            if(currentSelected) select.value = currentSelected;
+        }
+
+        function quickJoin(id) {
+            document.getElementById('queueSelect').value = id;
+            document.getElementById('booking-form').classList.add('ring-4', 'ring-purple-200');
+            setTimeout(() => document.getElementById('booking-form').classList.remove('ring-4', 'ring-purple-200'), 600);
+        }
+
+        function focusNewQueue() {
+            document.getElementById('queueSelect').value = 'new';
+            document.getElementById('booking-form').classList.add('ring-4', 'ring-purple-200');
+            setTimeout(() => document.getElementById('booking-form').classList.remove('ring-4', 'ring-purple-200'), 600);
+        }
+
+        // --- 3. ฟังก์ชันส่งข้อมูลจองคิว ---
+        function submitQueue() {
+            const user = getLoggedInUser();
+            const chosenName = document.getElementById('name').value.trim();
+            const queueVal = document.getElementById('queueSelect').value;
+
+            if (!user) {
+                Swal.fire({ icon: 'error', title: 'กรุณาเข้าสู่ระบบ', confirmButtonColor: '#6C2B97' });
+                return;
+            }
+            if (!queueVal) {
+                Swal.fire('กรุณาเลือกคิว', '', 'warning');
                 return;
             }
 
-            const booking = bookingsData.find(b => b.id === currentCancellingId);
-            if(booking) {
-                booking.status = 'cancelled';
-                booking.statusLabel = 'ยกเลิก';
-                
-                document.getElementById('success-court').textContent = booking.courtName;
-                document.getElementById('success-time').textContent = booking.time;
-                document.getElementById('success-modal').classList.remove('hidden');
+            let allQueues = JSON.parse(localStorage.getItem('up_badminton_queues')) || [
+                { id: 1, status: 'active', players: ['พลอย', 'วิน', 'แอนดี้', null] }
+            ];
+
+            const isDuplicate = allQueues.some(q => 
+                q.players.some(p => p && p.toLowerCase() === chosenName.toLowerCase())
+            );
+
+            if (isDuplicate) {
+                Swal.fire({ icon: 'warning', title: 'คุณมีชื่ออยู่ในคิวแล้ว', confirmButtonColor: '#6C2B97' });
+                return;
             }
+
+            if (queueVal === 'new') {
+                allQueues.push({ 
+                    id: allQueues.length + 1, 
+                    status: 'waiting', 
+                    players: [chosenName, null, null, null] 
+                });
+            } else {
+                const target = allQueues.find(q => q.id == queueVal);
+                const emptyIdx = target.players.indexOf(null);
+                if (emptyIdx !== -1) target.players[emptyIdx] = chosenName;
+            }
+
+            localStorage.setItem('up_badminton_queues', JSON.stringify(allQueues));
+
+            Swal.fire({ icon: 'success', title: 'ลงชื่อสำเร็จ!', showConfirmButton: false, timer: 1500 });
+            document.getElementById('queueSelect').value = '';
+            renderUI();
         }
 
-        function closeSuccessModal() {
-            document.getElementById('success-modal').classList.add('hidden');
-            backToHistory();
-            filterBookings('cancelled'); 
-        }
-
-        renderBookings('all');
-
+        renderUI();
     </script>
 </body>
 </html>

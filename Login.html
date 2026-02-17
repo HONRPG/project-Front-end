@@ -20,7 +20,7 @@
     <nav class="w-full px-8 py-4 flex justify-between items-center fixed top-0 left-0 right-0 z-50 bg-white shadow-sm">
         <div class="flex items-center gap-3">
             <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center p-1.5 overflow-hidden border border-gray-100">
-                 <img src="pic/Logo_of_University_of_Phayao.svg" alt="UP Logo" class="w-full h-full object-contain">
+                 <img src="pic/Logo_of_University_of_Phayao.svg" alt="UP Logo" class="w-full h-full object-contain" onerror="this.src='https://via.placeholder.com/64?text=UP'">
             </div>
             <div class="flex flex-col">
                 <span class="font-bold text-gray-900 text-lg leading-none">UP Badminton</span>
@@ -34,7 +34,7 @@
         </div>
     </nav>
 
-    <div class="flex-grow flex items-center justify-center px-6 lg:px-20">
+    <div class="flex-grow flex items-center justify-center px-6 lg:px-20 pb-12">
         <div class="w-full max-w-7xl grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
             
             <div class="lg:pr-10 lg:-ml-56">
@@ -51,7 +51,7 @@
                     
                     <div class="flex flex-col items-center mb-8">
                         <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mb-4 shadow-md p-2 border border-gray-50">
-                            <img src="pic/Logo_of_University_of_Phayao.svg" alt="UP Logo" class="w-full h-full object-contain">
+                            <img src="pic/Logo_of_University_of_Phayao.svg" alt="UP Logo" class="w-full h-full object-contain" onerror="this.src='https://via.placeholder.com/64?text=UP'">
                         </div>
                         <h2 class="text-2xl font-bold text-gray-900">เข้าสู่ระบบ</h2>
                     </div>
@@ -59,9 +59,9 @@
                     <form onsubmit="handleLogin(event)" class="space-y-5">
                         <div>
                             <label class="block text-gray-500 text-xs mb-1 ml-1">อีเมล</label>
-                            <input type="text" id="emailInput"
+                            <input type="email" id="emailInput"
                                 class="w-full px-5 py-3 input-bg border-none rounded-xl text-gray-700 focus:ring-2 focus:ring-purple-300 focus:outline-none placeholder-gray-400" 
-                                placeholder="680xxxxx@up.ac.th">
+                                placeholder="680xxxxx@up.ac.th" required>
                         </div>
                         
                         <div>
@@ -69,7 +69,7 @@
                             <div class="relative">
                                 <input type="password" id="passwordInput"
                                     class="w-full px-5 py-3 input-bg border-none rounded-xl text-gray-700 focus:ring-2 focus:ring-purple-300 focus:outline-none placeholder-gray-400" 
-                                    placeholder="กรอกรหัสผ่าน">
+                                    placeholder="กรอกรหัสผ่าน" required>
                                 
                                 <button type="button" onclick="togglePassword()" class="absolute right-4 top-3.5 text-gray-400 hover:text-gray-600 focus:outline-none">
                                     <svg id="eyeOpen" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
@@ -101,6 +101,14 @@
     </div>
 
     <script>
+        // 1. กำหนดบัญชี Admin พื้นฐาน (Hardcoded)
+        const masterAdmin = {
+            email: "admin@up.ac.th",
+            password: "admin123",
+            name: "ผู้ดูแลระบบ",
+            role: "admin"
+        };
+
         function togglePassword() {
             const passwordInput = document.getElementById('passwordInput');
             const eyeOpen = document.getElementById('eyeOpen');
@@ -120,50 +128,53 @@
         function handleLogin(event) {
             event.preventDefault();
 
-            const emailInput = document.getElementById('emailInput').value.trim();
+            const emailInput = document.getElementById('emailInput').value.trim().toLowerCase();
             const passwordInput = document.getElementById('passwordInput').value.trim();
 
-            
             if (emailInput === "" || passwordInput === "") {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'กรุณากรอกข้อมูล',
-                    text: 'ต้องใส่อีเมลและรหัสผ่านให้ครบถ้วน',
-                    confirmButtonColor: '#6C2B97'
-                });
+                Swal.fire({ icon: 'warning', title: 'กรุณากรอกข้อมูล', text: 'กรุณาใส่อีเมลและรหัสผ่าน', confirmButtonColor: '#6C2B97' });
                 return;
             }
 
-            
-            const savedData = localStorage.getItem('up_badminton_user');
-            
-            if (savedData) {
-                const user = JSON.parse(savedData);
-                
-                
-                if (emailInput === user.email && passwordInput === user.password) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'เข้าสู่ระบบสำเร็จ!',
-                        text: 'กำลังพาท่านไปยังหน้าหลัก...',
-                        showConfirmButton: false,
-                        timer: 1500
-                    }).then(() => {
-                        window.location.href = 'Main menu.html';
-                    });
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'เข้าสู่ระบบไม่สำเร็จ',
-                        text: 'อีเมลหรือรหัสผ่านไม่ถูกต้อง',
-                        confirmButtonColor: '#6C2B97'
-                    });
-                }
+            // --- 2. ดึงฐานข้อมูลบัญชีทั้งหมด ---
+            const allAccounts = JSON.parse(localStorage.getItem('up_badminton_accounts')) || [];
+
+            // 3. ตรวจสอบบัญชี (เช็คทั้ง Admin และ User ทั่วไป)
+            let foundUser = null;
+
+            // เช็คว่าเป็น Admin หลักหรือไม่
+            if (emailInput === masterAdmin.email && passwordInput === masterAdmin.password) {
+                foundUser = masterAdmin;
             } else {
+                // ค้นหาในรายการที่สมัครเข้ามา
+                foundUser = allAccounts.find(acc => acc.email === emailInput && acc.password === passwordInput);
+            }
+
+            // 4. ตรวจสอบผลลัพธ์
+            if (foundUser) {
+                // บันทึกสถานะ "ผู้ใช้ปัจจุบันที่กำลัง Login"
+                localStorage.setItem('up_badminton_user', JSON.stringify(foundUser));
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'เข้าสู่ระบบสำเร็จ!',
+                    text: `สวัสดีคุณ ${foundUser.name}`,
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then(() => {
+                    // แยกหน้าตาม Role
+                    if (foundUser.role === 'admin') {
+                        window.location.href = 'AdminMain menu.html';
+                    } else {
+                        window.location.href = 'Main menu.html';
+                    }
+                });
+            } else {
+                // กรณีไม่พบข้อมูล
                 Swal.fire({
                     icon: 'error',
-                    title: 'ไม่พบผู้ใช้งาน',
-                    text: 'ไม่พบข้อมูลในระบบ กรุณาลงทะเบียนก่อนเข้าใช้งาน',
+                    title: 'เข้าสู่ระบบไม่สำเร็จ',
+                    text: 'อีเมลหรือรหัสผ่านไม่ถูกต้อง',
                     confirmButtonColor: '#6C2B97'
                 });
             }

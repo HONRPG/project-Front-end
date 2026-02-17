@@ -32,8 +32,8 @@
 
         <div class="flex items-center gap-4 lg:gap-8">
             <div class="hidden md:flex items-center gap-2">
-                <a href="Main menu.html" class="text-gray-900 px-5 py-2 rounded-lg font-bold hover:bg-gray-50 transition">หน้าหลัก</a>
-                <a href="history.html" class="text-gray-900 px-5 py-2 rounded-lg font-bold hover:bg-gray-50 transition">ประวัติการจอง</a>
+                <a href="Main menu.html" class="bg-u-purple text-white px-5 py-2 rounded-lg font-medium shadow-sm">หน้าหลัก</a>
+                <a href="history.html" class="text-gray-900 px-5 py-2 rounded-lg font-bold hover:bg-gray-50 transition">จองคิวสนาม</a>
             </div>
 
             <div class="flex items-center gap-4 border-l border-gray-200 pl-4 lg:pl-8">
@@ -44,8 +44,8 @@
                     <span class="absolute top-2 right-2.5 w-2 h-2 bg-red-500 rounded-full border border-white"></span>
                 </a>
                 
-                <a href="#" class="w-10 h-10 bg-u-purple text-white rounded-full overflow-hidden border border-purple-800 ring-2 ring-purple-200 transition flex items-center justify-center">
-                     <svg class="w-full h-full p-1" fill="currentColor" viewBox="0 0 24 24"><path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                <a href="profile.html" class="w-10 h-10 bg-gray-200 rounded-full overflow-hidden border border-gray-300 hover:ring-2 hover:ring-purple-200 transition flex items-center justify-center">
+                     <svg class="w-full h-full text-gray-500 p-1" fill="currentColor" viewBox="0 0 24 24"><path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
                 </a>
             </div>
         </div>
@@ -77,13 +77,8 @@
                 <h3 class="font-bold text-lg text-black mb-4">ข้อมูลส่วนตัว</h3>
                 <div class="space-y-4">
                     <div>
-                        <label class="block text-sm font-bold text-black mb-1">ชื่อ - นามสกุล <span class="text-u-purple text-xs font-normal">(แก้ไขได้)</span></label>
-                        <div class="relative">
-                            <input type="text" id="name-input" class="w-full bg-white text-gray-900 px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition font-medium">
-                            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-400">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" /></svg>
-                            </div>
-                        </div>
+                        <label class="block text-sm font-bold text-black mb-1">ชื่อ - นามสกุล</label>
+                        <div id="name-display" class="w-full bg-gray-100 text-gray-500 px-4 py-2.5 rounded-lg border border-transparent cursor-not-allowed">-</div>
                     </div>
                     <div>
                         <label class="block text-sm font-bold text-black mb-1">รหัสนิสิต</label>
@@ -131,12 +126,18 @@
 
     <script>
         window.onload = function() {
+            // Mockup Data ถ้าไม่มีใน LocalStorage เพื่อให้เห็นภาพ
+            // localStorage.setItem('up_badminton_user', JSON.stringify({name: "ธนาธร จึงรุ่งเรืองกิจ", email: "66000001@up.ac.th", phone: "0812345678"}));
+
             const savedData = localStorage.getItem('up_badminton_user');
             if(savedData) {
                 const user = JSON.parse(savedData);
                 
                 document.getElementById('display-name').textContent = user.name;
-                document.getElementById('name-input').value = user.name;
+                
+                // แก้ไข 3: เปลี่ยนจาก .value เป็น .textContent เพราะเป็น div แล้ว
+                document.getElementById('name-display').textContent = user.name;
+                
                 document.getElementById('input-email').textContent = user.email;
                 
                 const studentId = user.email.split('@')[0];
@@ -150,14 +151,10 @@
         };
 
         function saveProfile() {
-            const name = document.getElementById('name-input').value;
+            // แก้ไข 4: ตัด Logic การดึงค่า Name ออก เพราะไม่ได้แก้ไขแล้ว
             const phone = document.getElementById('phone-input').value;
             
-            if(name.trim() === "") {
-                Swal.fire({ icon: 'error', title: 'ข้อมูลไม่ครบถ้วน', text: 'กรุณากรอกชื่อ-นามสกุล', confirmButtonColor: '#6C2B97' });
-                return;
-            }
-
+            // ลบการตรวจสอบชื่อว่าง (if name trim) ออก
             if(phone.length < 9) {
                 Swal.fire({ icon: 'error', title: 'เบอร์โทรไม่ถูกต้อง', text: 'กรุณากรอกเบอร์โทรศัพท์ให้ครบถ้วน', confirmButtonColor: '#6C2B97' });
                 return;
@@ -165,13 +162,13 @@
 
             const savedData = localStorage.getItem('up_badminton_user');
             let user = savedData ? JSON.parse(savedData) : {};
-            user.name = name;
+            
+            // แก้ไข 5: ไม่ต้องอัปเดต user.name = name; แล้ว
             user.phone = phone;
+            
             localStorage.setItem('up_badminton_user', JSON.stringify(user));
 
-            document.getElementById('display-name').textContent = name;
-
-            Swal.fire({ icon: 'success', title: 'บันทึกสำเร็จ!', text: 'อัปเดตข้อมูลโปรไฟล์เรียบร้อยแล้ว', confirmButtonColor: '#6C2B97', timer: 2000 });
+            Swal.fire({ icon: 'success', title: 'บันทึกสำเร็จ!', text: 'อัปเดตเบอร์โทรศัพท์เรียบร้อยแล้ว', confirmButtonColor: '#6C2B97', timer: 2000 });
         }
 
         function logout() {
