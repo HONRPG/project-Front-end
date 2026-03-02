@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UP Badminton - Queue & Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: #f3e5f5; /* ม่วงอ่อนพื้นหลัง */
+        }
+        /* Custom Colors based on image */
+        .bg-up-purple { background-color: #6a1b9a; }
+        .text-up-purple { color: #6a1b9a; }
+        .bg-profile-header { background-color: #5e35b1; } /* ม่วงเข้มหัวการ์ดโปรไฟล์ */
+        
+        .fade-in {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="min-h-screen text-gray-800">
+
+    <nav class="w-full px-8 py-4 flex justify-between items-center fixed top-0 left-0 right-0 z-50 bg-white shadow-sm">
+        <div class="flex items-center gap-3">
+            <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center p-1.5 overflow-hidden border border-gray-100">
+                 <img src="pic/Logo_of_University_of_Phayao.svg" alt="UP Logo" class="w-full h-full object-contain">
+            </div>
+            <div class="flex flex-col">
+                <span class="font-bold text-lg text-gray-900 leading-tight">UP Badminton</span>
+                <span class="text-xs text-purple-700 font-medium tracking-wide">UNIVERSITY OF PHAYAO</span>
+            </div>
+        </div>
+
+        <div class="hidden md:flex items-center gap-2">
+            <a href="#" onclick="switchMainTab('requests')" class="text-gray-900 px-4 py-2 rounded-lg font-bold hover:bg-gray-50 transition">หน้าหลัก</a>
+            <button class="bg-purple-700 text-white px-5 py-2 rounded-lg font-medium shadow-md">ติดตามสถานะคิว</button>
+            <button class="text-gray-600 px-4 py-2 font-medium hover:text-purple-700 transition">สถิติการใช้บริการ</button>
+        </div>
+
+        <div class="flex items-center gap-4">
+            <button class="text-gray-600 text-xl hover:text-purple-700"><i class="fa-regular fa-bell"></i></button>
+            <button class="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center text-gray-600 text-xl hover:bg-gray-300">
+                <i class="fa-regular fa-user"></i>
+            </button>
+        </div>
+    </nav>
+
+    <div id="mainPage" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-32 fade-in">
+        
+        <div class="mb-6">
+            <h1 class="text-3xl font-bold text-gray-800">สถานะคิวปัจจุบัน</h1>
+            <p class="text-gray-500 mt-1">ติดตามสถานะคิวการเล่นแบดมินตันล่าสุด</p>
+        </div>
+
+        <div class="flex justify-between items-end mb-4">
+            <h2 class="text-lg font-bold text-gray-800">คิวที่กำลังเล่น</h2>
+            <span class="bg-green-100 text-green-600 px-3 py-1 rounded-md text-sm font-medium">สนามถูกใช้บริการ 4/4</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+            <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                <div class="flex justify-between items-start mb-2">
+                    <div>
+                        <div class="text-sm font-bold text-gray-700">สนามที่ 1</div>
+                        <div class="text-xs text-gray-500">คิวที่ 2</div>
+                    </div>
+                    <div class="bg-green-100 text-green-600 px-2 py-0.5 rounded text-xs font-bold">14:50</div>
+                </div>
+                <div class="mt-2 text-xs space-y-1 text-gray-600">
+                    <p class="font-bold mb-1">ผู้เล่น</p>
+                    <div class="hover:text-purple-600 cursor-pointer">1. พลอย</div>
+                    <div class="hover:text-purple-600 cursor-pointer">2. วิน</div>
+                    <div class="hover:text-purple-600 cursor-pointer">3. แอนนี่</div>
+                    <div class="hover:text-purple-600 cursor-pointer">4. วิว</div>
+                </div>
+            </div>
+            <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                <div class="flex justify-between items-start mb-2">
+                    <div>
+                        <div class="text-sm font-bold text-gray-700">สนามที่ 2</div>
+                        <div class="text-xs text-gray-500">คิวที่ 3</div>
+                    </div>
+                    <div class="bg-green-100 text-green-600 px-2 py-0.5 rounded text-xs font-bold">14:50</div>
+                </div>
+                <div class="mt-2 text-xs space-y-1 text-gray-600">
+                    <p class="font-bold mb-1">ผู้เล่น</p>
+                    <div>1. ภูเขา</div>
+                    <div>2. คอปเปอร์</div>
+                    <div>3. ข้าวฟ่าง</div>
+                    <div>4. น้ำใส</div>
+                </div>
+            </div>
+             <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                <div class="flex justify-between items-start mb-2">
+                    <div>
+                        <div class="text-sm font-bold text-gray-700">สนามที่ 3</div>
+                        <div class="text-xs text-gray-500">คิวที่ 4</div>
+                    </div>
+                    <div class="bg-green-100 text-green-600 px-2 py-0.5 rounded text-xs font-bold">14:50</div>
+                </div>
+                <div class="mt-2 text-xs space-y-1 text-gray-600">
+                    <p class="font-bold mb-1">ผู้เล่น</p>
+                    <div>1. นาย</div>
+                    <div>2. ไนท์</div>
+                    <div>3. ออม</div>
+                    <div>4. อาย</div>
+                </div>
+            </div>
+             <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                <div class="flex justify-between items-start mb-2">
+                    <div>
+                        <div class="text-sm font-bold text-gray-700">สนามที่ 4</div>
+                        <div class="text-xs text-gray-500">คิวที่ 5</div>
+                    </div>
+                    <div class="bg-green-100 text-green-600 px-2 py-0.5 rounded text-xs font-bold">14:50</div>
+                </div>
+                <div class="mt-2 text-xs space-y-1 text-gray-600">
+                    <p class="font-bold mb-1">ผู้เล่น</p>
+                    <div>1. นุช</div>
+                    <div>2. แบงค์</div>
+                    <div>3. โลจิ</div>
+                    <div>4. โดนัท</div>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="text-lg font-bold text-gray-800 mb-4">คิวรอสนาม</h2>
+        
+        <div class="flex flex-col gap-3 pb-20">
+            
+            <div class="bg-red-100 rounded-lg px-6 py-4 flex items-center justify-between border-l-4 border-red-400 shadow-sm">
+                <div class="flex items-center gap-8 w-full">
+                    <div class="font-bold text-red-600 text-lg w-16">คิวที่ 1</div>
+                    <div class="grid grid-cols-4 gap-8 w-full text-sm font-medium text-gray-800">
+                        <div class="cursor-pointer hover:text-purple-700 hover:underline" onclick="openProfile('ข้าว')">
+                            1. ข้าว
+                        </div>
+                        <div class="cursor-pointer hover:text-purple-700">2. ขิง</div>
+                        <div class="cursor-pointer hover:text-purple-700">3. หญิง</div>
+                        <div class="text-gray-400">4. -</div>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3 min-w-fit">
+                    <span class="bg-red-200 text-red-700 text-xs px-3 py-1.5 rounded-full font-bold">
+                         <i class="fa-solid fa-user-xmark"></i> ผู้เล่นไม่ครบ
+                    </span>
+                </div>
+            </div>
+
+            <div class="bg-gray-200 rounded-lg px-6 py-4 flex items-center justify-between shadow-sm">
+                <div class="flex items-center gap-8 w-full">
+                    <div class="font-bold text-gray-800 text-lg w-16">คิวที่ 6</div>
+                    <div class="grid grid-cols-4 gap-8 w-full text-sm font-medium text-gray-800">
+                        <div>1. สปาย</div>
+                        <div>2. ใต้ฝุ่น</div>
+                        <div>3. แบม</div>
+                        <div>4. เค้ก</div>
+                    </div>
+                </div>
+                <div class="w-7 h-7 rounded-full bg-green-500 flex items-center justify-center text-white text-xs shadow">
+                    <i class="fa-solid fa-check"></i>
+                </div>
+            </div>
+
+             <div class="bg-gray-200 rounded-lg px-6 py-4 flex items-center justify-between shadow-sm">
+                <div class="flex items-center gap-8 w-full">
+                    <div class="font-bold text-gray-800 text-lg w-16">คิวที่ 7</div>
+                    <div class="grid grid-cols-4 gap-8 w-full text-sm font-medium text-gray-800">
+                        <div>1. ข้าวเหนียว</div>
+                        <div>2. ข้าวปุ้น</div>
+                        <div>3. เยาว์</div>
+                        <div>4. ข้าวซอย</div>
+                    </div>
+                </div>
+                <div class="w-7 h-7 rounded-full bg-green-500 flex items-center justify-center text-white text-xs shadow">
+                    <i class="fa-solid fa-check"></i>
+                </div>
+            </div>
+
+            <div class="bg-gray-200 rounded-lg px-6 py-4 flex items-center justify-between shadow-sm">
+                <div class="flex items-center gap-8 w-full">
+                    <div class="font-bold text-gray-800 text-lg w-16">คิวที่ 8</div>
+                    <div class="grid grid-cols-4 gap-8 w-full text-sm font-medium text-gray-800">
+                        <div>1. มายด์</div>
+                        <div>2. ไหม</div>
+                        <div>3. มิ้ลค์</div>
+                        <div>4. จีโน่</div>
+                    </div>
+                </div>
+                <div class="w-7 h-7 rounded-full bg-green-500 flex items-center justify-center text-white text-xs shadow">
+                    <i class="fa-solid fa-check"></i>
+                </div>
+            </div>
+            
+            <div class="flex justify-end mt-4 gap-2">
+                 <button class="w-8 h-8 flex items-center justify-center rounded-md bg-white text-gray-400 text-xs shadow-sm"><i class="fa-solid fa-chevron-left"></i></button>
+                 <button class="w-8 h-8 flex items-center justify-center rounded-md bg-purple-600 text-white font-bold text-xs shadow-sm">1</button>
+                 <button class="w-8 h-8 flex items-center justify-center rounded-md bg-white text-gray-600 font-bold text-xs shadow-sm">2</button>
+                 <button class="w-8 h-8 flex items-center justify-center rounded-md bg-white text-gray-600 text-xs shadow-sm"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <div id="profilePage" class="hidden max-w-4xl mx-auto px-4 mt-32 fade-in">
+        
+        <button onclick="goHome()" class="flex items-center text-gray-800 text-lg font-medium mb-6 hover:text-purple-700 transition">
+            <i class="fa-solid fa-arrow-left mr-2"></i> กลับ
+        </button>
+
+        <div class="bg-white rounded-xl overflow-hidden shadow-lg pb-10">
+            
+            <div class="bg-profile-header h-32 w-full relative"></div>
+
+            <div class="px-10">
+                
+                <div class="relative -mt-16 mb-4 flex">
+                     <div class="w-32 h-32 rounded-full border-4 border-white bg-gray-300 flex items-center justify-center overflow-hidden shadow-md">
+                        <i class="fa-solid fa-user text-6xl text-white"></i>
+                     </div>
+                     
+                     <div class="mt-16 ml-6">
+                         <h2 class="text-2xl font-bold text-gray-800" id="profileName">Napha Fah (ข้าว)</h2>
+                         <div class="mt-2 text-gray-600 font-medium">
+                             <p>รหัสนิสิต <span id="profileID">68024547</span></p>
+                             <p id="profileFaculty">คณะเทคโนโลยีสารสนเทศและการสื่อสาร (ICT)</p>
+                         </div>
+                     </div>
+                </div>
+
+                <div class="bg-gray-200 rounded-lg p-6 mt-8 max-w-2xl">
+                    <h3 class="font-bold text-gray-800 mb-4">ช่องทางติดต่อ</h3>
+                    
+                    <div class="grid grid-cols-1 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-600 mb-1">Email</label>
+                            <div class="bg-white rounded px-3 py-2 text-gray-500 text-sm shadow-sm">
+                                68024547@up.ac.th
+                            </div>
+                        </div>
+                        
+                        <div>
+                             <label class="block text-sm font-medium text-gray-600 mb-1">เบอร์โทร</label>
+                             <div class="bg-white rounded px-3 py-2 text-gray-500 text-sm shadow-sm w-1/2">
+                                 0123456789
+                             </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openProfile(nickname) {
+            const mainPage = document.getElementById('mainPage');
+            const profilePage = document.getElementById('profilePage');
+
+            // จำลองข้อมูล
+            mainPage.classList.add('hidden');
+            profilePage.classList.remove('hidden');
+            
+            window.scrollTo(0, 0);
+        }
+
+        function goHome() {
+            const mainPage = document.getElementById('mainPage');
+            const profilePage = document.getElementById('profilePage');
+
+            profilePage.classList.add('hidden');
+            mainPage.classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
