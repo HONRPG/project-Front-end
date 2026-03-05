@@ -22,7 +22,7 @@
     <style type="text/tailwindcss">
         /* Custom Styles */
         .custom-input { @apply w-full border-none rounded-xl py-3 pl-12 pr-4 text-gray-700 outline-none transition placeholder-gray-400; }
-        .player-slot { @apply flex flex-col items-center justify-center gap-2 p-3 rounded-xl min-h-[90px] transition-all duration-300; }
+        .player-slot { @apply flex flex-col items-center justify-center gap-2 p-3 rounded-xl min-h-[90px] transition-all duration-300 relative; }
         .player-avatar { @apply w-10 h-10 rounded-full flex items-center justify-center text-white text-lg font-bold shadow-sm; }
         
         /* Animations */
@@ -46,7 +46,6 @@
         <div class="flex items-center gap-4 lg:gap-8">
             <div class="hidden md:flex items-center gap-2">
                 <a href="Main menu.html" class="text-gray-900 px-5 py-2 rounded-lg font-bold hover:bg-gray-50 transition">หน้าหลัก</a>
-                
                 <a href="history.html" class="bg-u-purple text-white px-5 py-2 rounded-lg font-bold shadow-sm">จองคิวสนาม</a>
             </div>
 
@@ -72,7 +71,9 @@
                     <h1 class="text-3xl font-bold text-black mb-1">จองคิวสนามแบดมินตัน</h1>
                     <p class="text-gray-500">ลงชื่อจองคิวเล่นแบดมินตัน (อัปเดตล่าสุด)</p>
                 </div>
+                
                 <div id="queues-container" class="space-y-6"></div>
+                
                 <button onclick="focusNewQueue()" class="w-48 h-32 bg-white rounded-[20px] flex flex-col items-center justify-center gap-2 shadow-sm hover:shadow-md hover:scale-[1.02] transition border border-transparent hover:border-u-purple cursor-pointer text-black group">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-black group-hover:text-u-purple transition" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
@@ -123,56 +124,157 @@
         </div>
     </main>
 
+    <div id="cancelModal" class="fixed inset-0 bg-black/50 z-[100] hidden items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-white w-full max-w-lg rounded-3xl p-8 shadow-2xl animate-pop">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-8 h-8 bg-black text-white rounded-full flex items-center justify-center font-bold">?</div>
+                <h3 class="font-bold text-lg text-black">ระบุเหตุผลการยกเลิก</h3>
+            </div>
+            <div class="space-y-3 mb-6">
+                <label class="flex items-center gap-3 p-3 rounded-xl border border-gray-100 cursor-pointer hover:bg-gray-50 bg-gray-50/50">
+                    <input type="radio" name="cancelReason" value="ติดธุระด่วน" class="accent-u-purple w-4 h-4">
+                    <span class="text-sm text-gray-700 font-medium">ติดธุระด่วน</span>
+                </label>
+                <label class="flex items-center gap-3 p-3 rounded-xl border border-gray-100 cursor-pointer hover:bg-gray-50 bg-gray-50/50">
+                    <input type="radio" name="cancelReason" value="ใช้เวลาในการรอคิวนานเกินไป" class="accent-u-purple w-4 h-4">
+                    <span class="text-sm text-gray-700 font-medium">ใช้เวลาในการรอคิวนานเกินไป</span>
+                </label>
+                <label class="flex items-center gap-3 p-3 rounded-xl border border-gray-100 cursor-pointer hover:bg-gray-50 bg-gray-50/50">
+                    <input type="radio" name="cancelReason" value="จองคิวผิด" class="accent-u-purple w-4 h-4">
+                    <span class="text-sm text-gray-700 font-medium">จองคิวผิด</span>
+                </label>
+                <div class="p-3 rounded-xl border border-gray-100 bg-gray-50/50">
+                    <label class="flex items-center gap-3 cursor-pointer mb-2">
+                        <input type="radio" name="cancelReason" value="อื่นๆ" class="accent-u-purple w-4 h-4" id="reasonOtherRadio">
+                        <span class="text-sm text-gray-700 font-medium">อื่นๆ</span>
+                    </label>
+                    <input type="text" id="cancelReasonOther" placeholder="โปรดระบุเหตุผลเพิ่มเติม" class="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-u-purple/20 mt-1" onclick="document.getElementById('reasonOtherRadio').checked = true">
+                </div>
+            </div>
+            <div class="space-y-3">
+                <button onclick="confirmCancel()" class="w-full bg-[#FFB3B3] hover:bg-red-400 text-red-700 font-bold py-3.5 rounded-xl transition shadow-sm flex justify-center items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                    ยืนยันการยกเลิก
+                </button>
+                <button onclick="closeCancelModal()" class="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-3.5 rounded-xl transition flex justify-center items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
+                    ย้อนกลับ
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="successCancelModal" class="fixed inset-0 bg-black/50 z-[100] hidden items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-white w-full max-w-sm rounded-[40px] p-8 text-center shadow-2xl animate-pop relative">
+            <div class="w-20 h-20 bg-red-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg shadow-red-200">
+                <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </div>
+            <h2 class="text-2xl font-bold mb-2 text-black">ยกเลิกการจองสำเร็จ</h2>
+            <p class="text-gray-500 text-sm mb-6">ระบบได้ดำเนินการยกเลิกการจองสนามของคุณเรียบร้อยแล้ว</p>
+            
+            <div class="bg-gray-50 rounded-2xl p-5 text-left text-xs mb-8 border border-gray-100">
+                <p class="text-red-500 font-bold mb-3 flex items-center gap-1">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg>
+                    ยกเลิกแล้ว
+                </p>
+                <div class="flex justify-between py-1.5 border-b border-gray-200">
+                    <span class="text-gray-500 font-medium">สถานที่</span><span class="font-bold text-gray-800">อาคารสงวนเสริมศรี</span>
+                </div>
+                <div class="flex justify-between py-1.5 border-b border-gray-200">
+                    <span class="text-gray-500 font-medium">คิว</span><span id="successCancelQId" class="font-bold text-gray-800">-</span>
+                </div>
+                <div class="flex justify-between py-1.5">
+                    <span class="text-gray-500 font-medium">เหตุผล</span><span id="successCancelReason" class="font-bold text-gray-800">-</span>
+                </div>
+            </div>
+
+            <div class="space-y-3">
+                <button onclick="closeSuccessModal()" class="w-full bg-u-purple hover:bg-u-purple-dark text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-purple-200">กลับหน้าหลัก</button>
+                <button onclick="closeSuccessModal()" class="w-full text-gray-400 font-medium py-2 hover:text-gray-600 transition">ดูการจองทั้งหมด</button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // --- 1. ข้อมูลคิว ---
         const avatarColors = ['bg-purple-600', 'bg-pink-500', 'bg-indigo-500', 'bg-blue-500'];
+        const MAX_ACTIVE_COURTS = 4;
+        
+        let cancelData = { queueId: null, playerName: null }; // เก็บข้อมูลชั่วคราวตอนกดยกเลิก
 
         function getLoggedInUser() {
             const savedData = localStorage.getItem('up_badminton_user');
             return savedData ? JSON.parse(savedData) : null;
         }
 
-        // --- 2. Function Render UI ---
         function renderUI() {
             const container = document.getElementById('queues-container');
             const select = document.getElementById('queueSelect');
             
-            // ดึงข้อมูลล่าสุดจาก localStorage มาแสดงเสมอ
-            const queues = JSON.parse(localStorage.getItem('up_badminton_queues')) || [
-                { id: 1, status: 'active', players: ['พลอย', 'วิน', 'แอนดี้', null] }
-            ];
+            let queues = JSON.parse(localStorage.getItem('up_badminton_queues'));
+            if (!queues || queues.length === 0) {
+                queues = [{ id: 1, players: ['พลอย', 'วิน', 'แอนดี้', null] }];
+                localStorage.setItem('up_badminton_queues', JSON.stringify(queues));
+            }
 
             const nameInput = document.getElementById('name');
             const studentIdInput = document.getElementById('studentId');
             const user = getLoggedInUser();
+            const currentUserName = user ? user.name : '';
 
-            // แก้ไขจุดที่ 2: ดึงข้อมูลชื่อและรหัสมาใส่ และล็อคสถานะไว้ตลอด
             if (user) {
                 nameInput.value = user.name;
-                if (user.email) {
-                    studentIdInput.value = user.email.split('@')[0];
-                }
+                if (user.email) studentIdInput.value = user.email.split('@')[0];
             }
 
             const currentSelected = select.value;
             container.innerHTML = ''; 
             select.innerHTML = '<option value="" disabled selected>เลือกคิวที่ต้องการ</option>'; 
 
+            let playingCount = 0; 
+
             queues.forEach((q) => {
                 const emptySlots = q.players.filter(p => p === null).length;
-                const isFull = emptySlots === 0;
+                const isFull = (emptySlots === 0);
+                
+                let statusText = '';
+                let statusClass = '';
+
+                if (isFull) {
+                    if (playingCount < MAX_ACTIVE_COURTS) {
+                        statusText = 'กำลังเล่น';
+                        statusClass = 'text-green-500';
+                        playingCount++;
+                    } else {
+                        statusText = 'รอสนาม';
+                        statusClass = 'text-orange-500';
+                    }
+                } else {
+                    statusText = 'รอคนครบ';
+                    statusClass = 'text-red-500';
+                }
                 
                 let playersHTML = '';
                 q.players.forEach((player, idx) => {
                     if (player) {
+                        // เช็คว่าเป็นชื่อตัวเองไหม ถ้าใช่ให้เพิ่มปุ่มกากบาทสีแดง
+                        let cancelBtn = '';
+                        if (currentUserName && player.toLowerCase() === currentUserName.toLowerCase()) {
+                            cancelBtn = `
+                                <button onclick="openCancelModal(${q.id}, '${player}')" class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-600 shadow-md z-10 transition hover:scale-110">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12" /></svg>
+                                </button>
+                            `;
+                        }
+
                         playersHTML += `
-                            <div class="player-slot bg-purple-50 animate-pop">
+                            <div class="player-slot bg-purple-50 animate-pop relative">
+                                ${cancelBtn}
                                 <div class="player-avatar ${avatarColors[idx % 4]}">${player.charAt(0)}</div>
                                 <span class="text-xs font-bold text-gray-800 truncate w-full text-center">${player}</span>
                             </div>`;
                     } else {
                         playersHTML += `
-                            <button onclick="quickJoin(${q.id})" class="player-slot bg-gray-200 hover:bg-gray-300 transition cursor-pointer group border-2 border-dashed border-gray-300 transition">
+                            <button onclick="quickJoin(${q.id})" class="player-slot bg-gray-200 hover:bg-gray-300 transition cursor-pointer group border-2 border-dashed border-gray-300">
                                 <div class="w-8 h-8 rounded-full border-2 border-gray-500 flex items-center justify-center text-gray-600 group-hover:border-gray-700 group-hover:text-gray-800 transition">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" /></svg>
                                 </div>
@@ -186,14 +288,15 @@
                         <div class="flex justify-between items-center mb-6">
                             <div class="flex items-center gap-3">
                                 <span class="bg-u-purple text-white text-sm font-bold px-3 py-1 rounded-lg shadow-sm">คิวที่ ${q.id}</span>
-                                <span class="${q.id <= 4 ? 'text-green-500' : 'text-orange-400'} font-bold text-sm">${q.id <= 4 ? 'กำลังเล่น' : 'รอสนาม'}</span>
+                                <span class="${statusClass} font-bold text-sm">${statusText}</span>
                             </div>
-                            <span class="bg-u-purple text-white text-xs font-medium px-3 py-1 rounded-full">15 นาที / รอบ</span>
                         </div>
                         <div class="grid grid-cols-4 gap-4">${playersHTML}</div>
                     </div>`;
 
-                if (!isFull) select.innerHTML += `<option value="${q.id}">คิวที่ ${q.id} (ว่าง ${emptySlots} ที่)</option>`;
+                if (!isFull) {
+                    select.innerHTML += `<option value="${q.id}">คิวที่ ${q.id} (ว่าง ${emptySlots} ที่)</option>`;
+                }
             });
 
             select.innerHTML += `<option value="new" class="text-u-purple font-bold">+ สร้างคิวใหม่</option>`;
@@ -212,7 +315,6 @@
             setTimeout(() => document.getElementById('booking-form').classList.remove('ring-4', 'ring-purple-200'), 600);
         }
 
-        // --- 3. ฟังก์ชันส่งข้อมูลจองคิว ---
         function submitQueue() {
             const user = getLoggedInUser();
             const chosenName = document.getElementById('name').value.trim();
@@ -227,9 +329,7 @@
                 return;
             }
 
-            let allQueues = JSON.parse(localStorage.getItem('up_badminton_queues')) || [
-                { id: 1, status: 'active', players: ['พลอย', 'วิน', 'แอนดี้', null] }
-            ];
+            let allQueues = JSON.parse(localStorage.getItem('up_badminton_queues')) || [];
 
             const isDuplicate = allQueues.some(q => 
                 q.players.some(p => p && p.toLowerCase() === chosenName.toLowerCase())
@@ -241,22 +341,86 @@
             }
 
             if (queueVal === 'new') {
-                allQueues.push({ 
-                    id: allQueues.length + 1, 
-                    status: 'waiting', 
-                    players: [chosenName, null, null, null] 
-                });
+                const nextId = allQueues.length > 0 ? Math.max(...allQueues.map(q => q.id)) + 1 : 1;
+                allQueues.push({ id: nextId, players: [chosenName, null, null, null] });
             } else {
                 const target = allQueues.find(q => q.id == queueVal);
-                const emptyIdx = target.players.indexOf(null);
-                if (emptyIdx !== -1) target.players[emptyIdx] = chosenName;
+                if (target) {
+                    const emptyIdx = target.players.indexOf(null);
+                    if (emptyIdx !== -1) target.players[emptyIdx] = chosenName;
+                }
             }
 
             localStorage.setItem('up_badminton_queues', JSON.stringify(allQueues));
-
             Swal.fire({ icon: 'success', title: 'ลงชื่อสำเร็จ!', showConfirmButton: false, timer: 1500 });
             document.getElementById('queueSelect').value = '';
             renderUI();
+        }
+
+        // --- ระบบยกเลิกคิว (ใหม่) ---
+        function openCancelModal(qId, pName) {
+            cancelData = { queueId: qId, playerName: pName };
+            document.getElementById('cancelModal').classList.remove('hidden');
+            document.getElementById('cancelModal').classList.add('flex');
+        }
+
+        function closeCancelModal() {
+            document.getElementById('cancelModal').classList.add('hidden');
+            document.getElementById('cancelModal').classList.remove('flex');
+            // Reset radio
+            const checkedRadio = document.querySelector('input[name="cancelReason"]:checked');
+            if(checkedRadio) checkedRadio.checked = false;
+            document.getElementById('cancelReasonOther').value = '';
+        }
+
+        function confirmCancel() {
+            const reasonForm = document.querySelector('input[name="cancelReason"]:checked');
+            if(!reasonForm) {
+                Swal.fire({ icon: 'warning', title: 'กรุณาระบุเหตุผล', confirmButtonColor: '#6C2B97' });
+                return;
+            }
+            
+            let reason = reasonForm.value;
+            if(reason === 'อื่นๆ') {
+                reason = document.getElementById('cancelReasonOther').value.trim();
+                if(!reason) {
+                    Swal.fire({ icon: 'warning', title: 'กรุณาระบุเหตุผลเพิ่มเติม', confirmButtonColor: '#6C2B97' });
+                    return;
+                }
+            }
+
+            // ลบชื่อออกจาก LocalStorage
+            let queues = JSON.parse(localStorage.getItem('up_badminton_queues')) || [];
+            let qIndex = queues.findIndex(q => q.id === cancelData.queueId);
+            
+            if(qIndex > -1) {
+                let pIndex = queues[qIndex].players.findIndex(p => p && p.toLowerCase() === cancelData.playerName.toLowerCase());
+                if(pIndex > -1) {
+                    queues[qIndex].players[pIndex] = null; // ลบชื่ออก
+                    
+                    // ถ้าคิวโล่งหมดทุกคน (ไม่มีใครเหลืออยู่เลย) ให้ลบคิวนั้นทิ้งไปเลย
+                    if(queues[qIndex].players.every(p => p === null)) {
+                        queues.splice(qIndex, 1);
+                    }
+                    
+                    localStorage.setItem('up_badminton_queues', JSON.stringify(queues));
+                    
+                    closeCancelModal();
+                    
+                    // แสดงหน้า Success
+                    document.getElementById('successCancelQId').innerText = cancelData.queueId;
+                    document.getElementById('successCancelReason').innerText = reason;
+                    document.getElementById('successCancelModal').classList.remove('hidden');
+                    document.getElementById('successCancelModal').classList.add('flex');
+                    
+                    renderUI(); // รีเฟรชคิว
+                }
+            }
+        }
+
+        function closeSuccessModal() {
+            document.getElementById('successCancelModal').classList.add('hidden');
+            document.getElementById('successCancelModal').classList.remove('flex');
         }
 
         renderUI();

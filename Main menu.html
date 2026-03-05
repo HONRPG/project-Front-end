@@ -14,30 +14,8 @@
         .bg-u-purple { background-color: #6C2B97; }
         .bg-u-purple-light { background-color: #9d5cc5; }
         
-        .court-list::-webkit-scrollbar {
-            width: 6px;
-        }
-        .court-list::-webkit-scrollbar-thumb {
-            background-color: #cbd5e1;
-            border-radius: 10px;
-        }
-
-        .selected-ring {
-            box-shadow: 0 0 0 4px #6C2B97;
-            border-color: #6C2B97;
-        }
-
-        .time-btn:disabled, .date-btn:disabled {
-            background-color: #f3f4f6;
-            color: #d1d5db;
-            cursor: not-allowed;
-            border: 1px solid #e5e7eb;
-        }
-        .date-btn:disabled.text-red-600 {
-            background-color: #fee2e2;
-            color: #dc2626;
-            opacity: 0.8;
-        }
+        .court-list::-webkit-scrollbar { width: 6px; }
+        .court-list::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 10px; }
     </style>
 </head>
 <body class="bg-page min-h-screen flex flex-col pt-24 pb-12">
@@ -84,7 +62,7 @@
         <div class="mb-10">
             <div class="flex justify-between items-end mb-4">
                 <h2 class="text-xl font-bold text-black">คิวที่กำลังเล่น</h2>
-                <span class="bg-green-100 text-green-600 px-4 py-1.5 rounded-full text-sm font-bold">สนามถูกใช้บริการ 4/4</span>
+                <span id="active-court-count" class="bg-green-100 text-green-600 px-4 py-1.5 rounded-full text-sm font-bold">สนามถูกใช้บริการ 0/4</span>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6" id="active-courts-container">
@@ -92,8 +70,7 @@
         </div>
 
         <div>
-            <h2 class="text-xl font-bold text-black mb-4">คิวรอสนาม</h2>
-            
+            <h2 class="text-xl font-bold text-black mb-4">สถานะคิวรอ</h2>
             <div class="space-y-3" id="waiting-queue-container">
                 </div>
 
@@ -108,86 +85,99 @@
     </main>
 
     <script>
-    // 1. ฟังก์ชันดึงข้อมูลจาก localStorage
     function getLatestQueues() {
+        // ดึงคิวจากฐานข้อมูลเดียวกับหน้าจองคิว
         const savedQueues = localStorage.getItem('up_badminton_queues');
-        if (savedQueues) {
-            return JSON.parse(savedQueues);
-        }
-        // ถ้าไม่มีข้อมูลในเครื่อง ให้ใช้ค่าเริ่มต้น (Mock Data)
-        return [
-            { id: 1, name: 'สนามที่1', queue: 1, time: '14:50', players: ['พลอย', 'วิน', 'แอนดี้', 'วิว'], status: 'active' },
-            { id: 2, name: 'สนามที่2', queue: 2, time: '14:50', players: ['ภูเขา', 'คอปเปอร์', 'ข้าวฟ่าง', 'น้ำใส'], status: 'active' },
-            { id: 3, name: 'สนามที่3', queue: 3, time: '14:50', players: ['นาย', 'ไนท์', 'ออม', 'อาย'], status: 'active' },
-            { id: 4, name: 'สนามที่4', queue: 4, time: '14:50', players: ['นุช', 'แบงค์', 'โมจิ', 'ไตตั้น'], status: 'active' }
-        ];
+        return savedQueues ? JSON.parse(savedQueues) : [];
     }
 
     function renderStatusPage() {
         const allData = getLatestQueues();
         
-        // กรองเอาเฉพาะ 4 คิวแรกมาแสดงเป็น "กำลังเล่น"
-        const activeCourts = allData.slice(0, 4);
-        // ส่วนที่เหลือเป็น "คิวรอสนาม"
-        const waitingQueues = allData.slice(4);
+        // 1. คัดกรองคิว: แยกคิวที่คนครบ 4 คน กับคนไม่ครบ
+        const fullQueues = [];
+        const incompleteQueues = [];
+
+        allData.forEach(q => {
+            const isFull = q.players.every(p => p !== null);
+            if (isFull) fullQueues.push(q);
+            else incompleteQueues.push(q);
+        });
+
+        // 2. จัดสรรสนาม: 4 คิวแรกที่ "คนครบ" จะได้สิทธิ์กำลังเล่น
+        const activeCourts = fullQueues.slice(0, 4);
+        
+        // 3. จัดคิวรอ: คิวที่คนครบแต่สนามเต็ม + คิวที่คนไม่ครบ (จับมารวมกันแล้วเรียงตามลำดับคิว)
+        const waitingCourtsFull = fullQueues.slice(4);
+        const waitingList = [...waitingCourtsFull, ...incompleteQueues].sort((a, b) => a.id - b.id);
 
         // --- Render คิวที่กำลังเล่น (Cards) ---
         const activeContainer = document.getElementById('active-courts-container');
         activeContainer.innerHTML = '';
         
-        activeCourts.forEach((court, index) => {
-            const cardHTML = `
-                <div class="bg-white rounded-[20px] p-5 shadow-sm border border-transparent hover:border-purple-200 transition">
-                    <div class="flex justify-between items-start mb-4">
-                        <div>
-                            <h3 class="font-bold text-gray-900">สนามที่ ${index + 1}</h3>
-                            <p class="text-sm text-gray-500 font-medium">คิวที่ ${court.id}</p>
-                            <p class="text-xs text-gray-400 mt-1">ผู้เล่น</p>
+        // อัปเดตตัวเลขสนามที่กำลังเล่น
+        document.getElementById('active-court-count').textContent = `สนามถูกใช้บริการ ${activeCourts.length}/4`;
+
+        if (activeCourts.length === 0) {
+            activeContainer.innerHTML = '<div class="col-span-4 bg-white rounded-xl p-6 text-center text-gray-400 border border-dashed border-gray-300">ยังไม่มีคิวที่ได้ลงเล่น (ต้องการผู้เล่นครบ 4 คน)</div>';
+        } else {
+            activeCourts.forEach((court, index) => {
+                const cardHTML = `
+                    <div class="bg-white rounded-[20px] p-5 shadow-sm border border-transparent hover:border-purple-200 transition">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="font-bold text-gray-900">สนามที่ ${index + 1}</h3>
+                                <p class="text-sm text-gray-500 font-medium">คิวที่ ${court.id}</p>
+                                <p class="text-xs text-gray-400 mt-1">ผู้เล่น</p>
+                            </div>
+                            <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center text-green-500 shadow-sm">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
+                            </div>
                         </div>
-                        <div class="bg-green-100 text-green-600 px-3 py-1 rounded-lg text-sm font-bold">
-                            15:00
+                        <div class="space-y-1">
+                            ${court.players.map((p, i) => `<p class="text-sm text-gray-800 font-medium">${i+1}. ${p || '-'}</p>`).join('')}
                         </div>
-                    </div>
-                    <div class="space-y-1">
-                        ${court.players.map((p, i) => `<p class="text-sm text-gray-800 font-medium">${i+1}. ${p || '-'}</p>`).join('')}
-                    </div>
-                </div>`;
-            activeContainer.innerHTML += cardHTML;
-        });
+                    </div>`;
+                activeContainer.innerHTML += cardHTML;
+            });
+        }
 
         // --- Render คิวรอสนาม (Rows) ---
         const queueContainer = document.getElementById('waiting-queue-container');
         queueContainer.innerHTML = '';
 
-        if (waitingQueues.length === 0) {
+        if (waitingList.length === 0) {
             queueContainer.innerHTML = '<p class="text-center text-gray-400 py-4">ยังไม่มีคิวรอในขณะนี้</p>';
+        } else {
+            waitingList.forEach(q => {
+                const isFull = q.players.every(p => p !== null);
+                
+                // ตรรกะสีและสถานะ: 
+                // ถ้าคนครบ = รอคิวสนาม (สีส้ม) / ถ้าคนไม่ครบ = ผู้เล่นไม่ครบ (สีแดง)
+                const bgClass = !isFull ? 'bg-red-50 border border-red-200' : 'bg-orange-50 border border-orange-200';
+                const textClass = !isFull ? 'text-red-600' : 'text-orange-600';
+                const statusText = !isFull ? 'ผู้เล่นไม่ครบ' : 'รอคิวสนาม';
+                const badgeClass = !isFull ? 'bg-red-100 text-red-600' : 'bg-orange-100 text-orange-600';
+                
+                const statusIcon = `<div class="flex justify-end"><span class="${badgeClass} text-xs px-3 py-1.5 rounded-lg flex items-center gap-1 font-bold">${statusText}</span></div>`;
+
+                const rowHTML = `
+                    <div class="${bgClass} rounded-xl p-4 lg:px-8 flex flex-col md:flex-row md:items-center justify-between gap-4 transition hover:shadow-sm">
+                        <div class="w-full md:w-1/6">
+                            <span class="${textClass} text-lg font-bold">คิวที่ ${q.id}</span>
+                        </div>
+                        <div class="w-full md:w-4/6 grid grid-cols-2 md:grid-cols-4 gap-2">
+                            ${q.players.map((p, i) => `<span class="text-sm font-medium ${p ? 'text-gray-800' : 'text-gray-400'}">${i+1}. ${p || 'ว่าง'}</span>`).join('')}
+                        </div>
+                        <div class="w-full md:w-1/6">${statusIcon}</div>
+                    </div>`;
+                queueContainer.innerHTML += rowHTML;
+            });
         }
-
-        waitingQueues.forEach(q => {
-            const isFull = q.players.every(p => p !== null);
-            const bgClass = !isFull ? 'bg-red-100 border border-red-200' : 'bg-gray-200 border border-transparent';
-            const textClass = !isFull ? 'text-red-600' : 'text-black';
-            
-            const statusIcon = !isFull 
-                ? `<div class="flex justify-end"><span class="bg-red-300/50 text-red-600 text-xs px-3 py-1.5 rounded-lg flex items-center gap-1 font-bold">ผู้เล่นไม่ครบ</span></div>`
-                : `<div class="flex justify-end"><div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white shadow-sm"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg></div></div>`;
-
-            const rowHTML = `
-                <div class="${bgClass} rounded-xl p-4 lg:px-8 flex flex-col md:flex-row md:items-center justify-between gap-4 transition hover:shadow-sm">
-                    <div class="w-full md:w-1/6">
-                        <span class="${textClass} text-lg font-bold">คิวที่ ${q.id}</span>
-                    </div>
-                    <div class="w-full md:w-4/6 grid grid-cols-2 md:grid-cols-4 gap-2">
-                        ${q.players.map((p, i) => `<span class="text-sm font-medium text-gray-800">${i+1}. ${p || '-'}</span>`).join('')}
-                    </div>
-                    <div class="w-full md:w-1/6">${statusIcon}</div>
-                </div>`;
-            queueContainer.innerHTML += rowHTML;
-        });
     }
 
-    // เรียกทำงานเมื่อโหลดหน้า
+    // อัปเดตข้อมูลอัตโนมัติเมื่อมีการโหลดหน้า
     window.onload = renderStatusPage;
-</script>
+    </script>
 </body>
 </html>

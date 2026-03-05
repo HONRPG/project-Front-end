@@ -30,12 +30,9 @@
         
         .court-card { @apply bg-white rounded-2xl p-4 flex gap-6 items-center border-2 border-transparent transition-all cursor-pointer; }
         .court-card.active { @apply border-u-purple ring-4 ring-purple-100; }
-        /* สำหรับหน้ายืนยันเหตุผล */
-        .reason-option { @apply flex items-center gap-3 p-4 rounded-xl border border-gray-100 bg-gray-50 cursor-pointer transition-all hover:bg-gray-100; }
-        input[type="radio"]:checked + .reason-content { @apply text-u-purple font-bold; }
 
-        /* อนิเมชั่นหน้าสำเร็จ */
-        @keyframes popIn { 0% { transform: scale(0.9); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        /* ปรับอนิเมชั่นให้เด้งเหมือนหน้ายกเลิกคิว (แก้จาก 0.9 เป็น 0.5) */
+        @keyframes popIn { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
         .animate-pop { animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
     </style>
 </head>
@@ -54,7 +51,7 @@
 
         <div class="flex items-center gap-4 lg:gap-8">
             <div class="hidden md:flex items-center gap-2">
-                <a href="AdminMain manu.html" class="bg-u-purple text-white px-5 py-2 rounded-lg font-medium shadow-sm">หน้าหลัก</a>
+                <a href="AdminMainmenu.html" class="bg-u-purple text-white px-5 py-2 rounded-lg font-medium shadow-sm">หน้าหลัก</a>
                 <a href="history.html" class="text-gray-900 px-5 py-2 rounded-lg font-bold hover:bg-gray-50 transition">ติดตามสถานะคิว</a>
                 <a href="history.html" class="text-gray-900 px-5 py-2 rounded-lg font-bold hover:bg-gray-50 transition">สถิติการใช้บริการ</a>
             </div>
@@ -183,89 +180,88 @@
                     </div>
                 </div>
             </div>
+
             <div id="modal-confirm" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-        <div class="bg-[#F8E7F2] w-full max-w-lg rounded-[40px] p-8 shadow-2xl animate-pop overflow-hidden">
-            <h2 class="text-2xl font-bold text-center mb-2">การปิดปรับปรุงสนาม</h2>
-            <p class="text-gray-500 text-center text-sm mb-6">กรุณาตรวจสอบรายละเอียดก่อนยืนยันการปิดสนาม</p>
-
-            <div id="modal-court-item" class="space-y-4 mb-8">
-                </div>
-
-            <div class="bg-white rounded-3xl p-6 shadow-sm border border-purple-50">
-                <h3 class="font-bold mb-4 flex items-center gap-2">
-                    <span class="w-6 h-6 bg-black text-white rounded-full flex items-center justify-center text-xs">?</span>
-                    ระบุเหตุผลการยกเลิก
-                </h3>
-                <div class="space-y-3">
-                    <label class="reason-option">
-                        <input type="radio" name="cancel-reason" value="สนามชำรุด" class="w-5 h-5 accent-u-purple">
-                        <span class="reason-content text-sm">สนามชำรุด</span>
-                    </label>
-                    <label class="reason-option">
-                        <input type="radio" name="cancel-reason" value="สถานที่จัดกิจกรรม" class="w-5 h-5 accent-u-purple">
-                        <span class="reason-content text-sm">สถานที่จัดกิจกรรม</span>
-                    </label>
-                    <label class="reason-option">
-                        <input type="radio" name="cancel-reason" value="ติดกิจกรรมมหาวิทยาลัย" class="w-5 h-5 accent-u-purple">
-                        <span class="reason-content text-sm">ติดกิจกรรมมหาวิทยาลัย</span>
-                    </label>
-                    <div class="mt-4">
-                        <label class="flex items-center gap-3 mb-2">
-                            <input type="radio" name="cancel-reason" value="อื่นๆ" id="radio-other" class="w-5 h-5 accent-u-purple">
-                            <span class="text-sm font-medium">อื่นๆ</span>
+                <div class="bg-white w-full max-w-2xl rounded-[32px] p-10 shadow-2xl animate-pop relative">
+                    
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-8 h-8 bg-black text-white rounded-full flex items-center justify-center font-bold">?</div>
+                        <h3 class="font-bold text-lg text-black">ระบุเหตุผลการปิดปรับปรุง</h3>
+                    </div>
+                    
+                    <div class="space-y-3 mb-8">
+                        <label class="flex items-center gap-3 p-4 rounded-xl bg-gray-100 cursor-pointer hover:bg-gray-200 transition">
+                            <input type="radio" name="cancel-reason" value="สนามชำรุด" class="w-5 h-5 accent-black">
+                            <span class="text-sm font-medium text-gray-800">สนามชำรุด</span>
                         </label>
-                        <input type="text" id="other-reason-text" placeholder="โปรดระบุเหตุผลเพิ่มเติม" class="w-full bg-gray-50 border border-gray-100 rounded-xl px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-u-purple/20">
+                        <label class="flex items-center gap-3 p-4 rounded-xl bg-gray-100 cursor-pointer hover:bg-gray-200 transition">
+                            <input type="radio" name="cancel-reason" value="สถานที่จัดกิจกรรม" class="w-5 h-5 accent-black">
+                            <span class="text-sm font-medium text-gray-800">สถานที่จัดกิจกรรม</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-4 rounded-xl bg-gray-100 cursor-pointer hover:bg-gray-200 transition">
+                            <input type="radio" name="cancel-reason" value="ติดกิจกรรมมหาวิทยาลัย" class="w-5 h-5 accent-black">
+                            <span class="text-sm font-medium text-gray-800">ติดกิจกรรมมหาวิทยาลัย</span>
+                        </label>
+                        <div class="p-4 rounded-xl bg-gray-100">
+                            <label class="flex items-center gap-3 cursor-pointer mb-2">
+                                <input type="radio" name="cancel-reason" value="อื่นๆ" id="radio-other" class="w-5 h-5 accent-black">
+                                <span class="text-sm font-medium text-gray-800">อื่นๆ</span>
+                            </label>
+                            <input type="text" id="other-reason-text" placeholder="โปรดระบุเหตุผลเพิ่มเติม" class="w-full bg-white border border-gray-200 rounded-lg px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-gray-300 mt-1" onclick="document.getElementById('radio-other').checked = true">
+                        </div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <button onclick="processFinalSubmit()" class="w-full bg-[#FFB3B3] hover:bg-red-400 text-red-700 font-bold py-4 rounded-xl transition shadow-sm flex justify-center items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                            ยืนยันการปิดสนาม
+                        </button>
+                        <button onclick="closeModal('modal-confirm')" class="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-4 rounded-xl transition flex justify-center items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
+                            ย้อนกลับ
+                        </button>
                     </div>
                 </div>
             </div>
 
-            <div class="mt-8 space-y-3">
-                <button onclick="processFinalSubmit()" class="w-full bg-[#FFB3B3] hover:bg-red-400 text-red-700 font-extrabold py-4 rounded-2xl shadow-lg transition-all flex items-center justify-center gap-2 active:scale-95">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                    </svg>
-                    ยืนยันการปิดสนาม
-                </button>
-                        <button onclick="closeModal('modal-confirm')" class="w-full text-gray-500 font-bold py-2 hover:underline">ย้อนกลับ</button>
+            <div id="modal-success" class="fixed inset-0 z-[110] hidden flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+                <div class="bg-white w-full max-w-md rounded-[40px] p-10 text-center shadow-2xl animate-pop relative overflow-hidden">
+                    <div class="w-24 h-24 bg-[#E53935] rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-red-200">
+                        <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="4">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </div>
+
+                    <h2 class="text-2xl font-bold text-gray-900 mb-2">การปิดปรับปรุงสำเร็จ</h2>
+                    <p class="text-gray-500 text-sm mb-8">ระบบได้ดำเนินการปิดปรับปรุงสนามของคุณเรียบร้อยแล้ว</p>
+
+                    <div class="bg-[#F5F5F5] rounded-2xl p-6 text-left text-sm mb-8 border border-gray-100">
+                        <p class="text-red-500 font-bold mb-4 flex items-center gap-2">
+                            <span class="bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="4"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            </span>
+                            ปิดสนามแล้ว
+                        </p>
+                        <p class="text-xs text-gray-500 font-bold mb-3 border-b border-gray-300 pb-2">รายละเอียดการปิดสนาม</p>
+                        <div class="flex justify-between py-2 border-b border-gray-300">
+                            <span class="text-gray-600">สถานที่</span><span class="font-bold text-gray-900">อาคารสงวนเสริมศรี</span>
+                        </div>
+                        <div class="flex justify-between py-2 border-b border-gray-300">
+                            <span class="text-gray-600">สนาม</span><span id="success-court-name" class="font-bold text-gray-900">-</span>
+                        </div>
+                        <div class="flex justify-between py-2">
+                            <span class="text-gray-600">เหตุผล</span><span id="success-reason" class="font-bold text-gray-900">-</span>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <button onclick="location.reload()" class="w-full bg-[#6C2B97] hover:bg-purple-800 text-white font-bold py-4 rounded-xl transition shadow-md">กลับหน้าหลัก</button>
+                        <button onclick="window.location.href='Adminnotifications.html'" class="w-full bg-[#F5F5F5] hover:bg-gray-200 text-gray-600 font-bold py-4 rounded-xl transition">ไปยังหน้าการแจ้งเตือน</button>
                     </div>
                 </div>
             </div>
-
-        <div id="modal-success" class="fixed inset-0 z-[110] hidden flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-            <div class="bg-white w-full max-w-sm rounded-[50px] p-10 shadow-2xl animate-pop text-center relative overflow-hidden">
-                <div class="w-24 h-24 bg-red-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl shadow-red-200">
-                    <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="4">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </div>
-
-                <h2 class="text-2xl font-bold text-gray-900 mb-2">การปิดปรับปรุงสำเร็จ</h2>
-                <p class="text-gray-400 text-sm mb-8 leading-relaxed">ระบบได้ดำเนินการปิดปรับปรุงสนาม<br>เรียบร้อยแล้ว</p>
-
-                <div class="bg-gray-50 rounded-3xl p-5 mb-8 text-left border border-gray-100">
-                    <div class="flex py-1 border-b border-dashed border-gray-200">
-                        <span class="text-gray-400 text-xs w-20">สถานที่</span>
-                        <span class="text-gray-700 text-xs font-bold">อาคารอเนกประสงค์</span>
-                    </div>
-                    <div class="flex py-1 border-b border-dashed border-gray-200 mt-1">
-                        <span class="text-gray-400 text-xs w-20">สนาม</span>
-                        <span id="success-court-name" class="text-gray-700 text-xs font-bold">-</span>
-                    </div>
-                    <div class="flex py-1 mt-1">
-                        <span class="text-gray-400 text-xs w-20">เหตุผล</span>
-                        <span id="success-reason" class="text-gray-700 text-xs font-bold">-</span>
-                    </div>
-                </div>
-
-                <div class="space-y-4">
-                    <button onclick="location.reload()" class="w-full bg-u-purple text-white font-bold py-4 rounded-2xl shadow-lg shadow-purple-200 active:scale-95 transition-all">กลับหน้าหลัก</button>
-                    <button class="w-full text-gray-400 text-sm font-medium hover:text-gray-600 transition-colors">ไปยังหน้าการแจ้งเตือน</button>
-                </div>
-            </div>
-        </div>
     </main>
     
-
     <script>
         let selectedDate = null;
         let selectedCourt = null;
@@ -320,59 +316,40 @@
             });
         }
         
-
         function changePage(p) {
             currentPage = p;
-            // Update button styles
             document.getElementById('page-1').className = p === 1 ? "w-8 h-8 rounded-lg bg-u-purple text-white font-bold shadow-md" : "w-8 h-8 rounded-lg bg-white text-gray-500 border border-gray-200 hover:bg-gray-50 transition";
             document.getElementById('page-2').className = p === 2 ? "w-8 h-8 rounded-lg bg-u-purple text-white font-bold shadow-md" : "w-8 h-8 rounded-lg bg-white text-gray-500 border border-gray-200 hover:bg-gray-50 transition";
             renderCourts();
         }
 
-        // ฟังก์ชันเมื่อกดปุ่ม "ยืนยันการปิด-ปรับปรุงสนาม" ที่แถบข้าง
         function handleSubmit() {
             if (!selectedDate || !selectedCourt) {
                 Swal.fire({ icon: 'warning', title: 'ข้อมูลไม่ครบ', text: 'โปรดเลือกวันที่และสนามก่อน', confirmButtonColor: '#6C2B97' });
                 return;
             }
 
-            // เตรียมข้อมูลสนามใน Modal ยืนยัน
-            const modalCourtItem = document.getElementById('modal-court-item');
-            modalCourtItem.innerHTML = `
-                <div class="bg-white rounded-3xl p-4 flex gap-4 items-center border border-purple-50">
-                    <div class="w-20 h-20 rounded-2xl overflow-hidden bg-gray-100">
-                        <img src="pic/รูปสนาม.png" class="w-full h-full object-cover">
-                    </div>
-                    <div>
-                        <h4 class="font-bold text-gray-900">${selectedCourt}</h4>
-                        <p class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">อาคารอเนกประสงค์</p>
-                        <div class="mt-1 flex items-center gap-1 text-gray-600">
-                            <span class="text-xs">📅 ${selectedDate}</span>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            // แสดง Modal ยืนยัน
             document.getElementById('modal-confirm').classList.remove('hidden');
             document.getElementById('modal-confirm').classList.add('flex');
         }
 
-        // ฟังก์ชันปิด Modal
         function closeModal(id) {
             document.getElementById(id).classList.add('hidden');
             document.getElementById(id).classList.remove('flex');
         }
 
-        // ฟังก์ชันสุดท้ายเมื่อกดปุ่มสีแดงใน Modal
         function processFinalSubmit() {
             const radioSelected = document.querySelector('input[name="cancel-reason"]:checked');
             let reason = "";
 
             if (!radioSelected) {
-                Swal.fire({ text: 'โปรดเลือกเหตุผลการยกเลิก', icon: 'error' });
+                Swal.fire({ text: 'โปรดเลือกเหตุผลการปิดปรับปรุง', icon: 'error' });
                 return;
             }
+
+            let logs = JSON.parse(localStorage.getItem('admin_logs') || '[]');
+                logs.push({ court: selectedCourt, date: selectedDate, reason: reason });
+                localStorage.setItem('admin_logs', JSON.stringify(logs));
 
             if (radioSelected.value === "อื่นๆ") {
                 reason = document.getElementById('other-reason-text').value;
