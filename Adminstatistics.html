@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>สถิติการใช้บริการ - UP Badminton</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Prompt', 'sans-serif'] },
+                    colors: {
+                        'bg-page': '#F5E6F6',
+                        'u-purple': '#6C2B97',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 10px; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="bg-bg-page min-h-screen flex flex-col pt-24 pb-12 text-gray-900">
+
+    <nav class="w-full px-8 py-4 flex justify-between items-center fixed top-0 left-0 right-0 z-50 bg-white shadow-sm">
+        <div class="flex items-center gap-3">
+            <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center p-1.5 overflow-hidden border border-gray-100">
+                <img src="pic/Logo_of_University_of_Phayao.svg" alt="UP Logo" class="w-full h-full object-contain">
+            </div>
+            <div class="flex flex-col">
+                <span class="font-bold text-base lg:text-lg leading-none">UP Badminton</span>
+                <span class="text-[10px] text-gray-500 font-medium tracking-wide">UNIVERSITY OF PHAYAO</span>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-4 lg:gap-8">
+            <div class="hidden md:flex items-center gap-2">
+                <a href="AdminMainmenu.html" class="text-gray-900 px-5 py-2 rounded-lg font-bold hover:bg-gray-50 transition">หน้าหลัก</a>
+                <a href="track status.html" class="text-gray-900 px-5 py-2 rounded-lg font-bold hover:bg-gray-50 transition">ติดตามสถานะคิว</a>
+                <a href="Adminstatistics.html" class="bg-u-purple text-white px-5 py-2 rounded-lg font-bold shadow-sm">สถิติการใช้บริการ</a>
+            </div>
+
+            <div class="flex items-center gap-4 border-l border-gray-200 pl-4 lg:pl-8">
+                <a href="Adminnotifications.html" class="relative p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-full transition flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+                    </svg>
+                </a>
+                <a href="Adminprofile.html" class="w-10 h-10 bg-gray-200 rounded-full overflow-hidden border border-gray-300 hover:ring-2 hover:ring-purple-200 transition flex items-center justify-center">
+                    <svg class="w-full h-full text-gray-500 p-1" fill="currentColor" viewBox="0 0 24 24"><path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="w-full max-w-[1200px] mx-auto px-6 lg:px-10 mt-6">
+        
+        <div class="mb-6">
+            <h1 class="text-3xl font-bold text-black mb-1">สถิติการเข้าใช้บริการ</h1>
+            <p class="text-gray-500 text-sm">ตรวจสอบสถิติการจองสนามแบดมินตัน</p>
+        </div>
+
+        <div class="flex gap-2 mb-8 bg-white/50 w-fit p-1.5 rounded-full shadow-sm border border-white">
+            <button id="btn-today" onclick="switchTab('today')" class="bg-u-purple text-white px-6 py-2 rounded-full text-sm font-bold shadow-sm transition-all">ล่าสุด</button>
+            <button id="btn-month" onclick="switchTab('month')" class="bg-transparent text-gray-600 hover:bg-white px-6 py-2 rounded-full text-sm font-bold transition-all">รายเดือน</button>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+            
+            <div class="space-y-6">
+                <div id="calendar-widget" class="bg-white rounded-[24px] p-6 shadow-sm hidden fade-in">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="font-bold text-sm text-gray-800">มีนาคม 2569</h3>
+                        <div class="flex gap-2">
+                            <button class="text-gray-400 hover:text-black">&lt;</button>
+                            <button class="text-gray-400 hover:text-black">&gt;</button>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-7 text-center text-xs gap-y-3 font-medium">
+                        <div class="text-gray-400">อา</div><div class="text-gray-400">จ</div><div class="text-gray-400">อ</div>
+                        <div class="text-gray-400">พ</div><div class="text-gray-400">พฤ</div><div class="text-gray-400">ศ</div><div class="text-gray-400">ส</div>
+                        
+                        <div class="text-red-500">1</div><div class="text-gray-800">2</div><div class="text-red-500">3</div>
+                        <div class="text-red-500">4</div><div class="text-gray-800">5</div><div class="text-gray-800">6</div>
+                        <div class="text-gray-800">7</div><div class="text-gray-800">8</div><div class="text-gray-800">9</div>
+                        <div class="text-red-500">10</div><div class="text-red-500">11</div><div class="text-gray-800">12</div>
+                        <div class="text-gray-800">13</div><div class="text-gray-800">14</div><div class="text-gray-800">15</div>
+                        <div class="bg-u-purple text-white rounded-full w-6 h-6 flex items-center justify-center mx-auto shadow-md">16</div>
+                        <div class="text-red-500">17</div><div class="text-red-500">18</div><div class="text-gray-800">19</div>
+                        <div class="text-gray-800">20</div><div class="text-gray-800">21</div><div class="text-gray-800">22</div>
+                        <div class="text-gray-800">23</div><div class="text-red-500">24</div><div class="text-red-500">25</div>
+                        <div class="text-gray-800">26</div><div class="text-gray-800">27</div><div class="text-gray-800">28</div>
+                        <div class="text-gray-800">29</div><div class="text-gray-800">30</div><div class="text-red-500">31</div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-[24px] p-6 shadow-sm fade-in">
+                    <h3 id="total-title" class="font-bold text-sm text-gray-800 mb-4">จำนวนคนเข้าใช้บริการสัปดาห์นี้</h3>
+                    <div class="flex items-baseline gap-2">
+                        <span id="total-number" class="text-5xl font-bold text-black">0</span>
+                        <span class="text-gray-500 font-medium">ท่าน</span>
+                    </div>
+                    <p id="realtime-badge" class="text-xs text-green-500 font-bold mt-2 flex items-center gap-1">
+                        <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span> อัปเดตเรียลไทม์
+                    </p>
+                </div>
+            </div>
+
+            <div class="lg:col-span-2 bg-white rounded-[24px] p-6 shadow-sm fade-in relative">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 id="chart-title" class="font-bold text-gray-800">สถิติการเข้าใช้บริการ</h3>
+                </div>
+                
+                <div class="relative h-[250px] w-full">
+                    <canvas id="statsChart"></canvas>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script src="javascript/Adminstatistics.js"></script>
+</body>
+</html>

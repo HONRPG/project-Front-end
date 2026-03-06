@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>หน้าหลัก - จองสนามแบดมินตัน</title>
+    <title>ติดตามสถานะคิว - UP Badminton Admin</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -12,10 +12,9 @@
         .bg-page { background-color: #F5E6F6; }
         .text-u-purple { color: #6C2B97; }
         .bg-u-purple { background-color: #6C2B97; }
-        .bg-u-purple-light { background-color: #9d5cc5; }
         
-        .court-list::-webkit-scrollbar { width: 6px; }
-        .court-list::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 10px; }
     </style>
 </head>
 <body class="bg-page min-h-screen flex flex-col pt-24 pb-12">
@@ -23,7 +22,7 @@
     <nav class="w-full px-8 py-4 flex justify-between items-center fixed top-0 left-0 right-0 z-50 bg-white shadow-sm">
         <div class="flex items-center gap-3">
             <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center p-1.5 overflow-hidden border border-gray-100">
-                 <img src="pic/Logo_of_University_of_Phayao.svg" alt="UP Logo" class="w-full h-full object-contain">
+                <img src="pic/Logo_of_University_of_Phayao.svg" alt="UP Logo" class="w-full h-full object-contain">
             </div>
             <div class="flex flex-col">
                 <span class="font-bold text-gray-900 text-base lg:text-lg leading-none">UP Badminton</span>
@@ -33,7 +32,7 @@
 
         <div class="flex items-center gap-4 lg:gap-8">
             <div class="hidden md:flex items-center gap-2">
-                <a href="Main menu.html" class="bg-u-purple text-white px-5 py-2 rounded-lg font-medium shadow-sm">หน้าหลัก</a>
+                <a href="Main menu.html" class="bg-u-purple text-white px-5 py-2 rounded-lg font-bold shadow-sm">หน้าหลัก</a>
                 <a href="history.html" class="text-gray-900 px-5 py-2 rounded-lg font-bold hover:bg-gray-50 transition">จองคิวสนาม</a>
             </div>
 
@@ -46,33 +45,38 @@
                 </a>
                 
                 <a href="profile.html" class="w-10 h-10 bg-gray-200 rounded-full overflow-hidden border border-gray-300 hover:ring-2 hover:ring-purple-200 transition flex items-center justify-center">
-                     <svg class="w-full h-full text-gray-500 p-1" fill="currentColor" viewBox="0 0 24 24"><path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                    <svg class="w-full h-full text-gray-500 p-1" fill="currentColor" viewBox="0 0 24 24"><path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
                 </a>
             </div>
         </div>
     </nav>
 
-    <main class="w-full max-w-[1440px] mx-auto px-4 lg:px-10 mt-6">
+    <main class="w-full max-w-[1200px] mx-auto px-4 lg:px-10 mt-6">
         
         <div class="mb-8">
             <h1 class="text-3xl font-bold text-black mb-1">สถานะคิวปัจจุบัน</h1>
-            <p class="text-gray-500 text-base">ติดตามสถานะคิวการเล่นแบดมินตันล่าสุด</p>
+            <p class="text-gray-500 text-sm">ติดตามสถานะคิวการเล่นแบดมินตันล่าสุด</p>
         </div>
 
         <div class="mb-10">
             <div class="flex justify-between items-end mb-4">
-                <h2 class="text-xl font-bold text-black">คิวที่กำลังเล่น</h2>
-                <span id="active-court-count" class="bg-green-100 text-green-600 px-4 py-1.5 rounded-full text-sm font-bold">สนามถูกใช้บริการ 0/4</span>
+                <h2 class="text-lg font-bold text-black">คิวที่กำลังเล่น</h2>
+                <span id="active-court-count" class="bg-[#E1F7E7] text-[#00A650] px-4 py-1.5 rounded-full text-sm font-bold">สนามถูกใช้บริการ 0/4</span>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6" id="active-courts-container">
-                </div>
+            <div class="bg-white rounded-2xl p-4 shadow-sm">
+                <div class="space-y-2" id="active-courts-container">
+                    </div>
+            </div>
         </div>
 
         <div>
-            <h2 class="text-xl font-bold text-black mb-4">สถานะคิวรอ</h2>
-            <div class="space-y-3" id="waiting-queue-container">
-                </div>
+            <h2 class="text-lg font-bold text-black mb-4">คิวรอสนาม</h2>
+            
+            <div class="bg-white rounded-2xl p-4 shadow-sm mb-6">
+                <div class="space-y-2" id="waiting-queue-container">
+                    </div>
+            </div>
 
             <div class="flex justify-end items-center gap-2 mt-6">
                 <button class="w-8 h-8 flex items-center justify-center rounded-full bg-white shadow-sm text-gray-400 hover:bg-gray-100">&lt;</button>
@@ -84,100 +88,7 @@
 
     </main>
 
-    <script>
-    function getLatestQueues() {
-        // ดึงคิวจากฐานข้อมูลเดียวกับหน้าจองคิว
-        const savedQueues = localStorage.getItem('up_badminton_queues');
-        return savedQueues ? JSON.parse(savedQueues) : [];
-    }
+    <script src="javascript/Mainmenu.js"></script>
 
-    function renderStatusPage() {
-        const allData = getLatestQueues();
-        
-        // 1. คัดกรองคิว: แยกคิวที่คนครบ 4 คน กับคนไม่ครบ
-        const fullQueues = [];
-        const incompleteQueues = [];
-
-        allData.forEach(q => {
-            const isFull = q.players.every(p => p !== null);
-            if (isFull) fullQueues.push(q);
-            else incompleteQueues.push(q);
-        });
-
-        // 2. จัดสรรสนาม: 4 คิวแรกที่ "คนครบ" จะได้สิทธิ์กำลังเล่น
-        const activeCourts = fullQueues.slice(0, 4);
-        
-        // 3. จัดคิวรอ: คิวที่คนครบแต่สนามเต็ม + คิวที่คนไม่ครบ (จับมารวมกันแล้วเรียงตามลำดับคิว)
-        const waitingCourtsFull = fullQueues.slice(4);
-        const waitingList = [...waitingCourtsFull, ...incompleteQueues].sort((a, b) => a.id - b.id);
-
-        // --- Render คิวที่กำลังเล่น (Cards) ---
-        const activeContainer = document.getElementById('active-courts-container');
-        activeContainer.innerHTML = '';
-        
-        // อัปเดตตัวเลขสนามที่กำลังเล่น
-        document.getElementById('active-court-count').textContent = `สนามถูกใช้บริการ ${activeCourts.length}/4`;
-
-        if (activeCourts.length === 0) {
-            activeContainer.innerHTML = '<div class="col-span-4 bg-white rounded-xl p-6 text-center text-gray-400 border border-dashed border-gray-300">ยังไม่มีคิวที่ได้ลงเล่น (ต้องการผู้เล่นครบ 4 คน)</div>';
-        } else {
-            activeCourts.forEach((court, index) => {
-                const cardHTML = `
-                    <div class="bg-white rounded-[20px] p-5 shadow-sm border border-transparent hover:border-purple-200 transition">
-                        <div class="flex justify-between items-start mb-4">
-                            <div>
-                                <h3 class="font-bold text-gray-900">สนามที่ ${index + 1}</h3>
-                                <p class="text-sm text-gray-500 font-medium">คิวที่ ${court.id}</p>
-                                <p class="text-xs text-gray-400 mt-1">ผู้เล่น</p>
-                            </div>
-                            <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center text-green-500 shadow-sm">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
-                            </div>
-                        </div>
-                        <div class="space-y-1">
-                            ${court.players.map((p, i) => `<p class="text-sm text-gray-800 font-medium">${i+1}. ${p || '-'}</p>`).join('')}
-                        </div>
-                    </div>`;
-                activeContainer.innerHTML += cardHTML;
-            });
-        }
-
-        // --- Render คิวรอสนาม (Rows) ---
-        const queueContainer = document.getElementById('waiting-queue-container');
-        queueContainer.innerHTML = '';
-
-        if (waitingList.length === 0) {
-            queueContainer.innerHTML = '<p class="text-center text-gray-400 py-4">ยังไม่มีคิวรอในขณะนี้</p>';
-        } else {
-            waitingList.forEach(q => {
-                const isFull = q.players.every(p => p !== null);
-                
-                // ตรรกะสีและสถานะ: 
-                // ถ้าคนครบ = รอคิวสนาม (สีส้ม) / ถ้าคนไม่ครบ = ผู้เล่นไม่ครบ (สีแดง)
-                const bgClass = !isFull ? 'bg-red-50 border border-red-200' : 'bg-orange-50 border border-orange-200';
-                const textClass = !isFull ? 'text-red-600' : 'text-orange-600';
-                const statusText = !isFull ? 'ผู้เล่นไม่ครบ' : 'รอคิวสนาม';
-                const badgeClass = !isFull ? 'bg-red-100 text-red-600' : 'bg-orange-100 text-orange-600';
-                
-                const statusIcon = `<div class="flex justify-end"><span class="${badgeClass} text-xs px-3 py-1.5 rounded-lg flex items-center gap-1 font-bold">${statusText}</span></div>`;
-
-                const rowHTML = `
-                    <div class="${bgClass} rounded-xl p-4 lg:px-8 flex flex-col md:flex-row md:items-center justify-between gap-4 transition hover:shadow-sm">
-                        <div class="w-full md:w-1/6">
-                            <span class="${textClass} text-lg font-bold">คิวที่ ${q.id}</span>
-                        </div>
-                        <div class="w-full md:w-4/6 grid grid-cols-2 md:grid-cols-4 gap-2">
-                            ${q.players.map((p, i) => `<span class="text-sm font-medium ${p ? 'text-gray-800' : 'text-gray-400'}">${i+1}. ${p || 'ว่าง'}</span>`).join('')}
-                        </div>
-                        <div class="w-full md:w-1/6">${statusIcon}</div>
-                    </div>`;
-                queueContainer.innerHTML += rowHTML;
-            });
-        }
-    }
-
-    // อัปเดตข้อมูลอัตโนมัติเมื่อมีการโหลดหน้า
-    window.onload = renderStatusPage;
-    </script>
 </body>
 </html>

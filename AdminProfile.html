@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>โปรไฟล์ผู้ดูแลระบบ - UP Badminton</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Prompt', 'sans-serif'],
+                    },
+                    colors: {
+                        'bg-page': '#F5E6F6',
+                        'u-purple': '#6C2B97',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-bg-page min-h-screen flex flex-col pt-24 pb-12 text-gray-900">
+
+    <nav class="w-full px-8 py-4 flex justify-between items-center fixed top-0 left-0 right-0 z-50 bg-white shadow-sm">
+        <div class="flex items-center gap-3">
+            <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center p-1.5 overflow-hidden border border-gray-100">
+                <img src="pic/Logo_of_University_of_Phayao.svg" alt="UP Logo" class="w-full h-full object-contain">
+            </div>
+            <div class="flex flex-col">
+                <span class="font-bold text-base lg:text-lg leading-none">UP Badminton</span>
+                <span class="text-[10px] text-gray-500 font-medium tracking-wide">UNIVERSITY OF PHAYAO</span>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-4 lg:gap-8">
+            <div class="hidden md:flex items-center gap-2">
+                <a href="AdminMainmenu.html" class="px-5 py-2 rounded-lg font-bold hover:bg-gray-50 transition">หน้าหลัก</a>
+                <a href="track status.html" class="px-5 py-2 rounded-lg font-bold hover:bg-gray-50 transition">ติดตามสถานะคิว</a>
+                <a href="Adminstatistics.html" class="px-5 py-2 rounded-lg font-bold hover:bg-gray-50 transition">สถิติการใช้บริการ</a>
+            </div>
+
+            <div class="flex items-center gap-4 border-l border-gray-200 pl-4 lg:pl-8">
+                <a href="Adminnotifications.html" class="relative p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-full transition flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+                    </svg>
+                    <span class="absolute top-2 right-2.5 w-2 h-2 bg-red-500 rounded-full border border-white"></span>
+                </a>
+                
+                <a href="Adminprofile.html" class="w-10 h-10 bg-u-purple rounded-full overflow-hidden border-2 border-purple-200 shadow-md flex items-center justify-center transition transform scale-105">
+                    <svg class="w-full h-full text-white p-1" fill="currentColor" viewBox="0 0 24 24"><path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="w-full max-w-[1000px] mx-auto px-6 lg:px-10 mt-6">
+        <div class="mb-6">
+            <h1 class="text-3xl font-bold mb-2">โปรไฟล์ผู้ดูแลระบบ</h1>
+        </div>
+
+        <div class="space-y-6">
+            
+            <div class="bg-white rounded-2xl shadow-sm overflow-hidden relative">
+                <div class="h-24 bg-u-purple w-full"></div>
+                <div class="px-8 pb-8 pt-12 md:pt-4 flex flex-col md:flex-row items-center md:items-end gap-6 relative">
+                    <div class="absolute -top-16 left-1/2 transform -translate-x-1/2 md:static md:translate-x-0 md:-mt-16 border-4 border-white rounded-full bg-gray-200 w-32 h-32 flex items-center justify-center overflow-hidden shadow-sm">
+                        <svg class="w-20 h-20 text-gray-500 mt-2" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                        </svg>
+                    </div>
+                    <div class="text-center md:text-left mt-8 md:mt-0 flex flex-col items-center md:items-start">
+                        <div class="flex items-center justify-center md:justify-start gap-3">
+                            <h2 id="display-name" class="text-2xl font-bold">-</h2>
+                            <span class="bg-[#FCE6CD] text-[#B57C2B] text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-1 shadow-sm">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                </svg>
+                                Admin
+                            </span>
+                        </div>
+                        <div class="flex flex-col md:flex-row gap-1 md:gap-4 text-gray-600 font-medium mt-1">
+                            <p>รหัสพนักงาน <span id="display-staff-id" class="font-bold">-</span></p>
+                            <p class="hidden md:block">|</p>
+                            <p>ตำแหน่ง <span class="font-bold">ผู้ดูแลระบบสนาม</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl p-6 shadow-sm">
+                <h3 class="font-bold text-lg mb-4">ข้อมูลส่วนตัว</h3>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-bold mb-1">ชื่อ - นามสกุล</label>
+                        <div id="name-display" class="w-full bg-gray-100 text-gray-600 px-4 py-2.5 rounded-lg border border-transparent cursor-not-allowed font-medium">-</div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold mb-1">รหัสพนักงาน</label>
+                        <div id="input-staff-id" class="w-full bg-gray-100 text-gray-600 px-4 py-2.5 rounded-lg border border-transparent cursor-not-allowed font-medium">-</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl p-6 shadow-sm">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="font-bold text-lg">ช่องทางติดต่อ</h3>
+                </div>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-bold mb-1">Email</label>
+                        <div id="input-email" class="w-full bg-gray-100 text-gray-600 px-4 py-2.5 rounded-lg border border-transparent cursor-not-allowed font-medium">-</div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold mb-1">เบอร์โทร <span class="text-u-purple text-xs font-normal">(แก้ไขได้)</span></label>
+                        <div class="relative">
+                            <input type="tel" id="phone-input" class="w-full bg-white px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition font-medium" placeholder="กรอกเบอร์โทรศัพท์">
+                            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-400">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" /></svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex justify-end pt-2">
+                        <button onclick="saveProfile()" class="bg-purple-100 hover:bg-purple-200 text-u-purple font-bold py-2 px-6 rounded-lg transition text-sm flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+                            บันทึกการแก้ไข
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-end">
+                <button onclick="logout()" class="bg-u-purple hover:bg-purple-800 text-white font-bold py-2.5 px-8 rounded-lg shadow-md transition">ออกจากระบบ</button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+       
+    </script>
+    <script src="javascript/AdminProfile.js"></script>
+</body>
+</html>

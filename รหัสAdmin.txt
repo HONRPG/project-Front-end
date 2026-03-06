@@ -1,2 +1,2 @@
-"admin@up.ac.th"
-"admin123"
+admin@up.ac.th
+admin123
