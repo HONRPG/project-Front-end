@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ติดตามสถานะคิว - UP Badminton Admin</title>
+    <title>ติดตามสถานะคิว - UP Badminton</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -33,7 +33,7 @@
         <div class="flex items-center gap-4 lg:gap-8">
             <div class="hidden md:flex items-center gap-2">
                 <a href="AdminMainmenu.html" class="text-gray-900 px-5 py-2 rounded-lg font-bold hover:bg-gray-50 transition">หน้าหลัก</a>
-                <a href="track status.html" class="bg-u-purple text-white px-5 py-2 rounded-lg font-medium shadow-sm">ติดตามสถานะคิว</a>
+                <a href="track-status.html" class="bg-u-purple text-white px-5 py-2 rounded-lg font-medium shadow-sm">ติดตามสถานะคิว</a>
                 <a href="Adminstatistics.html" class="text-gray-900 px-5 py-2 rounded-lg font-bold hover:bg-gray-50 transition">สถิติการใช้บริการ</a>
             </div>
 
@@ -42,9 +42,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
                     </svg>
-                    <span class="absolute top-2 right-2.5 w-2 h-2 bg-red-500 rounded-full border border-white"></span>
                 </a>
-                
                 <a href="AdminProfile.html" class="w-10 h-10 bg-gray-200 rounded-full overflow-hidden border border-gray-300 hover:ring-2 hover:ring-purple-200 transition flex items-center justify-center">
                      <svg class="w-full h-full text-gray-500 p-1" fill="currentColor" viewBox="0 0 24 24"><path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
                 </a>
@@ -53,7 +51,6 @@
     </nav>
 
     <main class="w-full max-w-[1200px] mx-auto px-4 lg:px-10 mt-6">
-        
         <div class="mb-8">
             <h1 class="text-3xl font-bold text-black mb-1">สถานะคิวปัจจุบัน</h1>
             <p class="text-gray-500 text-sm">ติดตามสถานะคิวการเล่นแบดมินตันล่าสุด</p>
@@ -66,27 +63,16 @@
             </div>
 
             <div class="bg-white rounded-2xl p-4 shadow-sm">
-                <div class="space-y-2" id="active-courts-container">
-                    </div>
+                <div class="space-y-2" id="active-courts-container"></div>
             </div>
         </div>
 
         <div>
             <h2 class="text-lg font-bold text-black mb-4">คิวรอสนาม</h2>
-            
             <div class="bg-white rounded-2xl p-4 shadow-sm mb-6">
-                <div class="space-y-2" id="waiting-queue-container">
-                    </div>
-            </div>
-
-            <div class="flex justify-end items-center gap-2 mt-6">
-                <button class="w-8 h-8 flex items-center justify-center rounded-full bg-white shadow-sm text-gray-400 hover:bg-gray-100">&lt;</button>
-                <button class="w-8 h-8 flex items-center justify-center rounded-full bg-u-purple text-white font-bold shadow-md">1</button>
-                <button class="w-8 h-8 flex items-center justify-center rounded-full bg-white text-gray-500 hover:bg-gray-100 font-bold">2</button>
-                <button class="w-8 h-8 flex items-center justify-center rounded-full bg-white shadow-sm text-gray-400 hover:bg-gray-100">&gt;</button>
+                <div class="space-y-2" id="waiting-queue-container"></div>
             </div>
         </div>
-
     </main>
 
     <script src="javascript/trackstatus.js"></script>
