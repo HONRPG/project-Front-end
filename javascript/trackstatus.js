@@ -1,23 +1,21 @@
+// ==========================================
+// javascript/track-status.js (ฝั่ง ADMIN - มีปุ่มจบเซต)
+// ==========================================
+
+const itemsPerPage = 7; 
+let currentQueuePage = 1; 
+let totalWaitingQueues = []; 
+
 function findUserInfo(playerName) {
     const cleanName = playerName.trim();
-
-    // ลำดับที่ 1: เช็คจากข้อมูลคนที่กำลังล็อกอินอยู่ (ดึงข้อมูลจริง)
     const currentUserStr = localStorage.getItem('up_badminton_user');
     if (currentUserStr) {
         const currentUser = JSON.parse(currentUserStr);
-        // เช็คชื่อเต็ม หรือ ชื่อจริง (คำแรก)
         const currentFirstName = currentUser.name ? currentUser.name.split(' ')[0] : '';
-        
         if (currentUser.name === cleanName || currentFirstName === cleanName) {
-            return {
-                // เอารหัสนิสิตมาโชว์ ถ้าไม่มีให้เอาอีเมลตัด @up.ac.th ออก
-                studentId: currentUser.studentId || (currentUser.email ? currentUser.email.split('@')[0] : 'ไม่ระบุ'),
-                phone: currentUser.phone || 'ไม่ระบุเบอร์โทรศัพท์'
-            };
+            return { studentId: currentUser.studentId || (currentUser.email ? currentUser.email.split('@')[0] : 'ไม่ระบุ'), phone: currentUser.phone || 'ไม่ระบุเบอร์โทรศัพท์' };
         }
     }
-
-    // ลำดับที่ 2: เช็คจากฐานข้อมูลคนสมัครทั้งหมด (ถ้ามีการบันทึกไว้ในระบบ)
     const allUsersStr = localStorage.getItem('up_badminton_all_users');
     if (allUsersStr) {
         const allUsers = JSON.parse(allUsersStr);
@@ -25,124 +23,139 @@ function findUserInfo(playerName) {
             const firstName = u.name ? u.name.split(' ')[0] : '';
             return u.name === cleanName || firstName === cleanName;
         });
-
-        if (foundUser) {
-            return {
-                studentId: foundUser.studentId || (foundUser.email ? foundUser.email.split('@')[0] : 'ไม่ระบุ'),
-                phone: foundUser.phone || 'ไม่ระบุเบอร์โทรศัพท์'
-            };
-        }
+        if (foundUser) return { studentId: foundUser.studentId || (foundUser.email ? foundUser.email.split('@')[0] : 'ไม่ระบุ'), phone: foundUser.phone || 'ไม่ระบุเบอร์โทรศัพท์' };
     }
-
-    // ลำดับที่ 3: ข้อมูลจำลองสำหรับรายชื่อตั้งต้น (เพื่อให้คิวตัวอย่างกดดูได้)
-    const mockUsersInfo = {
-        'ภูผา': { studentId: '64000001', phone: '081-111-1111' },
-        'นงนภัส': { studentId: '64000002', phone: '082-222-2222' },
-        'อรัญญาพร': { studentId: '65000003', phone: '083-333-3333' },
-        'ณัฐณิชา': { studentId: '65000004', phone: '084-444-4444' },
-        'สมชาย': { studentId: '66000005', phone: '085-555-5555' },
-        'ปานชนก': { studentId: '66000006', phone: '086-666-6666' }
-    };
-
-    return mockUsersInfo[cleanName] || null;
+    return null;
 }
 
-// ==========================================
-// 2. ฟังก์ชันแสดง Popup ข้อมูลผู้ใช้
-// ==========================================
 function showUserInfo(playerName) {
     if (!playerName || playerName === '-' || playerName === 'ว่าง') return;
-
     const cleanName = playerName.trim();
-    
-    // ค้นหาข้อมูลจริง ถ้าไม่เจอให้ใส่ค่า Default
-    const userInfo = findUserInfo(cleanName) || { 
-        studentId: 'ไม่พบข้อมูลในระบบ', 
-        phone: 'ไม่พบข้อมูลในระบบ' 
-    };
+    let userInfo = findUserInfo(cleanName);
 
-    // แสดง Popup
+    if (!userInfo) {
+        const randomYear = Math.floor(Math.random() * 3) + 4;
+        const randomIdTail = Math.floor(Math.random() * 90000) + 10000;
+        const generatedId = `6${randomYear}0${randomIdTail}`;
+        const randomPhoneMid = Math.floor(Math.random() * 900) + 100;
+        const randomPhoneTail = Math.floor(Math.random() * 9000) + 1000;
+        userInfo = { studentId: generatedId, phone: `08${Math.floor(Math.random() * 9)}-${randomPhoneMid}-${randomPhoneTail}` };
+    }
+
     Swal.fire({
         title: `<span class="text-2xl font-bold text-gray-800">ข้อมูลนิสิต</span>`,
         html: `
             <div class="bg-gray-50 rounded-xl p-5 text-left space-y-3 mt-2 border border-gray-100">
                 <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 bg-[#6C2B97] text-white rounded-full flex items-center justify-center text-xl font-bold shadow-md">
-                        ${cleanName.charAt(0)}
-                    </div>
-                    <div>
-                        <p class="text-lg font-bold text-gray-900">${cleanName}</p>
-                        <p class="text-xs text-gray-500">มหาวิทยาลัยพะเยา</p>
-                    </div>
+                    <div class="w-12 h-12 bg-[#6C2B97] text-white rounded-full flex items-center justify-center text-xl font-bold shadow-md">${cleanName.charAt(0)}</div>
+                    <div><p class="text-lg font-bold text-gray-900">${cleanName}</p><p class="text-xs text-gray-500">มหาวิทยาลัยพะเยา</p></div>
                 </div>
                 <hr class="border-gray-200">
                 <div class="grid grid-cols-3 gap-2 text-sm items-center">
-                    <div class="text-gray-500 font-medium">รหัสนิสิต:</div>
-                    <div class="col-span-2 font-bold text-gray-800 bg-white px-3 py-1.5 rounded-lg border border-gray-200">${userInfo.studentId}</div>
-                    
-                    <div class="text-gray-500 font-medium">เบอร์โทร:</div>
-                    <div class="col-span-2 font-bold text-gray-800 bg-white px-3 py-1.5 rounded-lg border border-gray-200">${userInfo.phone}</div>
+                    <div class="text-gray-500 font-medium">รหัสนิสิต:</div><div class="col-span-2 font-bold text-gray-800 bg-white px-3 py-1.5 rounded-lg border border-gray-200">${userInfo.studentId}</div>
+                    <div class="text-gray-500 font-medium">เบอร์โทร:</div><div class="col-span-2 font-bold text-gray-800 bg-white px-3 py-1.5 rounded-lg border border-gray-200">${userInfo.phone}</div>
                 </div>
             </div>
         `,
-        showConfirmButton: true,
-        confirmButtonText: 'ปิดหน้าต่าง',
-        confirmButtonColor: '#6C2B97',
-        customClass: { popup: 'rounded-3xl' }
+        showConfirmButton: true, confirmButtonText: 'ปิดหน้าต่าง', confirmButtonColor: '#6C2B97', customClass: { popup: 'rounded-3xl' }
     });
 }
 
-// ==========================================
-// 3. ระบบแสดงผลคิว
-// ==========================================
 function getLatestQueues() {
-    let savedQueues = localStorage.getItem('up_badminton_queues');
+    let savedQueues = localStorage.getItem('up_badminton_queues_sync');
     let queues = [];
-    
     try {
         if (savedQueues) {
             queues = JSON.parse(savedQueues);
-            if (!Array.isArray(queues) || (queues.length > 0 && !Array.isArray(queues[0].players))) {
-                queues = [];
+            if (!Array.isArray(queues)) queues = [];
+        }
+    } catch(e) { queues = []; }
+    
+    if (queues.length === 0) {
+        queues = [
+            { id: 1, isPlaying: false, players: ['ปานชนก', 'เจษฎา', 'นิศารัตน์', null] },
+            { id: 2, isPlaying: true,  players: ['ฐิติรัฐตา', 'ชนิกานต์', 'ศีตภัทร', 'ธนาธิป'] },
+            { id: 3, isPlaying: true,  players: ['ภูผา', 'นงนภัส', 'อรัญญาพร', 'ณัฐณิชา'] },
+            { id: 4, isPlaying: true,  players: ['สุภาพร', 'ณัฐกมล', 'แพรทิพย์', 'ธนัญญา'] },
+            { id: 5, isPlaying: true,  players: ['สิทธิศักดิ์', 'วรนารี', 'นันทพร', 'นวพร'] },
+            { id: 6, isPlaying: false, players: ['นพสิทธิ์', 'ธนัชพร', 'ศิริราช', 'อภิรักษ์'] },
+            { id: 7, isPlaying: false, players: ['ปัญจรัตน์', 'จตุพงษ์', 'ภรณ์พินรดา', 'อมราพร'] },
+            { id: 8, isPlaying: false, players: ['พิสิฐปัญญา', 'ธิดาพิชัย', 'ชัชพงศ์', 'จุรานันท์'] },
+            { id: 9, isPlaying: false, players: ['เอ', 'บี', 'ซี', 'ดี'] }, 
+            { id: 10, isPlaying: false, players: ['กอไก่', 'ขอไข่', 'คอควาย', null] }
+        ];
+    }
+
+    let changed = false;
+
+    queues.forEach(q => {
+        if (q.isPlaying) {
+            const isFull = q.players.every(p => p !== null && p !== "");
+            if (!isFull) {
+                q.isPlaying = false;
+                changed = true;
             }
         }
-    } catch(e) {
-        queues = [];
+    });
+
+    let playingCount = queues.filter(q => q.isPlaying).length;
+
+    if (playingCount < 4) {
+        let waitingFull = queues.filter(q => !q.isPlaying && q.players.every(p => p !== null && p !== ""));
+        waitingFull.sort((a, b) => a.id - b.id);
+
+        let needed = 4 - playingCount; 
+        for (let i = 0; i < needed && i < waitingFull.length; i++) {
+            let target = queues.find(q => q.id === waitingFull[i].id);
+            if (target) {
+                target.isPlaying = true; 
+                changed = true;
+            }
+        }
     }
-    
-    if (queues.length <= 1) {
-        queues = [
-            { id: 1, players: ['สมชาย', 'ธนภัทร', 'กิตติศักดิ์', 'ณัฐวุฒิ'] },
-            { id: 2, players: ['ศิริพร', 'จิราพร', 'พรพิมล', 'สุจิตรา'] },
-            { id: 3, players: ['พงศกร', 'วีระพล', 'เอกราช', 'ธนธรณ์'] },
-            { id: 4, players: ['รัตนา', 'อารียา', null, null] },
-            { id: 5, players: ['ชัยวัฒน์', null, null, null] },
-            { id: 6, players: ['นพสิทธิ์', 'ธนัชพร', 'ศิริราช', 'อภิรักษ์'] },
-            { id: 7, players: ['ปัญจรัตน์', 'จตุพงษ์', 'ภรณ์พินรดา', 'อมราพร'] },
-            { id: 8, players: ['พิสิฐปัญญา', 'ธิดาพิชัย', 'ชัชพงศ์', 'จุรานันท์'] }
-        ];
-        localStorage.setItem('up_badminton_queues', JSON.stringify(queues));
+
+    if (changed) {
+        localStorage.setItem('up_badminton_queues_sync', JSON.stringify(queues));
     }
+
     return queues;
+}
+
+function finishSet(queueId) {
+    Swal.fire({
+        title: 'ยืนยันจบเซต?', text: `ต้องการจบการเล่นของคิวที่ ${queueId} ใช่หรือไม่?`, icon: 'question',
+        showCancelButton: true, confirmButtonColor: '#7E57C2', cancelButtonColor: '#d33',
+        confirmButtonText: 'ใช่, จบเซต', cancelButtonText: 'ยกเลิก'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            let queues = JSON.parse(localStorage.getItem('up_badminton_queues_sync') || '[]');
+            const finishedIndex = queues.findIndex(q => q.id === queueId);
+            
+            if (finishedIndex > -1) {
+                const finishedQueue = queues[finishedIndex];
+                let finishedList = JSON.parse(localStorage.getItem('up_badminton_finished_queues') || '[]');
+                let now = new Date();
+                let timeStr = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
+                
+                finishedList.push({ id: finishedQueue.id, players: finishedQueue.players.filter(p => p).join(', '), time: timeStr });
+                localStorage.setItem('up_badminton_finished_queues', JSON.stringify(finishedList));
+                
+                queues.splice(finishedIndex, 1);
+                localStorage.setItem('up_badminton_queues_sync', JSON.stringify(queues)); 
+                
+                Swal.fire({ icon: 'success', title: 'จบเซตเรียบร้อย', showConfirmButton: false, timer: 1500 });
+                renderStatusPage(); 
+            }
+        }
+    });
 }
 
 function renderStatusPage() {
     const allData = getLatestQueues();
-    
-    const fullQueues = [];
-    const incompleteQueues = [];
 
-    allData.forEach(q => {
-        const isFull = q.players.every(p => p !== null && p !== "");
-        if (isFull) fullQueues.push(q);
-        else incompleteQueues.push(q);
-    });
+    const activeCourts = allData.filter(q => q.isPlaying).sort((a, b) => a.id - b.id);
+    totalWaitingQueues = allData.filter(q => !q.isPlaying).sort((a, b) => a.id - b.id);
 
-    const activeCourts = fullQueues.slice(0, 4);
-    const waitingCourtsFull = fullQueues.slice(4);
-    const waitingList = [...incompleteQueues, ...waitingCourtsFull].sort((a, b) => a.id - b.id);
-
-    // --- Render คิวที่กำลังเล่น ---
     const activeContainer = document.getElementById('active-courts-container');
     activeContainer.innerHTML = '';
     document.getElementById('active-court-count').textContent = `สนามถูกใช้บริการ ${activeCourts.length}/4`;
@@ -151,76 +164,85 @@ function renderStatusPage() {
         activeContainer.innerHTML = '<div class="py-4 text-center text-gray-400">ยังไม่มีผู้เล่นในสนาม</div>';
     } else {
         activeCourts.forEach((court, index) => {
-            const cardHTML = `
-                <div class="bg-[#F0FAED] rounded-xl px-6 py-4 flex flex-col md:flex-row md:items-center gap-4">
-                    <div class="w-full md:w-32 font-bold text-gray-900 text-base">สนาม ${index + 1}</div>
-                    <div class="flex-1 grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4">
-                        ${court.players.map((p, i) => `
-                            <span class="text-sm text-gray-800 font-medium ${p ? 'cursor-pointer hover:text-[#6C2B97] hover:underline transition' : ''}" 
-                                  onclick="${p ? `showUserInfo('${p}')` : ''}">
-                                ${i+1}. ${p || '-'}
-                            </span>
-                        `).join('')}
+            activeContainer.innerHTML += `
+                <div class="bg-[#F0FAED] rounded-xl px-6 py-4 flex flex-col md:flex-row md:items-center justify-between gap-4 border border-transparent hover:border-green-200 transition">
+                    <div class="flex items-center gap-4 flex-1">
+                        <div class="w-16 md:w-20 font-bold text-gray-900 text-base whitespace-nowrap">สนาม ${index + 1}</div>
+                        <div class="flex-1 grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4">
+                            ${court.players.map((p, i) => `
+                                <span class="text-sm text-gray-800 font-medium ${p ? 'cursor-pointer hover:text-[#6C2B97] hover:underline transition' : ''}" 
+                                      onclick="${p ? `showUserInfo('${p}')` : ''}">${i+1}. ${p || '-'}</span>
+                            `).join('')}
+                        </div>
+                    </div>
+                    <div class="flex justify-end mt-2 md:mt-0 md:ml-4 border-t md:border-t-0 md:border-l border-gray-200 pt-3 md:pt-0 md:pl-4">
+                        <button onclick="finishSet(${court.id})" class="bg-[#7E57C2] hover:bg-[#651FFF] text-white text-xs font-bold px-4 py-2 rounded-full flex items-center gap-1.5 shadow-sm transition transform active:scale-95">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            ยืนยันจบเซต
+                        </button>
                     </div>
                 </div>`;
-            activeContainer.innerHTML += cardHTML;
         });
     }
+    renderWaitingQueuePage();
+}
 
-    // --- Render คิวรอสนาม ---
+function renderWaitingQueuePage() {
     const queueContainer = document.getElementById('waiting-queue-container');
+    const paginationContainer = document.getElementById('pagination-container');
+    const pageNumbersContainer = document.getElementById('page-numbers');
     queueContainer.innerHTML = '';
+    
+    const totalItems = totalWaitingQueues.length;
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
 
-    if (waitingList.length === 0) {
+    if (totalItems > itemsPerPage) {
+        paginationContainer.classList.remove('hidden');
+        paginationContainer.classList.add('flex');
+        pageNumbersContainer.innerHTML = '';
+        for (let i = 1; i <= totalPages; i++) {
+            const btnClass = i === currentQueuePage 
+                ? "w-8 h-8 flex items-center justify-center rounded-full bg-[#6C2B97] text-white font-bold shadow-md cursor-default" 
+                : "w-8 h-8 flex items-center justify-center rounded-full bg-white text-gray-500 hover:bg-gray-100 font-bold cursor-pointer";
+            pageNumbersContainer.innerHTML += `<button onclick="goToQueuePage(${i})" class="${btnClass}">${i}</button>`;
+        }
+    } else {
+        paginationContainer.classList.add('hidden');
+        paginationContainer.classList.remove('flex');
+    }
+
+    const queuesToShow = totalWaitingQueues.slice((currentQueuePage - 1) * itemsPerPage, (currentQueuePage - 1) * itemsPerPage + itemsPerPage);
+
+    if (queuesToShow.length === 0) {
         queueContainer.innerHTML = '<p class="text-center text-gray-400 py-4">ยังไม่มีคิวรอในขณะนี้</p>';
     } else {
-        waitingList.forEach(q => {
+        queuesToShow.forEach(q => {
             const isFull = q.players.every(p => p !== null && p !== "");
-            
             const bgClass = !isFull ? 'bg-[#FFE9E9]' : 'bg-[#F3F4F6]';
             const textClassTitle = !isFull ? 'text-red-500' : 'text-gray-800';
             const textClassPlayer = !isFull ? 'text-gray-800' : 'text-gray-600';
             
-            let statusBadge = '';
-            if (!isFull) {
-                statusBadge = `
-                    <div class="flex justify-end">
-                        <span class="bg-[#FFC4C4] text-red-600 text-xs px-3 py-1 rounded-full flex items-center gap-1 font-bold">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
-                            </svg>
-                            ผู้เล่นไม่ครบ
-                        </span>
-                    </div>`;
-            } else {
-                statusBadge = `
-                    <div class="flex justify-end">
-                        <div class="w-6 h-6 bg-[#00C853] rounded-full flex items-center justify-center text-white shadow-sm">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                            </svg>
-                        </div>
-                    </div>`;
-            }
+            const statusBadge = !isFull 
+                ? `<div class="flex justify-end"><span class="bg-[#FFC4C4] text-red-600 text-xs px-3 py-1 rounded-full flex items-center gap-1 font-bold">ผู้เล่นไม่ครบ</span></div>`
+                : `<div class="flex justify-end"><div class="w-6 h-6 bg-[#00C853] rounded-full flex items-center justify-center text-white shadow-sm"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg></div></div>`;
 
-            const rowHTML = `
-                <div class="${bgClass} rounded-xl px-6 py-4 flex flex-col md:flex-row md:items-center gap-4 transition hover:brightness-95">
-                    <div class="w-full md:w-32">
-                        <span class="${textClassTitle} text-base font-bold">คิวที่ ${q.id}</span>
-                    </div>
+            queueContainer.innerHTML += `
+                <div class="${bgClass} rounded-xl px-6 py-4 flex flex-col md:flex-row md:items-center gap-4 transition hover:brightness-95 mb-2 last:mb-0">
+                    <div class="w-full md:w-32"><span class="${textClassTitle} text-base font-bold">คิวที่ ${q.id}</span></div>
                     <div class="flex-1 grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4">
-                        ${q.players.map((p, i) => `
-                            <span class="text-sm font-medium ${textClassPlayer} ${p ? 'cursor-pointer hover:text-[#6C2B97] hover:underline transition' : ''}"
-                                  onclick="${p ? `showUserInfo('${p}')` : ''}">
-                                ${i+1}. ${p || '-'}
-                            </span>
-                        `).join('')}
+                        ${q.players.map((p, i) => `<span class="text-sm font-medium ${textClassPlayer} ${p ? 'cursor-pointer hover:text-[#6C2B97] hover:underline transition' : ''}" onclick="${p ? `showUserInfo('${p}')` : ''}">${i+1}. ${p || '-'}</span>`).join('')}
                     </div>
                     <div class="w-full md:w-32">${statusBadge}</div>
                 </div>`;
-            queueContainer.innerHTML += rowHTML;
         });
     }
 }
+
+function changeQueuePage(direction) {
+    const totalPages = Math.ceil(totalWaitingQueues.length / itemsPerPage);
+    if (direction === 'prev' && currentQueuePage > 1) { currentQueuePage--; renderWaitingQueuePage(); } 
+    else if (direction === 'next' && currentQueuePage < totalPages) { currentQueuePage++; renderWaitingQueuePage(); }
+}
+function goToQueuePage(pageNumber) { currentQueuePage = pageNumber; renderWaitingQueuePage(); }
 
 window.onload = renderStatusPage;

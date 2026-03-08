@@ -51,6 +51,7 @@
     </nav>
 
     <main class="w-full max-w-[1200px] mx-auto px-4 lg:px-10 mt-6">
+        
         <div class="mb-8">
             <h1 class="text-3xl font-bold text-black mb-1">สถานะคิวปัจจุบัน</h1>
             <p class="text-gray-500 text-sm">ติดตามสถานะคิวการเล่นแบดมินตันล่าสุด</p>
@@ -63,16 +64,27 @@
             </div>
 
             <div class="bg-white rounded-2xl p-4 shadow-sm">
-                <div class="space-y-2" id="active-courts-container"></div>
+                <div class="space-y-2" id="active-courts-container">
+                    </div>
             </div>
         </div>
 
         <div>
             <h2 class="text-lg font-bold text-black mb-4">คิวรอสนาม</h2>
+            
             <div class="bg-white rounded-2xl p-4 shadow-sm mb-6">
-                <div class="space-y-2" id="waiting-queue-container"></div>
+                <div class="space-y-2" id="waiting-queue-container">
+                    </div>
+            </div>
+
+            <div id="pagination-container" class="hidden justify-end items-center gap-2 mt-6">
+                <button onclick="changeQueuePage('prev')" class="w-8 h-8 flex items-center justify-center rounded-full bg-white shadow-sm text-gray-400 hover:bg-gray-100">&lt;</button>
+                <div id="page-numbers" class="flex gap-2">
+                    </div>
+                <button onclick="changeQueuePage('next')" class="w-8 h-8 flex items-center justify-center rounded-full bg-white shadow-sm text-gray-400 hover:bg-gray-100">&gt;</button>
             </div>
         </div>
+
     </main>
 
     <script src="javascript/trackstatus.js"></script>

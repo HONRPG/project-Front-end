@@ -1,4 +1,4 @@
-// AdminMainmenu.js
+// javascript/AdminMainmenu.js
 
 let selectedDate = null;
 let selectedCourt = null;
@@ -22,21 +22,46 @@ function selectDate(el, date) {
 // เช็คว่าสนามนี้ถูกปิดไปแล้วหรือยัง
 function isCourtClosed(courtName) {
     const logs = JSON.parse(localStorage.getItem('admin_logs') || '[]');
-    // ถ้าในประวัติ logs มีชื่อสนามนี้อยู่ แปลว่าโดนปิดไปแล้ว
     return logs.some(log => log.court === courtName);
 }
 
+// ฟังก์ชันยกเลิกการปิดสนาม
+function cancelCloseCourt(courtName) {
+    Swal.fire({
+        title: 'ยืนยันการเปิดสนาม?',
+        text: `คุณต้องการยกเลิกการปิดปรับปรุง "${courtName}" ใช่หรือไม่?`,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#00C853',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'ใช่, เปิดสนาม',
+        cancelButtonText: 'ยกเลิก'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            let logs = JSON.parse(localStorage.getItem('admin_logs') || '[]');
+            logs = logs.filter(log => log.court !== courtName);
+            localStorage.setItem('admin_logs', JSON.stringify(logs));
+            
+            if (selectedCourt === courtName) {
+                selectedCourt = null;
+                document.getElementById('sum-court').textContent = "ยังไม่ได้เลือก";
+                document.getElementById('sum-court').className = "text-lg font-medium text-gray-300 italic";
+            }
+            
+            Swal.fire({
+                icon: 'success',
+                title: 'เปิดสนามสำเร็จ',
+                text: `${courtName} กลับมาเปิดใช้งานตามปกติแล้ว`,
+                showConfirmButton: false,
+                timer: 1500
+            });
+            renderCourts(); 
+        }
+    });
+}
+
 function selectCourt(id, name) {
-    // ถ้าสนามปิดอยู่ ไม่ให้กดเลือก
-    if (isCourtClosed(name)) {
-        Swal.fire({
-            icon: 'info',
-            title: 'สนามนี้ปิดอยู่',
-            text: 'ไม่สามารถเลือกสนามที่อยู่ในสถานะปิดปรับปรุงได้',
-            confirmButtonColor: '#6C2B97'
-        });
-        return; 
-    }
+    if (isCourtClosed(name)) return; // ป้องกันการกดสนามที่ปิดไปแล้ว
 
     selectedCourt = name;
     renderCourts();
@@ -53,15 +78,22 @@ function renderCourts() {
     const paginated = allCourts.slice(start, end);
 
     paginated.forEach(court => {
-        const isActive = selectedCourt === court.name ? 'active' : '';
-        const closed = isCourtClosed(court.name); // เช็คสถานะปิด
+        const isActive = selectedCourt === court.name;
+        const closed = isCourtClosed(court.name);
 
-        // กำหนด Class และป้ายกำกับตามสถานะ
-        let cardStyle = closed ? 'opacity-60 bg-gray-50 cursor-not-allowed border-gray-200' : 'bg-white cursor-pointer border-transparent hover:border-purple-200';
-        if (isActive && !closed) cardStyle = 'bg-white border-u-purple ring-4 ring-purple-100 cursor-pointer';
+        // กำหนด Style พื้นฐานของการ์ด
+        let cardStyle = 'bg-white cursor-pointer border-transparent hover:border-green-200';
+        if (closed) cardStyle = 'bg-gray-50 border-gray-200';
+        
+        // เมื่อเลือกสนาม จะไฮไลต์เป็นสีเขียว
+        if (isActive && !closed) cardStyle = 'bg-green-50 border-green-500 ring-4 ring-green-100 cursor-pointer';
 
         let badgeHTML = '';
+        let cancelBtnHTML = '';
+        let checkmarkHTML = '';
+
         if (closed) {
+            // โชว์ป้ายปิดสนามที่รูป และปุ่มยกเลิกด้านขวา
             badgeHTML = `
                 <div class="absolute inset-0 bg-white/60 backdrop-blur-[2px] flex items-center justify-center z-10 rounded-xl">
                     <span class="bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md flex items-center gap-1">
@@ -70,22 +102,48 @@ function renderCourts() {
                     </span>
                 </div>
             `;
+            cancelBtnHTML = `
+                <div class="flex items-center">
+                    <button onclick="cancelCloseCourt('${court.name}')" class="text-sm bg-white border border-gray-300 hover:border-red-500 hover:text-red-500 text-gray-500 font-bold py-1.5 px-4 rounded-lg transition-all z-20 relative">
+                        ยกเลิกการปิดสนาม
+                    </button>
+                </div>
+            `;
+        } else if (isActive) {
+            // ย้ายไอคอนติ๊กถูกมาไว้ขวาสุด นอกกรอบรูป
+            checkmarkHTML = `
+                <div class="flex items-center justify-center animate-pop ml-2">
+                    <div class="bg-green-500 text-white rounded-full w-8 h-8 flex items-center justify-center shadow-md">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                </div>
+            `;
         }
 
         container.innerHTML += `
-            <div class="court-card ${cardStyle} relative rounded-2xl p-4 flex gap-6 items-center border-2 transition-all" onclick="selectCourt(${court.id}, '${court.name}')">
+            <div class="court-card ${cardStyle} relative rounded-2xl p-4 flex gap-4 items-center border-2 transition-all">
                 
-                <div class="w-32 h-20 bg-gray-200 rounded-xl overflow-hidden flex-shrink-0 relative">
-                    <img src="${court.img}" class="w-full h-full object-cover">
-                    ${badgeHTML} </div>
+                <div class="flex flex-1 items-center gap-6" onclick="selectCourt(${court.id}, '${court.name}')">
+                    <div class="w-32 h-20 bg-gray-200 rounded-xl overflow-hidden flex-shrink-0 relative ${closed ? 'opacity-60' : ''}">
+                        <img src="${court.img}" class="w-full h-full object-cover">
+                        ${badgeHTML}
+                    </div>
 
-                <div class="${closed ? 'text-gray-400' : ''}">
-                    <h4 class="font-bold text-xl ${closed ? 'text-gray-500' : 'text-gray-900'}">${court.name}</h4>
-                    <ul class="text-sm ${closed ? 'text-gray-400' : 'text-gray-800'} list-disc list-inside mt-1 font-medium">
-                        <li>${court.type}</li>
-                        <li>${court.floor}</li>
-                    </ul>
+                    <div class="${closed ? 'text-gray-400' : ''}">
+                        <h4 class="font-bold text-xl ${closed ? 'text-gray-500' : (isActive ? 'text-green-700' : 'text-gray-900')}">${court.name}</h4>
+                        <ul class="text-sm ${closed ? 'text-gray-400' : (isActive ? 'text-green-600' : 'text-gray-800')} list-disc list-inside mt-1 font-medium">
+                            <li>${court.type}</li>
+                            <li>${court.floor}</li>
+                        </ul>
+                    </div>
                 </div>
+                
+                ${checkmarkHTML}
+
+                ${cancelBtnHTML}
+
             </div>
         `;
     });
@@ -132,26 +190,21 @@ function processFinalSubmit() {
         reason = radioSelected.value;
     }
 
-    // บันทึกลง Logs ว่าสนามนี้ปิดแล้ว
     let logs = JSON.parse(localStorage.getItem('admin_logs') || '[]');
     logs.push({ court: selectedCourt, date: selectedDate, reason: reason });
     localStorage.setItem('admin_logs', JSON.stringify(logs));
 
-    // ใส่ข้อมูลในหน้าสำเร็จ
     document.getElementById('success-court-name').textContent = selectedCourt;
     document.getElementById('success-reason').textContent = reason;
 
-    // สลับหน้าต่าง
     closeModal('modal-confirm');
     document.getElementById('modal-success').classList.remove('hidden');
     document.getElementById('modal-success').classList.add('flex');
     
-    // รีเรนเดอร์ลิสต์สนาม เพื่อให้ป้าย "ปิดปรับปรุง" ขึ้นทันทีหลังปิดสำเร็จ
-    selectedCourt = null; // เคลียร์ตัวเลือกปัจจุบัน
+    selectedCourt = null; 
     document.getElementById('sum-court').textContent = "ยังไม่ได้เลือก";
     document.getElementById('sum-court').className = "text-lg font-medium text-gray-300 italic";
     renderCourts(); 
 }
 
-// ทำงานตอนโหลดไฟล์เสร็จ
 window.onload = renderCourts;

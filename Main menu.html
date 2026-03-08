@@ -78,11 +78,11 @@
                     </div>
             </div>
 
-            <div class="flex justify-end items-center gap-2 mt-6">
-                <button class="w-8 h-8 flex items-center justify-center rounded-full bg-white shadow-sm text-gray-400 hover:bg-gray-100">&lt;</button>
-                <button class="w-8 h-8 flex items-center justify-center rounded-full bg-u-purple text-white font-bold shadow-md">1</button>
-                <button class="w-8 h-8 flex items-center justify-center rounded-full bg-white text-gray-500 hover:bg-gray-100 font-bold">2</button>
-                <button class="w-8 h-8 flex items-center justify-center rounded-full bg-white shadow-sm text-gray-400 hover:bg-gray-100">&gt;</button>
+            <div id="pagination-container" class="hidden justify-end items-center gap-2 mt-6">
+                <button onclick="changeQueuePage('prev')" class="w-8 h-8 flex items-center justify-center rounded-full bg-white shadow-sm text-gray-400 hover:bg-gray-100">&lt;</button>
+                <div id="page-numbers" class="flex gap-2">
+                    </div>
+                <button onclick="changeQueuePage('next')" class="w-8 h-8 flex items-center justify-center rounded-full bg-white shadow-sm text-gray-400 hover:bg-gray-100">&gt;</button>
             </div>
         </div>
 

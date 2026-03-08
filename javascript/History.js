@@ -14,17 +14,26 @@ function renderUI() {
     const container = document.getElementById('queues-container');
     const select = document.getElementById('queueSelect');
     
-    let queues = JSON.parse(localStorage.getItem('up_badminton_queues'));
+    // เปลี่ยนมาใช้ Key กลางที่ Sync กันทุกหน้า
+    let queues = JSON.parse(localStorage.getItem('up_badminton_queues_sync'));
     
     if (!queues || queues.length <= 1) {
+        // อิงข้อมูลจำลองเริ่มต้น ให้ตรงกับหน้าอื่นๆ
         queues = [
-            { id: 1, players: ['สมชาย', 'ธนภัทร', 'กิตติศักดิ์', 'ณัฐวุฒิ'] }, 
-            { id: 2, players: ['ศิริพร', 'จิราพร', 'พรพิมล', 'สุจิตรา'] },     
-            { id: 3, players: ['พงศกร', 'วีระพล', 'เอกราช', null] },          
-            { id: 4, players: ['รัตนา', 'อารียา', null, null] },              
-            { id: 5, players: ['ชัยวัฒน์', null, null, null] }                 
+            { id: 1, players: ['ปานชนก', 'เจษฎา', 'นิศารัตน์', 'ชัชพงศ์'] },
+            { id: 2, players: ['ฐิติรัฐตา', 'ชนิกานต์', 'ศีตภัทร', 'ธนาธิป'] },
+            { id: 3, players: ['ภูผา', 'นงนภัส', 'อรัญญาพร', 'ณัฐณิชา'] },
+            { id: 4, players: ['สุภาพร', 'ณัฐกมล', 'แพรทิพย์', 'ธนัญญา'] },
+            { id: 5, players: ['สิทธิศักดิ์', 'วรนารี', 'นันทพร', 'นวพร'] },
+            { id: 6, players: ['นพสิทธิ์', 'ธนัชพร', 'ศิริราช', 'อภิรักษ์'] },
+            { id: 7, players: ['ปัญจรัตน์', 'จตุพงษ์', 'ภรณ์พินรดา', 'อมราพร'] },
+            { id: 8, players: ['พิสิฐปัญญา', 'ธิดาพิชัย', 'null', 'จุรานันท์'] },
+            { id: 9, players: ['เอ', 'บี', 'ซี', 'ดี'] }, 
+            { id: 10, players: ['กอไก่', 'ขอไข่', 'คอควาย', null] }, 
+            { id: 11, players: ['จอจาน', 'ฉอฉิ่ง', null, null] },
+            { id: 12, players: ['ชอช้าง', 'ซอโซ่', 'ฌอเฌอ', 'ญอหญิง'] }
         ];
-        localStorage.setItem('up_badminton_queues', JSON.stringify(queues));
+        localStorage.setItem('up_badminton_queues_sync', JSON.stringify(queues));
     }
 
     const nameInput = document.getElementById('name');
@@ -141,7 +150,8 @@ function submitQueue() {
 
     const chosenName = document.getElementById('name').value.trim().split(' ')[0];
 
-    let allQueues = JSON.parse(localStorage.getItem('up_badminton_queues')) || [];
+    // ดึงข้อมูลจาก Key กลาง
+    let allQueues = JSON.parse(localStorage.getItem('up_badminton_queues_sync')) || [];
 
     const isDuplicate = allQueues.some(q => 
         q.players.some(p => p && p.toLowerCase() === chosenName.toLowerCase())
@@ -163,8 +173,13 @@ function submitQueue() {
         }
     }
 
-    localStorage.setItem('up_badminton_queues', JSON.stringify(allQueues));
-    Swal.fire({ icon: 'success', title: 'ลงชื่อสำเร็จ!', showConfirmButton: false, timer: 1500 });
+    // บันทึกกลับลง Key กลาง
+    localStorage.setItem('up_badminton_queues_sync', JSON.stringify(allQueues));
+    Swal.fire({ icon: 'success', title: 'ลงชื่อสำเร็จ!', showConfirmButton: false, timer: 1500 }).then(() => {
+        // หากต้องการให้เด้งไปหน้าติดตามคิวหลังจากจองสำเร็จ สามารถเปิดคอมเมนต์บรรทัดล่างได้เลยครับ
+        // window.location.href = 'Main menu.html';
+    });
+    
     document.getElementById('queueSelect').value = '';
     renderUI();
 }
@@ -199,7 +214,8 @@ function confirmCancel() {
         }
     }
 
-    let queues = JSON.parse(localStorage.getItem('up_badminton_queues')) || [];
+    // ดึงข้อมูลจาก Key กลาง
+    let queues = JSON.parse(localStorage.getItem('up_badminton_queues_sync')) || [];
     let qIndex = queues.findIndex(q => q.id === cancelData.queueId);
     
     if(qIndex > -1) {
@@ -211,7 +227,8 @@ function confirmCancel() {
                 queues.splice(qIndex, 1);
             }
             
-            localStorage.setItem('up_badminton_queues', JSON.stringify(queues));
+            // บันทึกกลับลง Key กลาง
+            localStorage.setItem('up_badminton_queues_sync', JSON.stringify(queues));
             
             closeCancelModal();
             
