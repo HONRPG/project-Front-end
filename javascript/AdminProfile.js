@@ -64,7 +64,7 @@
                 if (result.isConfirmed) {
                     // เคลียร์ข้อมูลล็อคอินออกจากระบบ
                     localStorage.removeItem('up_badminton_user');
-                    window.location.href = 'login.html'; 
+                    window.location.href = 'index.html'; 
                 }
             })
         }

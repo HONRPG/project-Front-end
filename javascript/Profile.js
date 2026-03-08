@@ -51,7 +51,7 @@ window.onload = function() {
                 confirmButtonText: 'ใช่, ออกจากระบบ', cancelButtonText: 'ยกเลิก'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location.href = 'login.html'; 
+                    window.location.href = 'index.html'; 
                 }
             })
         }
