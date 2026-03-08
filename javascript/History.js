@@ -1,4 +1,4 @@
-// history.js
+// javascript/history.js
 
 const avatarColors = ['bg-purple-600', 'bg-pink-500', 'bg-indigo-500', 'bg-blue-500'];
 const MAX_ACTIVE_COURTS = 4;
@@ -14,24 +14,21 @@ function renderUI() {
     const container = document.getElementById('queues-container');
     const select = document.getElementById('queueSelect');
     
-    // เปลี่ยนมาใช้ Key กลางที่ Sync กันทุกหน้า
     let queues = JSON.parse(localStorage.getItem('up_badminton_queues_sync'));
     
-    if (!queues || queues.length <= 1) {
-        // อิงข้อมูลจำลองเริ่มต้น ให้ตรงกับหน้าอื่นๆ
+    // รีเซ็ตข้อมูลให้มี isPlaying ตรงกับหน้า Mainmenu 
+    if (!queues || queues.length === 0) {
         queues = [
-            { id: 1, players: ['ปานชนก', 'เจษฎา', 'นิศารัตน์', 'ชัชพงศ์'] },
-            { id: 2, players: ['ฐิติรัฐตา', 'ชนิกานต์', 'ศีตภัทร', 'ธนาธิป'] },
-            { id: 3, players: ['ภูผา', 'นงนภัส', 'อรัญญาพร', 'ณัฐณิชา'] },
-            { id: 4, players: ['สุภาพร', 'ณัฐกมล', 'แพรทิพย์', 'ธนัญญา'] },
-            { id: 5, players: ['สิทธิศักดิ์', 'วรนารี', 'นันทพร', 'นวพร'] },
-            { id: 6, players: ['นพสิทธิ์', 'ธนัชพร', 'ศิริราช', 'อภิรักษ์'] },
-            { id: 7, players: ['ปัญจรัตน์', 'จตุพงษ์', 'ภรณ์พินรดา', 'อมราพร'] },
-            { id: 8, players: ['พิสิฐปัญญา', 'ธิดาพิชัย', 'null', 'จุรานันท์'] },
-            { id: 9, players: ['เอ', 'บี', 'ซี', 'ดี'] }, 
-            { id: 10, players: ['กอไก่', 'ขอไข่', 'คอควาย', null] }, 
-            { id: 11, players: ['จอจาน', 'ฉอฉิ่ง', null, null] },
-            { id: 12, players: ['ชอช้าง', 'ซอโซ่', 'ฌอเฌอ', 'ญอหญิง'] }
+            { id: 1, isPlaying: false, players: ['ปานชนก', 'เจษฎา', 'นิศารัตน์', null] },
+            { id: 2, isPlaying: true,  players: ['ฐิติรัฐตา', 'ชนิกานต์', 'ศีตภัทร', 'ธนาธิป'] },
+            { id: 3, isPlaying: true,  players: ['ภูผา', 'นงนภัส', 'อรัญญาพร', 'ณัฐณิชา'] },
+            { id: 4, isPlaying: true,  players: ['สุภาพร', 'ณัฐกมล', 'แพรทิพย์', 'ธนัญญา'] },
+            { id: 5, isPlaying: true,  players: ['สิทธิศักดิ์', 'วรนารี', 'นันทพร', 'นวพร'] },
+            { id: 6, isPlaying: false, players: ['นพสิทธิ์', 'ธนัชพร', 'ศิริราช', 'อภิรักษ์'] },
+            { id: 7, isPlaying: false, players: ['ปัญจรัตน์', 'จตุพงษ์', 'ภรณ์พินรดา', 'อมราพร'] },
+            { id: 8, isPlaying: false, players: ['พิสิฐปัญญา', 'ธิดาพิชัย', 'ชัชพงศ์', 'จุรานันท์'] },
+            { id: 9, isPlaying: false, players: ['เอ', 'บี', 'ซี', 'ดี'] }, 
+            { id: 10, isPlaying: false, players: ['กอไก่', 'ขอไข่', 'คอควาย', null] }
         ];
         localStorage.setItem('up_badminton_queues_sync', JSON.stringify(queues));
     }
@@ -51,24 +48,20 @@ function renderUI() {
     container.innerHTML = ''; 
     select.innerHTML = '<option value="" disabled selected>เลือกคิวที่ต้องการ</option>'; 
 
-    let playingCount = 0; 
-
     queues.forEach((q) => {
-        const emptySlots = q.players.filter(p => p === null).length;
+        const emptySlots = q.players.filter(p => p === null || p === "").length;
         const isFull = (emptySlots === 0);
         
         let statusText = '';
         let statusClass = '';
 
-        if (isFull) {
-            if (playingCount < MAX_ACTIVE_COURTS) {
-                statusText = 'กำลังเล่น';
-                statusClass = 'text-green-500';
-                playingCount++;
-            } else {
-                statusText = 'รอสนาม';
-                statusClass = 'text-orange-500';
-            }
+        // --- อัปเดตตรรกะสถานะให้ตรงกับระบบใหม่ ---
+        if (q.isPlaying) {
+            statusText = 'กำลังเล่น';
+            statusClass = 'text-green-500';
+        } else if (isFull) {
+            statusText = 'รอสนาม';
+            statusClass = 'text-orange-500';
         } else {
             statusText = 'รอคนครบ';
             statusClass = 'text-red-500';
@@ -78,7 +71,9 @@ function renderUI() {
         q.players.forEach((player, idx) => {
             if (player) {
                 let cancelBtn = '';
-                if (currentUserName && player.toLowerCase() === currentUserName.toLowerCase()) {
+                
+                // *** เงื่อนไขใหม่: แสดงปุ่มกากบาท ก็ต่อเมื่อเป็นชื่อตัวเอง และ คิวยังไม่ได้ถูกดึงไปเล่น (!q.isPlaying) ***
+                if (currentUserName && player.toLowerCase() === currentUserName.toLowerCase() && !q.isPlaying) {
                     cancelBtn = `
                         <button onclick="openCancelModal(${q.id}, '${player}')" class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-600 shadow-md z-10 transition hover:scale-110">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12" /></svg>
@@ -114,7 +109,8 @@ function renderUI() {
                 <div class="grid grid-cols-4 gap-4">${playersHTML}</div>
             </div>`;
 
-        if (!isFull) {
+        // คิวที่ยังไม่เต็มเท่านั้นที่จะปรากฏใน Dropdown ตัวเลือก (และต้องไม่โดนล็อกเป็น isPlaying ไปแล้ว)
+        if (!isFull && !q.isPlaying) {
             select.innerHTML += `<option value="${q.id}">คิวที่ ${q.id} (ว่าง ${emptySlots} ที่)</option>`;
         }
     });
@@ -150,7 +146,6 @@ function submitQueue() {
 
     const chosenName = document.getElementById('name').value.trim().split(' ')[0];
 
-    // ดึงข้อมูลจาก Key กลาง
     let allQueues = JSON.parse(localStorage.getItem('up_badminton_queues_sync')) || [];
 
     const isDuplicate = allQueues.some(q => 
@@ -164,7 +159,8 @@ function submitQueue() {
 
     if (queueVal === 'new') {
         const nextId = allQueues.length > 0 ? Math.max(...allQueues.map(q => q.id)) + 1 : 1;
-        allQueues.push({ id: nextId, players: [chosenName, null, null, null] });
+        // สร้างคิวใหม่ ค่าตั้งต้น isPlaying = false เสมอ
+        allQueues.push({ id: nextId, isPlaying: false, players: [chosenName, null, null, null] });
     } else {
         const target = allQueues.find(q => q.id == queueVal);
         if (target) {
@@ -173,13 +169,8 @@ function submitQueue() {
         }
     }
 
-    // บันทึกกลับลง Key กลาง
     localStorage.setItem('up_badminton_queues_sync', JSON.stringify(allQueues));
-    Swal.fire({ icon: 'success', title: 'ลงชื่อสำเร็จ!', showConfirmButton: false, timer: 1500 }).then(() => {
-        // หากต้องการให้เด้งไปหน้าติดตามคิวหลังจากจองสำเร็จ สามารถเปิดคอมเมนต์บรรทัดล่างได้เลยครับ
-        // window.location.href = 'Main menu.html';
-    });
-    
+    Swal.fire({ icon: 'success', title: 'ลงชื่อสำเร็จ!', showConfirmButton: false, timer: 1500 });
     document.getElementById('queueSelect').value = '';
     renderUI();
 }
@@ -214,7 +205,6 @@ function confirmCancel() {
         }
     }
 
-    // ดึงข้อมูลจาก Key กลาง
     let queues = JSON.parse(localStorage.getItem('up_badminton_queues_sync')) || [];
     let qIndex = queues.findIndex(q => q.id === cancelData.queueId);
     
@@ -223,13 +213,12 @@ function confirmCancel() {
         if(pIndex > -1) {
             queues[qIndex].players[pIndex] = null;
             
+            // ถ้าออกจนหมดให้ลบคิวทิ้งเลย
             if(queues[qIndex].players.every(p => p === null)) {
                 queues.splice(qIndex, 1);
             }
             
-            // บันทึกกลับลง Key กลาง
             localStorage.setItem('up_badminton_queues_sync', JSON.stringify(queues));
-            
             closeCancelModal();
             
             document.getElementById('successCancelQId').innerText = cancelData.queueId;
@@ -247,5 +236,4 @@ function closeSuccessModal() {
     document.getElementById('successCancelModal').classList.remove('flex');
 }
 
-// โหลดข้อมูลขึ้นมาตอนเปิดหน้าเว็บ
 window.onload = renderUI;
