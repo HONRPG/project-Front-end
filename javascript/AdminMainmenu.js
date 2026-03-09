@@ -17,19 +17,28 @@ function selectDate(el, date) {
     selectedDate = date;
     document.getElementById('sum-date').textContent = date;
     document.getElementById('sum-date').className = "text-base font-bold text-gray-800";
+    
+    // เมื่อเปลี่ยนวัน ให้ล้างการเลือกสนามออกก่อน และเรนเดอร์หน้าจอใหม่เพื่อแสดงสถานะปิดสนามของวันนั้นๆ
+    selectedCourt = null;
+    document.getElementById('sum-court').textContent = "ยังไม่ได้เลือก";
+    document.getElementById('sum-court').className = "text-lg font-medium text-gray-300 italic";
+    renderCourts();
 }
 
-// เช็คว่าสนามนี้ถูกปิดไปแล้วหรือยัง
-function isCourtClosed(courtName) {
+// *** แก้ไข: เช็คว่าสนามนี้ถูกปิดไปแล้วหรือยัง (ต้องตรงทั้งชื่อสนาม และ วันที่เลือก) ***
+function isCourtClosed(courtName, date) {
+    if (!date) return false; // ถ้ายังไม่เลือกวัน ถือว่าไม่ปิด
     const logs = JSON.parse(localStorage.getItem('admin_logs') || '[]');
-    return logs.some(log => log.court === courtName);
+    return logs.some(log => log.court === courtName && log.date === date);
 }
 
-// ฟังก์ชันยกเลิกการปิดสนาม
+// *** แก้ไข: ฟังก์ชันยกเลิกการปิดสนาม ต้องลบให้ตรงกับวันที่เลือกอยู่ด้วย ***
 function cancelCloseCourt(courtName) {
+    if (!selectedDate) return;
+
     Swal.fire({
         title: 'ยืนยันการเปิดสนาม?',
-        text: `คุณต้องการยกเลิกการปิดปรับปรุง "${courtName}" ใช่หรือไม่?`,
+        text: `คุณต้องการยกเลิกการปิดปรับปรุง "${courtName}" ในวันที่ ${selectedDate} ใช่หรือไม่?`,
         icon: 'question',
         showCancelButton: true,
         confirmButtonColor: '#00C853',
@@ -39,7 +48,9 @@ function cancelCloseCourt(courtName) {
     }).then((result) => {
         if (result.isConfirmed) {
             let logs = JSON.parse(localStorage.getItem('admin_logs') || '[]');
-            logs = logs.filter(log => log.court !== courtName);
+            
+            // ลบ log เฉพาะคอร์ตนี้และวันนี้เท่านั้น
+            logs = logs.filter(log => !(log.court === courtName && log.date === selectedDate));
             localStorage.setItem('admin_logs', JSON.stringify(logs));
             
             if (selectedCourt === courtName) {
@@ -51,7 +62,7 @@ function cancelCloseCourt(courtName) {
             Swal.fire({
                 icon: 'success',
                 title: 'เปิดสนามสำเร็จ',
-                text: `${courtName} กลับมาเปิดใช้งานตามปกติแล้ว`,
+                text: `${courtName} เปิดใช้งานในวันที่ ${selectedDate} ตามปกติแล้ว`,
                 showConfirmButton: false,
                 timer: 1500
             });
@@ -61,7 +72,13 @@ function cancelCloseCourt(courtName) {
 }
 
 function selectCourt(id, name) {
-    if (isCourtClosed(name)) return; // ป้องกันการกดสนามที่ปิดไปแล้ว
+    if (!selectedDate) {
+        Swal.fire({ icon: 'warning', title: 'โปรดเลือกวันที่ก่อน', text: 'กรุณาคลิกเลือกวันที่จากปฏิทินก่อนเลือกสนาม', confirmButtonColor: '#6C2B97' });
+        return;
+    }
+    
+    // ป้องกันการกดสนามที่ปิดไปแล้วในวันที่เลือก
+    if (isCourtClosed(name, selectedDate)) return; 
 
     selectedCourt = name;
     renderCourts();
@@ -79,7 +96,8 @@ function renderCourts() {
 
     paginated.forEach(court => {
         const isActive = selectedCourt === court.name;
-        const closed = isCourtClosed(court.name);
+        // ส่ง selectedDate เข้าไปเช็คสถานะด้วย
+        const closed = isCourtClosed(court.name, selectedDate);
 
         // กำหนด Style พื้นฐานของการ์ด
         let cardStyle = 'bg-white cursor-pointer border-transparent hover:border-green-200';
@@ -141,9 +159,7 @@ function renderCourts() {
                 </div>
                 
                 ${checkmarkHTML}
-
                 ${cancelBtnHTML}
-
             </div>
         `;
     });
@@ -190,6 +206,7 @@ function processFinalSubmit() {
         reason = radioSelected.value;
     }
 
+    // บันทึก log โดยมีค่า date ผูกไว้ด้วยเสมอ
     let logs = JSON.parse(localStorage.getItem('admin_logs') || '[]');
     logs.push({ court: selectedCourt, date: selectedDate, reason: reason });
     localStorage.setItem('admin_logs', JSON.stringify(logs));
@@ -207,4 +224,5 @@ function processFinalSubmit() {
     renderCourts(); 
 }
 
+// โหลดครั้งแรก (ยังไม่เลือกวัน สนามทุกอันจะโชว์ว่าปกติ)
 window.onload = renderCourts;
