@@ -23,14 +23,14 @@
                  <img src="pic/Logo_of_University_of_Phayao.svg" alt="UP Logo" class="w-full h-full object-contain">
             </div>
             <div class="flex flex-col">
-                <span class="font-bold text-gray-900 text-lg leading-none">UP Badminton</span>
-                <span class="text-[10px] text-gray-500 font-medium tracking-wide">UNIVERSITY OF PHAYAO</span>
+                <span class="font-bold text-gray-900 text-xl leading-none">UP Badminton</span>
+                <span class="text-[12px] text-gray-500 font-medium tracking-wide uppercase">University of Phayao</span>
             </div>
         </div>
 
         <div class="flex items-center gap-6">
-            <a href="index.html" class="bg-u-purple text-white px-6 py-2 rounded-lg font-medium shadow-md hover:opacity-90 transition">เข้าสู่ระบบ</a>
-            <a href="Register.html" class="text-gray-900 font-bold hover:text-u-purple transition">ลงทะเบียน</a>
+            <a href="index.html" class="bg-u-purple text-white px-6 py-2 rounded-lg font-bold text-lg shadow-md hover:opacity-90 transition">เข้าสู่ระบบ</a>
+            <a href="Register.html" class="text-gray-900 font-bold text-lg hover:text-u-purple transition">ลงทะเบียน</a>
         </div>
     </nav>
 
@@ -38,61 +38,62 @@
         <div class="w-full max-w-7xl grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
             
             <div class="lg:pr-10 lg:-ml-56">
-                <div class="w-20 h-1.5 bg-u-purple rounded-full mb-8 opacity-70"></div>
-                <h1 class="text-5xl lg:text-6xl font-bold text-black mb-2 leading-tight">ระบบจองสนาม</h1>
-                <h1 class="text-5xl lg:text-6xl font-bold text-u-purple mb-6 leading-tight">แบดมินตันออนไลน์</h1>
-                <p class="text-gray-500 text-lg max-w-lg leading-relaxed">
+                <div class="w-24 h-2 bg-u-purple rounded-full mb-8 opacity-70"></div>
+                <h1 class="text-6xl lg:text-7xl font-bold text-black mb-2 leading-tight">ระบบจองสนาม</h1>
+                <h1 class="text-6xl lg:text-7xl font-bold text-u-purple mb-6 leading-tight">แบดมินตันออนไลน์</h1>
+                <p class="text-gray-500 text-xl max-w-lg leading-relaxed">
                     สะดวก รวดเร็ว จองสนามได้ทุกที่ สำหรับนิสิต บุคลากร ในมหาวิทยาลัย และบุคคลภายนอก
                 </p>
             </div>
 
             <div class="flex justify-center lg:justify-end">
-                <div class="bg-white p-8 md:p-10 rounded-[30px] shadow-xl w-full max-w-[450px]">
+                <div class="bg-white p-10 md:p-12 rounded-[40px] shadow-xl w-full max-w-[500px]">
                     
-                    <div class="flex flex-col items-center mb-8">
-                        <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mb-4 shadow-md p-2 border border-gray-50">
+                    <div class="flex flex-col items-center mb-10">
+                        <div class="w-24 h-24 bg-white rounded-full flex items-center justify-center mb-4 shadow-md p-2 border border-gray-100">
                             <img src="pic/Logo_of_University_of_Phayao.svg" alt="UP Logo" class="w-full h-full object-contain" onerror="this.src='https://via.placeholder.com/64?text=UP'">
                         </div>
-                        <h2 class="text-2xl font-bold text-gray-900">เข้าสู่ระบบ</h2>
+                        <h2 class="text-3xl font-bold text-gray-900">เข้าสู่ระบบ</h2>
                     </div>
 
-                    <form onsubmit="handleLogin(event)" class="space-y-5">
+                    <form onsubmit="handleLogin(event)" class="space-y-6">
                         <div>
-                            <label class="block text-gray-500 text-xs mb-1 ml-1">อีเมล</label>
+                            <label class="block text-gray-500 text-sm font-bold mb-1.5 ml-1">อีเมล</label>
                             <input type="email" id="emailInput"
-                                class="w-full px-5 py-3 input-bg border-none rounded-xl text-gray-700 focus:ring-2 focus:ring-purple-300 focus:outline-none placeholder-gray-400" 
+                                class="w-full px-6 py-4 input-bg border-none rounded-2xl text-lg text-gray-700 focus:ring-2 focus:ring-purple-300 focus:outline-none placeholder-gray-400" 
                                 placeholder="680xxxxx@up.ac.th" required>
                         </div>
                         
                         <div>
-                            <label class="block text-gray-500 text-xs mb-1 ml-1">รหัสผ่าน</label>
-                            <div class="relative">
+                            <label class="block text-gray-500 text-sm font-bold mb-1.5 ml-1">รหัสผ่าน</label>
+                            <div class="relative w-full">
                                 <input type="password" id="passwordInput"
-                                    class="w-full px-5 py-3 input-bg border-none rounded-xl text-gray-700 focus:ring-2 focus:ring-purple-300 focus:outline-none placeholder-gray-400" 
+                                    class="w-full px-6 pr-14 py-4 input-bg border-none rounded-2xl text-lg text-gray-700 focus:ring-2 focus:ring-purple-300 focus:outline-none placeholder-gray-400" 
                                     placeholder="กรอกรหัสผ่าน" required>
                                 
-                                <button type="button" onclick="togglePassword()" class="absolute right-4 top-3.5 text-gray-400 hover:text-gray-600 focus:outline-none">
-                                    <svg id="eyeOpen" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                <button type="button" onclick="togglePassword()" 
+                                    class="absolute right-0 top-0 h-full px-5 text-gray-400 hover:text-gray-600 focus:outline-none flex items-center justify-center">
+                                    <svg id="eyeOpen" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                       <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
                                       <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                     </svg>
-                                    <svg id="eyeClosed" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 hidden">
+                                    <svg id="eyeClosed" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 hidden">
                                       <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" />
                                     </svg>
                                 </button>
                             </div>
-                            <div class="text-right mt-2">
-                                <a href="Forgot Password.html" class="text-xs text-u-purple hover:underline font-semibold">ลืมรหัสผ่าน?</a>
+                            <div class="text-right mt-3">
+                                <a href="Forgot Password.html" class="text-sm text-u-purple hover:underline font-bold">ลืมรหัสผ่าน?</a>
                             </div>
                         </div>
 
-                        <button type="submit" class="block text-center w-full bg-u-purple hover:bg-purple-800 text-white font-bold py-3 rounded-xl transition shadow-lg shadow-purple-200 mt-2 text-lg">
+                        <button type="submit" class="block text-center w-full bg-u-purple hover:bg-purple-800 text-white font-bold py-4 rounded-2xl transition shadow-lg shadow-purple-200 mt-2 text-xl active:scale-[0.98]">
                             เข้าสู่ระบบ
                         </button>
 
-                        <div class="text-center pt-4 flex flex-col items-center gap-1">
-                            <span class="text-gray-400 text-xs">ยังไม่มีบัญชี?</span>
-                            <a href="Register.html" class="text-u-purple font-bold hover:underline text-sm">ลงทะเบียนใช้งาน</a>
+                        <div class="text-center pt-6 flex flex-col items-center gap-2">
+                            <span class="text-gray-400 text-sm">ยังไม่มีบัญชี?</span>
+                            <a href="Register.html" class="text-u-purple font-bold hover:underline text-lg">ลงทะเบียนใช้งาน</a>
                         </div>
                     </form>
                 </div>

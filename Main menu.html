@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <style>
+    <style type="text/tailwindcss">
         body { font-family: 'Prompt', sans-serif; }
         .bg-page { background-color: #F5E6F6; }
         .text-u-purple { color: #6C2B97; }
@@ -15,6 +15,15 @@
         
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 10px; }
+
+        #active-courts-container div, #waiting-queue-container div { 
+            @apply text-xl font-bold !important; 
+            color: #1a1a1a;
+        }
+        #active-courts-container span, #waiting-queue-container span { 
+            @apply text-lg !important;
+            color: #4b5563;
+        }
     </style>
 </head>
 <body class="bg-page min-h-screen flex flex-col pt-24 pb-12">
@@ -25,64 +34,66 @@
                 <img src="pic/Logo_of_University_of_Phayao.svg" alt="UP Logo" class="w-full h-full object-contain">
             </div>
             <div class="flex flex-col">
-                <span class="font-bold text-gray-900 text-base lg:text-lg leading-none">UP Badminton</span>
-                <span class="text-[10px] text-gray-500 font-medium tracking-wide">UNIVERSITY OF PHAYAO</span>
+                <span class="font-bold text-gray-900 text-lg lg:text-xl leading-none">UP Badminton</span>
+                <span class="text-[12px] text-gray-500 font-medium tracking-wide uppercase mt-1">UNIVERSITY OF PHAYAO</span>
             </div>
         </div>
 
         <div class="flex items-center gap-4 lg:gap-8">
             <div class="hidden md:flex items-center gap-2">
-                <a href="Main menu.html" class="bg-u-purple text-white px-5 py-2 rounded-lg font-bold shadow-sm">หน้าหลัก</a>
-                <a href="History.html" class="text-gray-900 px-5 py-2 rounded-lg font-bold hover:bg-gray-50 transition">จองคิวสนาม</a>
+                <a href="Main menu.html" class="bg-u-purple text-white px-5 py-2 rounded-lg font-bold text-lg shadow-sm">หน้าหลัก</a>
+                <a href="History.html" class="text-gray-900 px-5 py-2 rounded-lg font-bold text-lg hover:bg-gray-50 transition">จองคิวสนาม</a>
             </div>
 
             <div class="flex items-center gap-4 border-l border-gray-200 pl-4 lg:pl-8">
                 <a href="Notifications.html" class="relative p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-full transition flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-7 h-7">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
                     </svg>
-                    <span class="absolute top-2 right-2.5 w-2 h-2 bg-red-500 rounded-full border border-white"></span>
+                    <span class="absolute top-2 right-2.5 w-2.5 h-2.5 bg-red-500 rounded-full border border-white"></span>
                 </a>
                 
-                <a href="Profile.html" class="w-10 h-10 bg-gray-200 rounded-full overflow-hidden border border-gray-300 hover:ring-2 hover:ring-purple-200 transition flex items-center justify-center">
+                <a href="Profile.html" class="w-12 h-12 bg-gray-200 rounded-full overflow-hidden border border-gray-300 hover:ring-2 hover:ring-purple-200 transition flex items-center justify-center">
                     <svg class="w-full h-full text-gray-500 p-1" fill="currentColor" viewBox="0 0 24 24"><path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
                 </a>
             </div>
         </div>
     </nav>
 
-    <main class="w-full max-w-[1200px] mx-auto px-4 lg:px-10 mt-6">
+    <main class="w-full max-w-[1440px] mx-auto px-4 lg:px-10 mt-6 flex-grow">
         
         <div class="mb-8">
-            <h1 class="text-3xl font-bold text-black mb-1">สถานะคิวปัจจุบัน</h1>
-            <p class="text-gray-500 text-sm">ติดตามสถานะคิวการเล่นแบดมินตันล่าสุด</p>
+            <h1 class="text-4xl font-bold text-black mb-2">สถานะคิวปัจจุบัน</h1>
+            <p class="text-xl text-gray-500">ติดตามสถานะคิวการเล่นแบดมินตันล่าสุด</p>
         </div>
 
-        <div class="mb-10">
-            <div class="flex justify-between items-end mb-4">
-                <h2 class="text-lg font-bold text-black">คิวที่กำลังเล่น</h2>
-                <span id="active-court-count" class="bg-[#E1F7E7] text-[#00A650] px-4 py-1.5 rounded-full text-sm font-bold">สนามถูกใช้บริการ 0/4</span>
+        <div class="grid grid-cols-1 gap-6 items-start">
+            <div class="space-y-3">
+                <div class="flex justify-between items-end">
+                    <h2 class="text-xl font-bold text-gray-700 ml-1">คิวที่กำลังเล่น</h2>
+                    <span id="active-court-count" class="bg-[#E1F7E7] text-[#00A650] px-4 py-1.5 rounded-full text-base font-bold">สนามถูกใช้บริการ 0/4</span>
+                </div>
+
+                <div class="bg-white rounded-[20px] p-6 shadow-sm border border-purple-50">
+                    <div class="space-y-3" id="active-courts-container">
+                        </div>
+                </div>
             </div>
 
-            <div class="bg-white rounded-2xl p-4 shadow-sm">
-                <div class="space-y-2" id="active-courts-container">
-                    </div>
-            </div>
-        </div>
+            <div class="space-y-3">
+                <h2 class="text-xl font-bold text-gray-700 ml-1">คิวรอสนาม</h2>
+                
+                <div class="bg-white rounded-[20px] p-6 shadow-sm border border-purple-50">
+                    <div class="space-y-3" id="waiting-queue-container">
+                        </div>
+                </div>
 
-        <div>
-            <h2 class="text-lg font-bold text-black mb-4">คิวรอสนาม</h2>
-            
-            <div class="bg-white rounded-2xl p-4 shadow-sm mb-6">
-                <div class="space-y-2" id="waiting-queue-container">
-                    </div>
-            </div>
-
-            <div id="pagination-container" class="hidden justify-end items-center gap-2 mt-6">
-                <button onclick="changeQueuePage('prev')" class="w-8 h-8 flex items-center justify-center rounded-full bg-white shadow-sm text-gray-400 hover:bg-gray-100">&lt;</button>
-                <div id="page-numbers" class="flex gap-2">
-                    </div>
-                <button onclick="changeQueuePage('next')" class="w-8 h-8 flex items-center justify-center rounded-full bg-white shadow-sm text-gray-400 hover:bg-gray-100">&gt;</button>
+                <div id="pagination-container" class="hidden justify-end items-center gap-3 mt-6">
+                    <button onclick="changeQueuePage('prev')" class="w-10 h-10 flex items-center justify-center rounded-full bg-white shadow-sm text-gray-400 hover:bg-gray-100 text-xl font-bold">&lt;</button>
+                    <div id="page-numbers" class="flex gap-2">
+                        </div>
+                    <button onclick="changeQueuePage('next')" class="w-10 h-10 flex items-center justify-center rounded-full bg-white shadow-sm text-gray-400 hover:bg-gray-100 text-xl font-bold">&gt;</button>
+                </div>
             </div>
         </div>
 

@@ -20,28 +20,22 @@
             }
         }
     </script>
-    <style>
+    <style type="text/tailwindcss">
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 10px; }
         .fade-in { animation: fadeIn 0.3s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* สไตล์สำหรับวงกลมอันดับ 1, 2, 3 */
         .rank-badge {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 14px;
-            flex-shrink: 0;
+            @apply w-10 h-10 rounded-full flex items-center justify-center font-bold text-base flex-shrink-0;
         }
-        .rank-1 { background-color: #FDE68A; color: #B45309; } /* สีทอง */
-        .rank-2 { background-color: #E5E7EB; color: #4B5563; } /* สีเงิน */
-        .rank-3 { background-color: #FECACA; color: #B91C1C; } /* สีทองแดง */
-        .rank-other { background-color: transparent; color: #4B5563; font-size: 14px; width: 32px; text-align: center; }
+        .rank-1 { background-color: #FDE68A; color: #B45309; }
+        .rank-2 { background-color: #E5E7EB; color: #4B5563; }
+        .rank-3 { background-color: #FECACA; color: #B91C1C; }
+        .rank-other { background-color: transparent; color: #4B5563; @apply text-base w-10 text-center; }
+
+        #list-container div span.name-text { @apply text-xl font-bold !important; }
+        #list-container div span.count-text { @apply text-lg !important; }
     </style>
 </head>
 <body class="bg-bg-page min-h-screen flex flex-col pt-24 pb-12 text-gray-900">
@@ -52,70 +46,71 @@
                 <img src="pic/Logo_of_University_of_Phayao.svg" alt="UP Logo" class="w-full h-full object-contain">
             </div>
             <div class="flex flex-col">
-                <span class="font-bold text-base lg:text-lg leading-none">UP Badminton</span>
-                <span class="text-[10px] text-gray-500 font-medium tracking-wide">UNIVERSITY OF PHAYAO</span>
+                <span class="font-bold text-gray-900 text-lg lg:text-xl leading-none uppercase">UP Badminton</span>
+                <span class="text-[12px] text-gray-500 font-bold tracking-wide uppercase mt-1">UNIVERSITY OF PHAYAO</span>
             </div>
         </div>
 
         <div class="flex items-center gap-4 lg:gap-8">
             <div class="hidden md:flex items-center gap-2">
-                <a href="AdminMainmenu.html" class="text-gray-900 px-5 py-2 rounded-lg font-bold hover:bg-gray-50 transition">หน้าหลัก</a>
-                <a href="track status.html" class="text-gray-900 px-5 py-2 rounded-lg font-bold hover:bg-gray-50 transition">ติดตามสถานะคิว</a>
-                <a href="Adminstatistics.html" class="bg-u-purple text-white px-5 py-2 rounded-lg font-bold shadow-sm">สถิติการใช้บริการ</a>
+                <a href="AdminMainmenu.html" class="text-gray-900 px-5 py-2 rounded-lg font-bold text-lg hover:bg-gray-50 transition">หน้าหลัก</a>
+                <a href="track status.html" class="text-gray-900 px-5 py-2 rounded-lg font-bold text-lg hover:bg-gray-50 transition">ติดตามสถานะคิว</a>
+                <a href="Adminstatistics.html" class="bg-u-purple text-white px-5 py-2 rounded-lg font-bold text-lg shadow-sm">สถิติการใช้บริการ</a>
             </div>
 
             <div class="flex items-center gap-4 border-l border-gray-200 pl-4 lg:pl-8">
                 <a href="Adminnotifications.html" class="relative p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-full transition flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-7 h-7">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
                     </svg>
+                    <span class="absolute top-2 right-2.5 w-2.5 h-2.5 bg-red-500 rounded-full border border-white"></span>
                 </a>
-                <a href="AdminProfile.html" class="w-10 h-10 bg-gray-200 rounded-full overflow-hidden border border-gray-300 hover:ring-2 hover:ring-purple-200 transition flex items-center justify-center">
+                <a href="AdminProfile.html" class="w-12 h-12 bg-gray-200 rounded-full overflow-hidden border border-gray-300 hover:ring-2 hover:ring-purple-200 transition flex items-center justify-center">
                     <svg class="w-full h-full text-gray-500 p-1" fill="currentColor" viewBox="0 0 24 24"><path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
                 </a>
             </div>
         </div>
     </nav>
 
-    <main class="w-full max-w-[1200px] mx-auto px-6 lg:px-10 mt-6">
+    <main class="w-full max-w-[1440px] mx-auto px-6 lg:px-10 mt-6 flex-grow">
         
-        <div class="mb-6">
-            <h1 class="text-3xl font-bold text-black mb-1">สถิติการเข้าใช้บริการ</h1>
-            <p class="text-gray-500 text-sm">ตรวจสอบสถิติการจองสนามแบดมินตัน</p>
+        <div class="mb-8">
+            <h1 class="text-4xl font-bold text-black mb-2">สถิติการเข้าใช้บริการ</h1>
+            <p class="text-xl text-gray-500">ตรวจสอบสถิติการจองสนามแบดมินตัน</p>
         </div>
 
-        <div class="flex gap-2 mb-8 bg-white/50 w-fit p-1.5 rounded-full shadow-sm border border-white">
-            <button id="btn-today" onclick="switchTab('today')" class="bg-u-purple text-white px-6 py-2 rounded-full text-sm font-bold shadow-sm transition-all">ล่าสุด</button>
-            <button id="btn-month" onclick="switchTab('month')" class="bg-transparent text-gray-600 hover:bg-white px-6 py-2 rounded-full text-sm font-bold transition-all">รายเดือน</button>
+        <div class="flex gap-2 mb-10 bg-white/50 w-fit p-2 rounded-full shadow-sm border border-white">
+            <button id="btn-today" onclick="switchTab('today')" class="bg-u-purple text-white px-8 py-2.5 rounded-full text-base font-bold shadow-sm transition-all">ล่าสุด</button>
+            <button id="btn-month" onclick="switchTab('month')" class="bg-transparent text-gray-600 hover:bg-white px-8 py-2.5 rounded-full text-base font-bold transition-all">รายเดือน</button>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             
-            <div class="lg:col-span-4 space-y-6">
-                <div class="bg-white rounded-[24px] p-8 shadow-sm fade-in">
-                    <h3 id="stat-title-users" class="font-bold text-sm text-gray-800 mb-4">จำนวนคนเข้าใช้บริการวันนี้</h3>
-                    <div class="flex items-baseline gap-2">
-                        <span id="stat-number-users" class="text-5xl font-bold text-black">0</span>
-                        <span class="text-gray-500 font-medium">ท่าน</span>
+            <div class="lg:col-span-4 space-y-8">
+                <div class="bg-white rounded-[24px] p-10 shadow-sm fade-in border border-purple-50">
+                    <h3 id="stat-title-users" class="font-bold text-base text-gray-500 mb-6 uppercase tracking-wider">จำนวนคนเข้าใช้บริการวันนี้</h3>
+                    <div class="flex items-baseline gap-3">
+                        <span id="stat-number-users" class="text-6xl font-extrabold text-black">0</span>
+                        <span class="text-xl text-gray-500 font-bold">ท่าน</span>
                     </div>
                 </div>
 
-                <div class="bg-white rounded-[24px] p-8 shadow-sm fade-in">
-                    <h3 id="stat-title-queues" class="font-bold text-sm text-gray-800 mb-4">จำนวนคิวทั้งหมด</h3>
-                    <div class="flex items-baseline gap-2">
-                        <span id="stat-number-queues" class="text-4xl font-bold text-black">0</span>
-                        <span class="text-gray-500 font-medium">คิว</span>
+                <div class="bg-white rounded-[24px] p-10 shadow-sm fade-in border border-purple-50">
+                    <h3 id="stat-title-queues" class="font-bold text-base text-gray-500 mb-6 uppercase tracking-wider">จำนวนคิวทั้งหมด</h3>
+                    <div class="flex items-baseline gap-3">
+                        <span id="stat-number-queues" class="text-5xl font-extrabold text-black">0</span>
+                        <span class="text-xl text-gray-500 font-bold">คิว</span>
                     </div>
                 </div>
             </div>
 
-            <div class="lg:col-span-8 bg-white rounded-[24px] p-8 shadow-sm fade-in min-h-[450px]">
-                <div class="flex justify-between items-center mb-6">
-                    <h3 id="list-title" class="font-bold text-lg text-gray-800">ลำดับคิวที่ใช้บริการ</h3>
-                    <span id="list-subtitle" class="text-sm font-bold text-gray-800">4 PM - 9 PM</span>
+            <div class="lg:col-span-8 bg-white rounded-[24px] p-10 shadow-sm fade-in min-h-[500px] border border-purple-50">
+                <div class="flex justify-between items-center mb-8 border-b border-gray-100 pb-6">
+                    <h3 id="list-title" class="font-bold text-2xl text-gray-900">ลำดับคิวที่ใช้บริการ</h3>
+                    <span id="list-subtitle" class="text-lg font-bold text-u-purple bg-purple-50 px-4 py-1 rounded-lg">4 PM - 9 PM</span>
                 </div>
                 
-                <div id="list-container" class="space-y-3">
+                <div id="list-container" class="space-y-4">
                     </div>
             </div>
 

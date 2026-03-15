@@ -6,60 +6,63 @@
     <title>การแจ้งเตือน - UP Badminton</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
+    <style type="text/tailwindcss">
         body { font-family: 'Prompt', sans-serif; }
         .bg-page { background-color: #F5E6F6; }
         .text-u-purple { color: #6C2B97; }
         .bg-u-purple { background-color: #6C2B97; }
         
-        /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 10px; }
+
+        #notification-container div h3 { @apply text-xl font-bold !important; color: #1a1a1a; }
+        #notification-container div p { @apply text-lg !important; color: #4b5563; }
+        #notification-container div span { @apply text-base !important; color: #9ca3af; }
     </style>
 </head>
 <body class="bg-page min-h-screen flex flex-col pt-24 pb-12">
 
     <nav class="w-full px-8 py-4 flex justify-between items-center fixed top-0 left-0 right-0 z-50 bg-white shadow-sm">
         <div class="flex items-center gap-3">
-            <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center p-1.5 overflow-hidden border border-gray-100">
+            <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center p-1.5 overflow-hidden border border-gray-100 shadow-sm">
                  <img src="pic/Logo_of_University_of_Phayao.svg" alt="UP Logo" class="w-full h-full object-contain">
             </div>
             <div class="flex flex-col">
-                <span class="font-bold text-gray-900 text-base lg:text-lg leading-none">UP Badminton</span>
-                <span class="text-[10px] text-gray-500 font-medium tracking-wide">UNIVERSITY OF PHAYAO</span>
+                <span class="font-bold text-gray-900 text-lg lg:text-xl leading-none uppercase">UP Badminton</span>
+                <span class="text-[12px] text-gray-500 font-bold tracking-wide uppercase mt-1">UNIVERSITY OF PHAYAO</span>
             </div>
         </div>
 
         <div class="flex items-center gap-4 lg:gap-8">
             <div class="hidden md:flex items-center gap-2">
-                <a href="AdminMainmenu.html" class="text-gray-900 px-5 py-2 rounded-lg font-bold hover:bg-gray-50 transition">หน้าหลัก</a>
-                <a href="track status.html" class="text-gray-900 px-5 py-2 rounded-lg font-bold hover:bg-gray-50 transition">ติดตามสถานะคิว</a>
-                <a href="Adminstatistics.html" class="text-gray-900 px-5 py-2 rounded-lg font-bold hover:bg-gray-50 transition">สถิติการใช้บริการ</a>
+                <a href="AdminMainmenu.html" class="text-gray-900 px-5 py-2 rounded-lg font-bold text-lg hover:bg-gray-50 transition">หน้าหลัก</a>
+                <a href="track status.html" class="text-gray-900 px-5 py-2 rounded-lg font-bold text-lg hover:bg-gray-50 transition">ติดตามสถานะคิว</a>
+                <a href="Adminstatistics.html" class="text-gray-900 px-5 py-2 rounded-lg font-bold text-lg hover:bg-gray-50 transition">สถิติการใช้บริการ</a>
             </div>
 
             <div class="flex items-center gap-4 border-l border-gray-200 pl-4 lg:pl-8">
-                <a href="Adminnotifications.html" class="relative p-2 bg-u-purple text-white rounded-xl shadow-md transition flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                <a href="Adminnotifications.html" class="relative p-2.5 bg-u-purple text-white rounded-xl shadow-md transition flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-7 h-7">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
                     </svg>
                 </a>
                 
-                <a href="AdminProfile.html" class="w-10 h-10 bg-gray-200 rounded-full overflow-hidden border border-gray-300 hover:ring-2 hover:ring-purple-200 transition flex items-center justify-center">
+                <a href="AdminProfile.html" class="w-12 h-12 bg-gray-200 rounded-full overflow-hidden border border-gray-300 hover:ring-2 hover:ring-purple-200 transition flex items-center justify-center">
                      <svg class="w-full h-full text-gray-500 p-1" fill="currentColor" viewBox="0 0 24 24"><path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
                 </a>
             </div>
         </div>
     </nav>
 
-    <main class="w-full max-w-[1000px] mx-auto px-6 lg:px-10 mt-6">
+    <main class="w-full max-w-[1000px] mx-auto px-6 lg:px-10 mt-6 flex-grow">
         
-        <div class="mb-6">
+        <div class="mb-8">
             <h1 class="text-4xl font-bold text-black mb-2">การแจ้งเตือน</h1>
-            <p class="text-gray-500 text-sm">ติดตามสถานะการจองสนามอาคารสงวนเสริมศรีและข่าวสารล่าสุดของมหาวิทยาลัย</p>
+            <p class="text-xl text-gray-500">ติดตามสถานะการจองสนามอาคารสงวนเสริมศรีและข่าวสารล่าสุดของมหาวิทยาลัย</p>
         </div>
 
-        <div class="mb-8">
-            <button class="bg-u-purple text-white px-8 py-2 rounded-2xl text-sm font-medium shadow-md hover:bg-purple-800 transition">ทั้งหมด</button>
+        <div class="mb-10">
+            <button class="bg-u-purple text-white px-10 py-3 rounded-2xl text-lg font-bold shadow-md hover:bg-purple-800 transition active:scale-95">ทั้งหมด</button>
         </div>
 
         <div class="space-y-6" id="notification-container">
